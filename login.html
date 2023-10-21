@@ -1,0 +1,68 @@
+<!--20060616d Choy Wing Ho-->
+<!--22019343 Siu Ching Him-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Concert Ticket Selling System</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <style>
+            .container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container flex-column">
+            <div class="justify-content-center">
+                <button type="button" class="btn btn btn-primary px-4">Login</button>
+                <button type="button" class="btn btn btn-primary px-3">Register</button>
+            </div>
+            <div class="d-flex align-items-center justify-content-center">
+                <form>
+                    <div class="form-group py-3">
+                        <label for="User_ID">User ID</label>
+                        <input type="User_ID" class="form-control" id="User_ID" placeholder="Enter User ID">
+                    </div>
+                    <div class="form-group py-3">
+                        <label for="User_Password">Password</label>
+                        <input type="password" class="form-control" id="User_Password" placeholder="Password">
+                        <small id="Passwordrequire" class="form-text text-muted">Atleast 8 digit with english charater</small>
+                    </div>
+                    <div class="form-group py-3">
+                        <label for="User_Nickname">Nickname</label>
+                        <input type="Nickname" class="form-control" id="User_Nickname" placeholder="Enter Nickname">
+                    </div>
+                    <div class="pt-3">
+                        <label for="User_Gender_radio">Gender</label>
+                    </div>
+                    <div class="form-check form-check-inline pb-3" id="User_Gender_radio">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_M" value="Male">
+                        <label class="form-check-label" for="User_Gender_M">Male</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_F" value="Female">
+                        <label class="form-check-label" for="User_Gender_F">Female</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_O" value="Other">
+                        <label class="form-check-label" for="User_Gender_O">Other</label>
+                      </div>
+                    <div class="form-group py-3">
+                        <label for="birthday">Birthday:</label><br>
+                        <input type="date" id="birthday" name="birthday">
+                        <input type="submit">
+                    </div>
+                    <div class="py-3">
+                        <button type="button" class="btn btn btn-success px-3" >Register</button>
+                        <button type="button" class="btn btn btn-warning px-3" type="reset">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
