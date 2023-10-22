@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $(".registrationTab").addClass('hide');
     $.get("assets/Event.json", function (data) {
             const divcontainer = document.createElement("div");
             divcontainer.classList.add("row");
@@ -37,5 +38,12 @@ $(document).ready(function () {
                 cardcontainer.innerHTML = card;
                 document.getElementById("Event-Dashboard").append(cardcontainer);
         });
+        $("#registrationButton").click(function () {
+            $(".registrationTab").removeClass('hide').addClass('show');
+        });
+        $(".close").click(function () {
+            $(".registrationTab").removeClass('show').addClass('hide');
+        });
     });
+
     
