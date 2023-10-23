@@ -12,7 +12,7 @@ $(document).ready(function () {
             {
                 let obj = data[i];
                 const card=`
-                        <div class="col card m-2 justify-content-center" >
+                        <div class="col card m-2 justify-content-center" id="${i}" >
                             <img class="card-img" src="${obj.image}" style="width: 100%; height: 20rem; object-fit:cover">
                             <div class="card-body text-start">
                                 <h5 class="card-title">${obj.name}</h5>
