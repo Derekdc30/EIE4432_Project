@@ -55,121 +55,117 @@
         <div class="container text-center" id="Event-Dashboard">
             
         </div>
-        <div class="registrationTab">
-            <div class="card mx-4 mx-md-5 shadow-5-strong" style="
-            margin-top: 100px;
-            background: hsla(0, 0%, 100%, 0.8);
-            backdrop-filter: blur(30px);
-            ">
-            <div class="card-body py-5 px-md-5">
-                <div>
-                    <button class="btn btn btn-primary close">close</button>
-                </div>
-                <div class="justify-content-center">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                            <li class="nav-item ">
-                            <a class="nav-link active px-5" id="pills-login-tab" data-toggle="pill" href="#pills-login" role="tab" aria-controls="pills-login" aria-selected="true">Login</a>
-                            </li>
-                            <li class="nav-item ">
-                            <a class="nav-link px-5" id="pills-register-tab" data-toggle="pill" href="#pills-register" role="tab" aria-controls="pills-register" aria-selected="false">Register</a>
-                            </li>
-                        </ul>
+        <div class="registrationTab ">
+            <div class="card mx-auto shadow-5-strong" style="margin-top: 300px; width:fit-content; background: hsla(0, 0%, 100%, 0.8);backdrop-filter: blur(30px);">
+                <div class="card-body py-3 px-5">
+                    <div class="py-3 d-flex justify-content-end">
+                        <button class="close" style="border: 0; background:none;" ><img src="assets/cross-x.png" style="width: 20px; height: 20px;"></button>
                     </div>
-                    <div class="tab-content d-flex align-items-center justify-content-center" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
-                            <form>
-                                <div class="text-center mb-3">
-                                <p>Sign in with UserID and Password:</p>
-                                </div>
-                                <!-- UserID input -->
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="login_Name">UserID</label>
-                                    <input type="login_User_ID" id="login_Name" class="form-control" />
-                                </div>
-                        
-                                <!-- Password input -->
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="login_Password">Password</label>
-                                    <input type="login_password" id="login_Password" class="form-control" />
-                                </div>
-                        
-                                <!-- 2 column grid layout -->
-                                <div class="justify-content-center py-2">
-                                    <!-- Checkbox -->
-                                    <div class="form-check mb-3 mb-md-0">
-                                    <input class="form-check-input" type="checkbox" value="" id="login_Check" checked />
-                                    <label class="form-check-label" for="login_Check"> Remember me </label>
-                                    </div>
-                                </div>
-                        
-                                <div class="justify-content-center py-2">
-                                    <!-- Simple link -->
-                                    <a href="#!">Forgot password?</a>
-                                </div>
-                        
-                                <!-- Submit button -->
-                                <div class="py-3">
-                                    <button type="submit" class="btn btn-primary btn-block ">Sign in</button>
-                                </div>
-                            </form>
+                    <div class="justify-content-center ">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                <li class="nav-item ">
+                                <a class="nav-link active px-5" id="pills-login-tab" data-toggle="pill" href="#pills-login" role="tab" aria-controls="pills-login" aria-selected="true">Login</a>
+                                </li>
+                                <li class="nav-item ">
+                                <a class="nav-link px-5" id="pills-register-tab" data-toggle="pill" href="#pills-register" role="tab" aria-controls="pills-register" aria-selected="false">Register</a>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
-                            <form>
-                                <!-- UserID input -->
-                                <div class="form-group py-3">
-                                    <label for="register_user_ID">User ID</label>
-                                    <input type="register_user_ID" class="form-control" id="register_user_ID" placeholder="Enter User ID">
-                                </div>
-        
-                                <!-- Password input -->
-                                <div class="form-group py-3">
-                                    <label for="register_user_password">Password</label>
-                                    <input type="register_password" class="form-control" id="register_user_password" placeholder="Password">
-                                    <small id="Passwordrequire" class="form-text text-muted">Atleast 8 digit with english charater</small>
-                                </div>
-        
-                                <!-- NickName input -->
-                                <div class="form-group py-3">
-                                    <label for="register_user_nickname">Nickname</label>
-                                    <input type="register_nickname" class="form-control" id="register_user_nickname" placeholder="Enter Nickname">
-                                </div>
-        
-                                <!-- Gender Radio button -->
-                                <div class="pt-3">
-                                    <label for="User_Gender_radio">Gender</label>
-                                </div>
-                                <div class="form-check form-check-inline pb-3" id="User_Gender_radio">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_M" value="Male">
-                                    <label class="form-check-label" for="User_Gender_M">Male</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_F" value="Female">
-                                    <label class="form-check-label" for="User_Gender_F">Female</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_O" value="Other">
-                                    <label class="form-check-label" for="User_Gender_O">Other</label>
-                                </div>
-        
-                                <!-- Birthday calander select -->
-                                <div class="form-group py-3">
-                                    <label for="birthday">Birthday:</label><br>
-                                    <input type="date" id="birthday" name="birthday">
-                                    <input type="submit">
-                                </div>
-        
-                                <!-- Register or reset button -->
-                                <div class="py-3">
-                                    <button type="button" class="btn btn btn-success px-3" >Register</button>
-                                    <button type="button" class="btn btn btn-warning px-3" type="reset">Reset</button>
-                                </div>
-                            </form>
+                        <div class="tab-content d-flex align-items-center justify-content-center" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
+                                <form>
+                                    <div class="text-center mb-3">
+                                    <p>Sign in with UserID and Password:</p>
+                                    </div>
+                                    <!-- UserID input -->
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="login_Name">UserID</label>
+                                        <input type="login_User_ID" id="login_Name" class="form-control" />
+                                    </div>
+                            
+                                    <!-- Password input -->
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="login_Password">Password</label>
+                                        <input type="login_password" id="login_Password" class="form-control" />
+                                    </div>
+                            
+                                    <!-- 2 column grid layout -->
+                                    <div class="justify-content-center py-2">
+                                        <!-- Checkbox -->
+                                        <div class="form-check mb-3 mb-md-0">
+                                        <input class="form-check-input" type="checkbox" value="" id="login_Check" checked />
+                                        <label class="form-check-label" for="login_Check"> Remember me </label>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="justify-content-center py-2">
+                                        <!-- Simple link -->
+                                        <a href="#!">Forgot password?</a>
+                                    </div>
+                            
+                                    <!-- Submit button -->
+                                    <div class="py-3">
+                                        <button type="submit" class="btn btn-primary btn-block ">Sign in</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
+                                <form>
+                                    <!-- UserID input -->
+                                    <div class="form-group py-3">
+                                        <label for="register_user_ID">User ID</label>
+                                        <input type="register_user_ID" class="form-control" id="register_user_ID" placeholder="Enter User ID">
+                                    </div>
+            
+                                    <!-- Password input -->
+                                    <div class="form-group py-3">
+                                        <label for="register_user_password">Password</label>
+                                        <input type="register_password" class="form-control" id="register_user_password" placeholder="Password">
+                                        <small id="Passwordrequire" class="form-text text-muted">Atleast 8 digit with english charater</small>
+                                    </div>
+            
+                                    <!-- NickName input -->
+                                    <div class="form-group py-3">
+                                        <label for="register_user_nickname">Nickname</label>
+                                        <input type="register_nickname" class="form-control" id="register_user_nickname" placeholder="Enter Nickname">
+                                    </div>
+            
+                                    <!-- Gender Radio button -->
+                                    <div class="pt-3">
+                                        <label for="User_Gender_radio">Gender</label>
+                                    </div>
+                                    <div class="form-check form-check-inline pb-3" id="User_Gender_radio">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_M" value="Male">
+                                        <label class="form-check-label" for="User_Gender_M">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_F" value="Female">
+                                        <label class="form-check-label" for="User_Gender_F">Female</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_O" value="Other">
+                                        <label class="form-check-label" for="User_Gender_O">Other</label>
+                                    </div>
+            
+                                    <!-- Birthday calander select -->
+                                    <div class="form-group py-3">
+                                        <label for="birthday">Birthday:</label><br>
+                                        <input type="date" id="birthday" name="birthday">
+                                        <input type="submit">
+                                    </div>
+            
+                                    <!-- Register or reset button -->
+                                    <div class="py-3">
+                                        <button type="button" class="btn btn btn-success px-3" >Register</button>
+                                        <button type="button" class="btn btn btn-warning px-3" type="reset">Reset</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
         <script>
             $(document).ready(function() {
