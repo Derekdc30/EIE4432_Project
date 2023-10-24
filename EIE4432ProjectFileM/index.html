@@ -1,0 +1,226 @@
+<!--20060616d Choy Wing Ho-->
+<!--22019343 Siu Ching Him-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Concert Ticket Selling System</title>
+        <link rel="stylesheet" href="style/main.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/> <!--New added 24/10-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="/scripts/index.js"></script>
+        <style>
+            .registrationTab {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+              }
+            .registrationTab.hide {
+                display: none; /* Hide the registration tab by default */
+              }
+            .registrationTab.show {
+                display: block; /* Show the registration tab when the "show" class is added */
+              }
+            body{
+                background-image: url(assets/background.jpg);
+            }
+            .nav-link{
+                color: rgb(255, 255, 255);
+                
+            }
+            .nav-link:hover{
+                color: rgb(159, 159, 159);
+            }
+            .search-container input[type=text] { /*New added 24/10*/
+                padding: 6px;
+                font-size: 15px;
+                border: none;
+            }
+            .search-container button { /*New added 24/10*/
+                float: right;
+                padding: 6px 10px;
+                margin-right: 16px;
+                background: #ddd;
+                font-size: 15px;
+                border: none;
+                cursor: pointer;
+            }
+            .card{
+                color:black;
+            }
+            #registrationButton{
+                color: rgb(255, 255, 255);
+                border-radius: 10px; 
+                width: auto; /* Making auto-sizable width */
+                height: auto; /* Making auto-sizable height */
+                padding: 10px 15px 10px 15px; /* Making space around letters */
+                background-color: rgb(159, 82, 232);
+            }
+            #registrationButton:hover{
+                color: rgb(159, 159, 159);
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg d-flex">
+            <div class="px-4" id="nav" style="flex:1;">
+                <ul class="navbar-nav ">
+                    <li class="nav-item active">
+                        <a class="nav-link fw-bold" href="#">Home</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#">Placeholder</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Placeholder</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Placeholder</a>
+                    </li>
+                </ul>
+            </div>
+            <!--New added 24/10-->
+            <div class="search-container text-center">
+                <form>
+                    <input type="text" placeholder="Search Movies">
+                    <button type="submit"><i class="fa fa-search" style='color:green'></i></button>
+                </form>
+            </div>
+            
+            <div class="" id= "login" style="margin-left: auto;">
+                <ul class="navbar-nav text-light px-4">
+                    <li class="nav-item active">
+                        <a class="" id="registrationButton" href="#">login/register</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container text-center p-5" id="Event-Dashboard">
+            
+        </div>
+        <div class="registrationTab d-none">
+            <div class="card mx-auto shadow-5-strong" style=" width:fit-content; background: hsla(0, 0%, 100%, 0.8);backdrop-filter: blur(30px);">
+                <div class="card-body px-5">
+                    <div class=" d-flex justify-content-end pb-3">
+                        <button class="close" style="border: 0; background:none;" ><img src="assets/cross-x.png" style="width: 20px; height: 20px;"></button>
+                    </div>
+                    <div class="justify-content-center">
+                        <div class="d-flex align-items-center justify-content-center py-2">
+                            <ul class="nav nav-pills py-2" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                <a class="nav-link active px-5" id="pills-login-tab" data-toggle="pill" href="#pills-login" role="tab" aria-controls="pills-login" aria-selected="true">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                <a class="nav-link px-5" id="pills-register-tab" data-toggle="pill" href="#pills-register" role="tab" aria-controls="pills-register" aria-selected="false">Register</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content d-flex align-items-center justify-content-center" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
+                                <form>
+                                    <div class="text-center py-2">
+                                        <p>Sign in with UserID and Password:</p>
+                                    </div>
+                                    <!-- UserID input -->
+                                    <div class="form-outline py-2">
+                                        <label class="form-label" for="login_Name">UserID</label>
+                                        <input type="login_User_ID" id="login_Name" class="form-control" />
+                                    </div>
+                            
+                                    <!-- Password input -->
+                                    <div class="form-outline py-2">
+                                        <label class="form-label" for="login_Password">Password</label>
+                                        <input type="login_password" id="login_Password" class="form-control" />
+                                    </div>
+                            
+                                    <!-- 2 column grid layout -->
+                                    <div class="justify-content-center py-2">
+                                        <!-- Checkbox -->
+                                        <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="login_Check" checked />
+                                        <label class="form-check-label" for="login_Check"> Remember me </label>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="justify-content-center py-2">
+                                        <!-- Simple link -->
+                                        <a href="#!">Forgot password?</a>
+                                    </div>
+                            
+                                    <!-- Submit button -->
+                                    <div class="py-2">
+                                        <button type="submit" class="btn btn-primary btn-block ">Sign in</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
+                                <form>
+                                    <!-- UserID input -->
+                                    <div class="form-group py-2">
+                                        <label for="register_user_ID">User ID</label>
+                                        <input type="register_user_ID" class="form-control" id="register_user_ID" placeholder="Enter User ID">
+                                    </div>
+            
+                                    <!-- Password input -->
+                                    <div class="form-group py-2">
+                                        <label for="register_user_password">Password</label>
+                                        <input type="register_password" class="form-control" id="register_user_password" placeholder="Password">
+                                        <small id="Passwordrequire" class="form-text text-muted">Atleast 8 digit with english charater</small>
+                                    </div>
+            
+                                    <!-- NickName input -->
+                                    <div class="form-group py-2">
+                                        <label for="register_user_nickname">Nickname</label>
+                                        <input type="register_nickname" class="form-control" id="register_user_nickname" placeholder="Enter Nickname">
+                                    </div>
+            
+                                    <!-- Gender Radio button -->
+                                    <div class="py-2">
+                                        <label for="User_Gender_radio">Gender</label>
+                                    </div>
+                                    <div class="form-check form-check-inline" id="User_Gender_radio">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_M" value="Male">
+                                        <label class="form-check-label" for="User_Gender_M">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_F" value="Female">
+                                        <label class="form-check-label" for="User_Gender_F">Female</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_O" value="Other">
+                                        <label class="form-check-label" for="User_Gender_O">Other</label>
+                                    </div>
+            
+                                    <!-- Birthday calander select -->
+                                    <div class="form-group py-2">
+                                        <label for="birthday">Birthday:</label><br>
+                                        <input type="date" id="birthday" name="birthday">
+                                        <input type="submit">
+                                    </div>
+            
+                                    <!-- Register or reset button -->
+                                    <div class="py-2">
+                                        <button type="button" class="btn btn btn-success px-3" >Register</button>
+                                        <button type="button" class="btn btn btn-warning px-3" type="reset">Reset</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+              $('.nav-pills a').on('click', function(e) {
+                e.preventDefault();
+                $(this).tab('show');
+              });
+            });
+          </script>
+    </body>
+</html>

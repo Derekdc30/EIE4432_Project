@@ -1,0 +1,39 @@
+.registrationTab {
+    position: fixed ;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    }
+.registrationTab.hide {
+    display: none; /* Hide the registration tab by default */
+    }
+.registrationTab.show {
+    display: block; /* Show the registration tab when the "show" class is added */
+    }
+body{
+    background-image: url(assets/background.jpg);
+    font-family: cursive;
+}
+.nav-link{
+    color: rgb(255, 255, 255);
+    
+}
+.nav-link:hover{
+    color: rgb(159, 159, 159);
+}
+.card{
+    color:black;
+}
+#registrationButton{
+    color: rgb(255, 255, 255);
+    border-radius: 10px; 
+    width: auto; /* Making auto-sizable width */
+    height: auto; /* Making auto-sizable height */
+    padding: 10px 15px 10px 15px; /* Making space around letters */
+    background-color: rgb(159, 82, 232);
+}
+#registrationButton:hover{
+    color: rgb(159, 159, 159);
+}
