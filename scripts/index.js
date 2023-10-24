@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    $(".registrationTab").addClass('hide');
     $.get("assets/Event.json", function (data) {
             const divcontainer = document.createElement("div");
             divcontainer.classList.add("row");
@@ -12,7 +11,7 @@ $(document).ready(function () {
             {
                 let obj = data[i];
                 const card=`
-                        <div class="col card m-2 justify-content-center" id="${i}" >
+                        <div class="col card m-2 justify-content-center" id="${obj.ID}" >
                             <img class="card-img" src="${obj.image}" style="width: 100%; height: 20rem; object-fit:cover">
                             <div class="card-body text-start">
                                 <h5 class="card-title">${obj.name}</h5>
@@ -39,7 +38,7 @@ $(document).ready(function () {
                 document.getElementById("Event-Dashboard").append(cardcontainer);
         });
         $("#registrationButton").click(function () {
-            $(".registrationTab").removeClass('hide').addClass('show');
+            $(".registrationTab").removeClass('d-none').addClass('show');
         });
         $(".close").click(function () {
             $(".registrationTab").removeClass('show').addClass('hide');
