@@ -58,7 +58,7 @@
                 width: auto; /* Making auto-sizable width */
                 height: auto; /* Making auto-sizable height */
                 padding: 10px 15px 10px 15px; /* Making space around letters */
-                background-color: rgb(159, 82, 232);
+                background-color: rgb(122, 122, 213);
             }
             #registrationButton:hover{
                 color: rgb(159, 159, 159);
@@ -75,6 +75,7 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg d-flex">
+            <!--Link to other page, left side of Nav-bar-->
             <div class="px-4" id="nav" style="flex:1;">
                 <ul class="navbar-nav ">
                     <li class="nav-item active">
@@ -91,14 +92,14 @@
                     </li>
                 </ul>
             </div>
-            <!--New added 24/10-->
+            <!--Search bar at Nav-bar-->
             <div class="search-container text-center search-bar">
                 <form>
-                    <input type="text" placeholder="Search Movies">
+                    <input type="text" placeholder="Search Concert">
                     <button type="submit"><i class="fa fa-search" style='color:green'></i></button>
                 </form>
             </div>
-            
+            <!--Login/ register button at Nav-bar-->
             <div class="" id= "login" style="margin-left: auto;">
                 <ul class="navbar-nav text-light px-4">
                     <li class="nav-item active">
@@ -107,9 +108,11 @@
                 </ul>
             </div>
         </nav>
+        <!-- empty div for different concert, may delete later-->
         <div class="container text-center p-5" id="Event-Dashboard">
             
         </div>
+        <!-- registration tab, visable when login button press-->
         <div class="registrationTab d-none">
             <div class="card mx-auto shadow-5-strong" style=" width:fit-content; background: hsla(0, 0%, 100%, 0.8);backdrop-filter: blur(30px);">
                 <div class="card-body px-5">
