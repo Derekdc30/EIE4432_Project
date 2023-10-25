@@ -63,6 +63,14 @@
             #registrationButton:hover{
                 color: rgb(159, 159, 159);
             }
+            .search-bar input{
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+            }
+            .search-bar button{
+                border-bottom-right-radius: 10px;
+                border-top-right-radius: 10px;
+            }
         </style>
     </head>
     <body>
@@ -84,7 +92,7 @@
                 </ul>
             </div>
             <!--New added 24/10-->
-            <div class="search-container text-center">
+            <div class="search-container text-center search-bar">
                 <form>
                     <input type="text" placeholder="Search Movies">
                     <button type="submit"><i class="fa fa-search" style='color:green'></i></button>
