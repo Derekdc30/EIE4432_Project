@@ -1,18 +1,24 @@
 $(document).ready(function () {
-    for(let i =0; i<40; i++)
-            {
-                const card=`
-                <div class="container" style="text-align: center;">
-                    <svg width="400" height="180">
-                        <rect x="50" y="20" rx="20" ry="20" width="150" height="150"
-                        style="fill:red;stroke:black;stroke-width:5;opacity:0.5" />
-                        <text x="350" y="50">${i}</text>
-                    </svg>
-                </div>
-                    `;
-                const cardcontainer = document.createElement("div");
-                cardcontainer.innerHTML = card;
-                divcontainer.append(cardcontainer);
-            }
-            document.getElementById("seat").append(divcontainer);
+    var svgCircle = document.getElementById("svg");
+    let y= 50;
+    let x = 50; 
+    var NS = "http://www.w3.org/2000/svg";
+    for(let i =1; i<=40; i++)
+    {
+        var rect = document.createElementNS(NS, "rect");
+        console.log(rect);
+        rect.setAttribute("x", x);
+        rect.setAttribute("y", y);
+        rect.setAttribute("width", 30);
+        rect.setAttribute("height", 30);
+        rect.setAttribute("stroke", "green");
+        rect.setAttribute("strokeWidth", 4);
+        rect.setAttribute("fill", "yellow");
+        svgCircle.appendChild(rect);
+        x+=50;
+        if(i%10==0){
+            y= y+50;
+            x=50;
+        }
+    }
 });
