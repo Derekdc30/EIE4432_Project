@@ -29,6 +29,6 @@ function displayseat(){
 }
 
 function handleClick(event) {
-    var rectID = event.target.id; // Retrieve the ID of the clicked rect
+    var rectID = event.target.getAttribute("id");
     alert("Clicked rect ID:", rectID);
   }
