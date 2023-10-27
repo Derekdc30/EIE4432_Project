@@ -6,20 +6,27 @@ function displayseat(){
     let y= 50;
     let x = 50; 
     var NS = "http://www.w3.org/2000/svg";
-    for(let i =1; i<=80; i++)
+    for(let i =1; i<=40; i++)
     {
         var rect = document.createElementNS(NS, "rect");
-        console.log(rect);
         rect.setAttribute("x", x);
         rect.setAttribute("y", y);
         rect.setAttribute("width", 30);
         rect.setAttribute("height", 30);
-        rect.setAttribute("stroke", "green");
-        rect.setAttribute("strokeWidth", 4);
-        rect.setAttribute("fill", "yellow");
+        rect.setAttribute("stroke", "gray");
+        rect.setAttribute("strokeWidth", 5);
+        rect.setAttribute("fill", "white");
         rect.setAttribute("id",i);
         rect.addEventListener("click", handleClick);
         svgCircle.appendChild(rect);
+
+        var text = document.createElementNS(NS, "text");
+        text.setAttribute("x",(x+15));
+        text.setAttribute("y",(y+20));
+        text.setAttribute("text-anchor", "middle")
+        text.textContent=i;
+        svgCircle.appendChild(text);
+        
         x+=50;
         if(i%10==0){
             y+=50;
@@ -30,5 +37,5 @@ function displayseat(){
 
 function handleClick(event) {
     var rectID = event.target.getAttribute("id");
-    alert("Clicked rect ID:", rectID);
+    console.log(rectID);
   }
