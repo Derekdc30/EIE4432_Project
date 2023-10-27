@@ -3,10 +3,10 @@ $(document).ready(function () {
 });
 function displayseat(){
     var svgCircle = document.getElementById("svg");
-    let y= 50;
-    let x = 50; 
+    let y= 0;
+    let x = 0; 
     var NS = "http://www.w3.org/2000/svg";
-    for(let i =1; i<=40; i++)
+    for(let i =1; i<=60; i++)
     {
         var rect = document.createElementNS(NS, "rect");
         rect.setAttribute("x", x);
@@ -24,13 +24,15 @@ function displayseat(){
         text.setAttribute("x",(x+15));
         text.setAttribute("y",(y+20));
         text.setAttribute("text-anchor", "middle")
+        text.setAttribute("id",i);
         text.textContent=i;
+        text.addEventListener("click", handleClick);
         svgCircle.appendChild(text);
         
         x+=50;
         if(i%10==0){
             y+=50;
-            x=50;
+            x=0;
         }
     }
 }
