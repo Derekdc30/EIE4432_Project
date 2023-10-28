@@ -1,5 +1,44 @@
 $(document).ready(function () {
     displayseat();
+    $("#Seat_Reset").click(function(){
+        $("#Seat_Reset").addClass("d-none");
+        $(".booking-form").addClass("d-none");
+        $(".info").removeClass("d-none");
+    });
+    $("#Payment_Proceed").click(function(){
+        var option = document.getElementsByName("Payment_Method");
+        $("#Seat_Reset").addClass("d-none");
+        for (i = 0; i < option.length; i++) {
+            if (option[i].checked)
+                var method = option[i].value;
+        }
+        switch(method){
+            case "Master_Visa":
+                $(".booking-form").addClass("d-none");
+                $(".Master-Visa-Payment").removeClass("d-none");
+                break;
+            case "Paypal":
+                $(".booking-form").addClass("d-none");
+                $(".Paypal-Payment").removeClass("d-none");
+                break;
+            case "AE":
+                $(".booking-form").addClass("d-none");
+                $(".AE-Payment").removeClass("d-none");
+                break;
+        }
+    });
+    $("#Master_Proceed").click(function(){
+        $(".Master-Visa-Payment").addClass("d-none");
+        $(".Purchase-success").removeClass("d-none");
+    });
+    $("#Paypal_Proceed").click(function(){
+        $(".Paypal-Payment").addClass("d-none");
+        $(".Purchase-success").removeClass("d-none");
+    });
+    $("#AE_Proceed").click(function(){
+        $(".AE-Payment").addClass("d-none");
+        $(".Purchase-success").removeClass("d-none");
+    });
 });
 function displayseat(){
     var svgCircle = document.getElementById("svg");
@@ -39,32 +78,11 @@ function displayseat(){
 
 function handleClick(event) {
     var rectID = event.target.getAttribute("id");
-    console.log(rectID);
+    $("#Seat_Reset").removeClass("d-none");
     $(".booking-form").removeClass("d-none");
     $(".info").addClass("d-none");
-    $("#reset").click(function(){
-        $(".booking-form").addClass("d-none");
-        $(".info").removeClass("d-none");
-    });
-    $("#Payment_Proceed").click(function(){
-        var option = document.getElementsByName("Payment_Method");
-        for (i = 0; i < option.length; i++) {
-            if (option[i].checked)
-                var method = option[i].value;
-        }
-        switch(method){
-            case "Master_Visa":
-                $(".booking-form").addClass("d-none");
-                $(".Master-Visa-Payment").removeClass("d-none");
-                break;
-            case "Paypal":
-                $(".booking-form").addClass("d-none");
-                $(".Paypal-Payment").removeClass("d-none");
-                break;
-            case "AE":
-                $(".booking-form").addClass("d-none");
-                $(".AE-Payment").removeClass("d-none");
-                break;
-        }
-    });
+    $(".Paypal-Payment").addClass("d-none");
+    $(".Master-Visa-Payment").addClass("d-none");
+    $(".AE-Payment").addClass("d-none");
+    $(".Purchase-success").addClass("d-none");
 }

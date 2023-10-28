@@ -30,6 +30,10 @@
             form{
                 font-size: 1.3rem;
             }
+            .Paypal-Payment{
+                justify-content: center;
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -43,15 +47,19 @@
                     
                 </svg>
                 <div>
-                    <button type="button" class="btn btn btn-success" id="reset">Reset</button>
+                    <button type="button" class="btn btn btn-success d-none" id="Seat_Reset">Reset</button>
                 </div>
             </div>
-            <div class="booking-info column" style="justify-content: flex-end; margin-left: 50%; margin-top:10%;">
+            <div class="booking-info column" style="justify-content: flex-end; margin-left: 50%; margin-top:10%; height:fit-content;">
                 <div class="card mx-auto shadow-5-strong" style=" width:100%; background: hsla(0, 0%, 100%, 0.8);backdrop-filter: blur(30px);">
                     <div class="card-body px-5">
                         <div class="info">
                             <p class="h3">Concert description</p>
-                            <div><object data="assets/placeholder.txt" style="overflow: hidden; width:100%; height:100%;display:flex;"></object></div>
+                            <div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Iaculis urna id volutpat lacus laoreet non. Vel orci porta non pulvinar neque laoreet. Ullamcorper dignissim cras tincidunt lobortis. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien. Est velit egestas dui id ornare arcu odio ut sem. Tristique et egestas quis ipsum suspendisse ultrices gravida dictum fusce. Nullam non nisi est sit amet facilisis. Phasellus faucibus scelerisque eleifend donec pretium. Vulputate eu scelerisque felis imperdiet proin fermentum leo. Elementum integer enim neque volutpat ac tincidunt vitae. Sed augue lacus viverra vitae.
+
+                                Rhoncus mattis rhoncus urna neque. Pretium aenean pharetra magna ac placerat. Et tortor consequat id porta. Vitae elementum curabitur vitae nunc. Et odio pellentesque diam volutpat commodo sed egestas egestas. Ipsum a arcu cursus vitae congue mauris rhoncus aenean vel. Platea dictumst vestibulum rhoncus est pellentesque elit. Suspendisse faucibus interdum posuere lorem ipsum dolor sit. Cras ornare arcu dui vivamus arcu. Nisi porta lorem mollis aliquam ut. Enim diam vulputate ut pharetra sit amet aliquam id diam. Arcu vitae elementum curabitur vitae nunc sed velit. Pharetra et ultrices neque ornare aenean.
+                                
+                                </p></div>
                         </div>
                         <div class="booking-form d-none">
                             <form>
@@ -101,7 +109,7 @@
                                 </div>
                                 <div>
                                     <label for="Master_Card_No" class="form-label">Card Number:</label>
-                                    <input type="text" class="form-control" id="Master_Card_No" autocomplete="=false">
+                                    <input type="text" class="form-control" id="Master_Card_No" autocomplete="=false" placeholder="Enter your card number">
                                 </div>
                                 <label for="Month">Expiry month - Expiry year:</label>
                                 <div>
@@ -132,11 +140,11 @@
                                 </div>
                                 <div>
                                     <label for="Master_Cardholder" class="form-label">Cardholder name:</label>
-                                    <input type="text" class="form-control" id="Master_Cardholder" autocomplete="=false">
+                                    <input type="text" class="form-control" id="Master_Cardholder" autocomplete="=false" placeholder="Enter the cardholder name">
                                 </div>
                                 <div>
                                     <label for="Master_Security" class="form-label">Security code:</label>
-                                    <input type="text" class="form-control" id="Master_Security" autocomplete="=false">
+                                    <input type="text" class="form-control" id="Master_Security" autocomplete="=false" placeholder="Enter the security code" style="width: 30%;">
                                 </div>
                                 <div>
                                     <button type="button" class="btn btn btn-success" id="Master_Proceed">Proceed</button>
@@ -145,17 +153,17 @@
                         </div>
                         <div class="Paypal-Payment d-none">
                             <img src="assets\paypal.png" alt="Paypal" style="width: 5%; height:5%;">
-                            <p class="h3">using Paypal to pay</p>
-                            <p class="h3">login in to paypal using email or phone number</p>
-                            <div>
-                                <input type="text" class="form-control" id="Paypal_email" autocomplete="=false">
+                            <p class="h4">using Paypal to pay</p>
+                            <p class="h4">login in to paypal using email or phone number</p>
+                            <div class="py-3">
+                                <input type="text" class="form-control" id="Paypal_email" autocomplete="=false" placeholder="Enter your email or phone number">
                             </div>
-                            <div>
-                                <button type="button" class="btn btn btn-success" id="Paypal_Proceed">Proceed</button>
+                            <div class="py-3">
+                                <button type="button" class="btn btn btn-success" id="Paypal_Proceed" style="width: 50%;">Proceed</button>
                             </div>
                             <hr>
-                            <div>
-                                <button type="button" class="btn btn btn-success" id="Paypal_Register">Register</button>
+                            <div class="py-3">
+                                <button type="button" class="btn btn btn-success" id="Paypal_Register" style="width: 50%;">Register</button>
                             </div>
                         </div>
                         <div class="AE-Payment d-none">
@@ -205,6 +213,9 @@
                                     <button type="button" class="btn btn btn-success" id="AE_Proceed">Proceed</button>
                                 </div>
                             </div>
+                        </div>
+                        <div class="Purchase-success d-none">
+                            <p class="h1">Purchase successful</p>
                         </div>
                     </div>
                 </div>
