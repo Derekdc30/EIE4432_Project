@@ -47,9 +47,12 @@ function handleClick(event) {
         $(".info").removeClass("d-none");
     });
     $("#Payment_Proceed").click(function(){
-        method = document.getElementById("Payment_Method");
-        alert(method.value);
-        switch(method.value){
+        var option = document.getElementsByName("Payment_Method");
+        for (i = 0; i < option.length; i++) {
+            if (option[i].checked)
+                var method = option[i].value;
+        }
+        switch(method){
             case "Master_Visa":
                 $(".booking-form").addClass("d-none");
                 $(".Master-Visa-Payment").removeClass("d-none");
