@@ -53,41 +53,159 @@
                             <p class="h3">Concert description</p>
                             <div><object data="assets/placeholder.txt" style="overflow: hidden; width:100%; height:100%;display:flex;"></object></div>
                         </div>
-                        <form class="d-none" id="booking-form">
-                            <div>
-                                <p class="h3">You have select seat No. 8,7</p>
-                            </div>
-                            <div>
-                                <p class="h3">Total price is $160</p>
-                            </div>
-                            <div>
-                                <p class="h3">Please choose a payment method</p>
-                            </div>
-                            <div class="py-2">
-                                <label for="User_Gender_radio">Method: </label>
-                            </div>
-                            <div class="form-check" id="User_Gender_radio">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_M" value="Male">
-                                <label class="form-check-label" for="User_Gender_M">Mastercard / Visa</label>
-                                <div class="d-inline">
+                        <div class="booking-form d-none">
+                            <form>
+                                <div>
+                                    <p class="h3">You have select seat No. 8,7</p>
+                                </div>
+                                <div>
+                                    <p class="h3">Total price is $160</p>
+                                </div>
+                                <div>
+                                    <p class="h3">Please choose a payment method</p>
+                                </div>
+                                <div class="py-2">
+                                    <label for="Payment_Method">Method: </label>
+                                </div>
+                                <div>
+                                    <div class="form-check" id="Payment_Method">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Master_Visa" value="Master_Visa">
+                                        <label class="form-check-label" for="Master_Visa">Mastercard / Visa</label>
+                                        <div class="d-inline">
+                                            <img src="assets\Mastercard.png" alt="Mastercard" style="width: 7%; height:7%;">
+                                            <img src="assets\Visa.png" alt="Visa" style="width: 7%; height:7%;">
+                                        </div>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Paypal" value="Paypal">
+                                        <label class="form-check-label" for="Paypal">Paypal</label>
+                                        <img src="assets\paypal.png" alt="Paypal" style="width: 5%; height:5%;">
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="AE" value="AE">
+                                        <label class="form-check-label" for="AE">American Express</label>
+                                        <img src="assets\American_Express.png" alt="American Express" style="width: 10%; height:10%;">
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn btn-success" id="Payment_Proceed">Proceed</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="Master-Visa-Payment d-none">
+                            <form>
+                                <div>
+                                    <p class="h3">price is $160</p>
                                     <img src="assets\Mastercard.png" alt="Mastercard" style="width: 7%; height:7%;">
                                     <img src="assets\Visa.png" alt="Visa" style="width: 7%; height:7%;">
                                 </div>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_F" value="Female">
-                                <label class="form-check-label" for="User_Gender_F">Paypal</label>
-                                <img src="assets\paypal.png" alt="Paypal" style="width: 5%; height:5%;">
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_O" value="Other">
-                                <label class="form-check-label" for="User_Gender_O">American Express</label>
-                                <img src="assets\American_Express.png" alt="American Express" style="width: 10%; height:10%;">
+                                <div>
+                                    <label for="Master_Card_No" class="form-label">Card Number:</label>
+                                    <input type="text" class="form-control" id="Master_Card_No" autocomplete="=false">
+                                </div>
+                                <label for="Month">Expiry month - Expiry year:</label>
+                                <div>
+                                    <select id="Month">
+                                    <option value="placeholder" selected>MM</option>
+                                    <option value="M1">01</option>
+                                    <option value="M2">02</option>
+                                    <option value="M3">03</option>
+                                    <option value="M4">04</option>
+                                    <option value="M5">05</option>
+                                    <option value="M6">06</option>
+                                    <option value="M7">07</option>
+                                    <option value="M9">08</option>
+                                    <option value="M9">09</option>
+                                    <option value="M10">10</option> 
+                                    <option value="M11">11</option>
+                                    <option value="M12">12</option>
+                                    </select>
+                                    <select id="Year">
+                                    <option value="placeholder" selected>YY</option>
+                                    <option value="Y23">23</option>
+                                    <option value="Y24">24</option>
+                                    <option value="Y25">25</option>
+                                    <option value="Y26">26</option>
+                                    <option value="Y27">27</option>
+                                    <option value="Y28">28</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="Master_Cardholder" class="form-label">Cardholder name:</label>
+                                    <input type="text" class="form-control" id="Master_Cardholder" autocomplete="=false">
+                                </div>
+                                <div>
+                                    <label for="Master_Security" class="form-label">Security code:</label>
+                                    <input type="text" class="form-control" id="Master_Security" autocomplete="=false">
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn btn-success" id="Master_Proceed">Proceed</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="Paypal-Payment d-none">
+                            <img src="assets\paypal.png" alt="Paypal" style="width: 5%; height:5%;">
+                            <p class="h3">using Paypal to pay</p>
+                            <p class="h3">login in to paypal using email or phone number</p>
+                            <div>
+                                <input type="text" class="form-control" id="Paypal_email" autocomplete="=false">
                             </div>
                             <div>
-                                <button type="button" class="btn btn btn-success">Proceed</button>
+                                <button type="button" class="btn btn btn-success" id="Paypal_Proceed">Proceed</button>
                             </div>
-                        </form>
+                            <hr>
+                            <div>
+                                <button type="button" class="btn btn btn-success" id="Paypal_Register">Register</button>
+                            </div>
+                        </div>
+                        <div class="AE-Payment d-none">
+                            <p class="h3">Payment Details</p>
+                            <img src="assets\American_Express.png" alt="American Express" style="width: 10%; height:10%;">
+                            <div>
+                                <label for="AE_Cardholder" class="form-label">Cardholder name:</label>
+                                <input type="text" class="form-control" id="AE_Cardholder" autocomplete="=false">
+                            </div>
+                            <div>
+                                <label for="AE_Card_No" class="form-label">Card Number:</label>
+                                <input type="text" class="form-control" id="AE_Card_No" autocomplete="=false">
+                            </div>
+                            <div>
+                                <label for="Month">Expiry month - Expiry year:</label>
+                                <div>
+                                    <select id="Month">
+                                    <option value="placeholder" selected>MM</option>
+                                    <option value="M1">01</option>
+                                    <option value="M2">02</option>
+                                    <option value="M3">03</option>
+                                    <option value="M4">04</option>
+                                    <option value="M5">05</option>
+                                    <option value="M6">06</option>
+                                    <option value="M7">07</option>
+                                    <option value="M9">08</option>
+                                    <option value="M9">09</option>
+                                    <option value="M10">10</option> 
+                                    <option value="M11">11</option>
+                                    <option value="M12">12</option>
+                                    </select>
+                                    <select id="Year">
+                                    <option value="placeholder" selected>YY</option>
+                                    <option value="Y23">23</option>
+                                    <option value="Y24">24</option>
+                                    <option value="Y25">25</option>
+                                    <option value="Y26">26</option>
+                                    <option value="Y27">27</option>
+                                    <option value="Y28">28</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="AE_Security" class="form-label">Security code:</label>
+                                    <input type="text" class="form-control" id="AE_Security" autocomplete="=false">
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn btn-success" id="AE_Proceed">Proceed</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

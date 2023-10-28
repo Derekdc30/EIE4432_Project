@@ -40,10 +40,28 @@ function displayseat(){
 function handleClick(event) {
     var rectID = event.target.getAttribute("id");
     console.log(rectID);
-    $("#booking-form").removeClass("d-none");
+    $(".booking-form").removeClass("d-none");
     $(".info").addClass("d-none");
     $("#reset").click(function(){
-        $("#booking-form").addClass("d-none");
+        $(".booking-form").addClass("d-none");
         $(".info").removeClass("d-none");
+    });
+    $("#Payment_Proceed").click(function(){
+        method = document.getElementById("Payment_Method");
+        alert(method.value);
+        switch(method.value){
+            case "Master_Visa":
+                $(".booking-form").addClass("d-none");
+                $(".Master-Visa-Payment").removeClass("d-none");
+                break;
+            case "Paypal":
+                $(".booking-form").addClass("d-none");
+                $(".Paypal-Payment").removeClass("d-none");
+                break;
+            case "AE":
+                $(".booking-form").addClass("d-none");
+                $(".AE-Payment").removeClass("d-none");
+                break;
+        }
     });
 }
