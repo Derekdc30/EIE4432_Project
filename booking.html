@@ -30,7 +30,6 @@
             form{
                 font-size: 1.3rem;
             }
-            
         </style>
     </head>
     <body>
@@ -40,16 +39,22 @@
                     <rect width="200" height="60" style="fill:rgb(149, 149, 196);stroke-width:3;stroke:rgb(0,0,0)" />
                     <text x="60" y="40" class="h3">Stage</text>
                 </svg>
-                <svg id="svg" width="1000" height="500" xmlns="http://www.w3.org/2000/svg">
+                <svg id="svg" width="1000" height="300" xmlns="http://www.w3.org/2000/svg">
                     
                 </svg>
+                <div>
+                    <button type="button" class="btn btn btn-success" id="reset">Reset</button>
+                </div>
             </div>
             <div class="booking-info column" style="justify-content: flex-end; margin-left: 50%; margin-top:10%;">
                 <div class="card mx-auto shadow-5-strong" style=" width:100%; background: hsla(0, 0%, 100%, 0.8);backdrop-filter: blur(30px);">
                     <div class="card-body px-5">
-                        <form>
+                        <div class="info">
+                            <p class="h3">Concert description</p>
+                            <div><object data="assets/placeholder.txt" style="overflow: hidden; width:100%; height:100%;display:flex;"></object></div>
+                        </div>
+                        <form class="d-none" id="booking-form">
                             <div>
-                                <p class="h3">Please select seat</p>
                                 <p class="h3">You have select seat No. 8,7</p>
                             </div>
                             <div>
@@ -80,7 +85,7 @@
                                 <img src="assets\American_Express.png" alt="American Express" style="width: 10%; height:10%;">
                             </div>
                             <div>
-                                <button type="button" class="btn btn btn-success" onclick="">Proceed</button>
+                                <button type="button" class="btn btn btn-success">Proceed</button>
                             </div>
                         </form>
                     </div>

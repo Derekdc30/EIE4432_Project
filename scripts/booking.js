@@ -40,4 +40,10 @@ function displayseat(){
 function handleClick(event) {
     var rectID = event.target.getAttribute("id");
     console.log(rectID);
-  }
+    $("#booking-form").removeClass("d-none");
+    $(".info").addClass("d-none");
+    $("#reset").click(function(){
+        $("#booking-form").addClass("d-none");
+        $(".info").removeClass("d-none");
+    });
+}
