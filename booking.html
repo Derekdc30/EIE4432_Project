@@ -15,7 +15,7 @@
             }
             #svg-div{
                 justify-content: center;
-                margin-top: 5%;
+                
             }
             #svg{
                 margin-left: 15%;
@@ -26,6 +26,9 @@
             }
             #svg text{
                 pointer-events: none;
+            }
+            form{
+                font-size: 1.3rem;
             }
             
         </style>
@@ -41,7 +44,7 @@
                     
                 </svg>
             </div>
-            <div class="booking-info column" style="justify-content: flex-end; margin-left: 50%;">
+            <div class="booking-info column" style="justify-content: flex-end; margin-left: 50%; margin-top:10%;">
                 <div class="card mx-auto shadow-5-strong" style=" width:100%; background: hsla(0, 0%, 100%, 0.8);backdrop-filter: blur(30px);">
                     <div class="card-body px-5">
                         <form>
@@ -58,17 +61,23 @@
                             <div class="py-2">
                                 <label for="User_Gender_radio">Method: </label>
                             </div>
-                            <div class="form-check form-check-inline" id="User_Gender_radio">
+                            <div class="form-check" id="User_Gender_radio">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_M" value="Male">
                                 <label class="form-check-label" for="User_Gender_M">Mastercard / Visa</label>
+                                <div class="d-inline">
+                                    <img src="assets\Mastercard.png" alt="Mastercard" style="width: 7%; height:7%;">
+                                    <img src="assets\Visa.png" alt="Visa" style="width: 7%; height:7%;">
+                                </div>
                             </div>
-                            <div class="form-check form-check-inline">
+                            <div class="form-check">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_F" value="Female">
                                 <label class="form-check-label" for="User_Gender_F">Paypal</label>
+                                <img src="assets\paypal.png" alt="Paypal" style="width: 5%; height:5%;">
                             </div>
-                            <div class="form-check form-check-inline">
+                            <div class="form-check">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="User_Gender_O" value="Other">
                                 <label class="form-check-label" for="User_Gender_O">American Express</label>
+                                <img src="assets\American_Express.png" alt="American Express" style="width: 10%; height:10%;">
                             </div>
                             <div>
                                 <button type="button" class="btn btn btn-success" onclick="">Proceed</button>
