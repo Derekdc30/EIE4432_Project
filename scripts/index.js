@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    $('.nav-pills a').on('click', function(e) {
+        e.preventDefault();
+        $(this).tab('show');
+      });
     $.get("assets/Event.json", function (data) {
             const divcontainer = document.createElement("div");
             divcontainer.classList.add("row");

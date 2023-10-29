@@ -1,0 +1,92 @@
+<!--20060616d Choy Wing Ho-->
+<!--22019343 Siu Ching Him-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Concert Ticket Selling System</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/> <!--New added 24/10-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <style>
+            body{
+                background-image: url(assets/background.jpg);
+                color: aliceblue;
+            }
+            #svg-div{
+                justify-content: center;
+                
+            }
+            #svg{
+                margin-left: 15%;
+            }
+            #svg-text{
+                margin-left: 25%;
+            }
+            #svg text{
+                pointer-events: none;
+            }
+            form{
+                font-size: 1.3rem;
+            }
+            .Paypal-Payment{
+                justify-content: center;
+                text-align: center;
+            }
+            .nav-link{
+                color: rgb(255, 255, 255);
+            }
+            .nav-link:hover{
+                color: rgb(159, 159, 159);
+            }
+            #registrationButton:hover{
+                color: rgb(159, 159, 159);
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg d-flex py-2">
+            <!--Link to other page, left side of Nav-bar-->
+            <div class="px-4" id="nav" style="flex:1;">
+                <ul class="navbar-nav ">
+                    <li class="nav-item active">
+                        <a class="nav-link fw-bold" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Placeholder</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Placeholder</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="px-4 py-2">
+                <p class="">Hello User!</p>
+            </div>
+        </nav>
+     <div class="py-4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="Account-tab" data-bs-toggle="tab" data-bs-target="#Account" type="button" role="tab" aria-controls="Account" aria-selected="true">Account</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="History-tab" data-bs-toggle="tab" data-bs-target="#History" type="button" role="tab" aria-controls="History" aria-selected="false">Transaction History</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="Account" role="tabpanel" aria-labelledby="Account-tab">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Iaculis urna id volutpat lacus laoreet non. Vel orci porta non pulvinar neque laoreet. Ullamcorper dignissim cras tincidunt lobortis. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien. Est velit egestas dui id ornare arcu odio ut sem. Tristique et egestas quis ipsum suspendisse ultrices gravida dictum fusce. Nullam non nisi est sit amet facilisis. Phasellus faucibus scelerisque eleifend donec pretium. Vulputate eu scelerisque felis imperdiet proin fermentum leo. Elementum integer enim neque volutpat ac tincidunt vitae. Sed augue lacus viverra vitae.
+
+                <br>Rhoncus mattis rhoncus urna neque. Pretium aenean pharetra magna ac placerat. Et tortor consequat id porta. Vitae elementum curabitur vitae nunc. Et odio pellentesque diam volutpat commodo sed egestas egestas. Ipsum a arcu cursus vitae congue mauris rhoncus aenean vel. Platea dictumst vestibulum rhoncus est pellentesque elit. Suspendisse faucibus interdum posuere lorem ipsum dolor sit. Cras ornare arcu dui vivamus arcu. Nisi porta lorem mollis aliquam ut. Enim diam vulputate ut pharetra sit amet aliquam id diam. Arcu vitae elementum curabitur vitae nunc sed velit. Pharetra et ultrices neque ornare aenean.
+                
+                <hr>Fames ac turpis egestas integer eget aliquet nibh praesent. Sem integer vitae justo eget magna fermentum iaculis eu. Id donec ultrices tincidunt arcu non. Scelerisque varius morbi enim nunc faucibus a pellentesque sit. Mattis ullamcorper velit sed ullamcorper morbi. Vitae sapien pellentesque habitant morbi tristique senectus. Eget duis at tellus at. Nisi lacus sed viverra tellus. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc sed. In hac habitasse platea dictumst quisque. Malesuada fames ac turpis egestas maecenas pharetra convallis. Risus commodo viverra maecenas accumsan. Nulla facilisi nullam vehicula ipsum a arcu cursus. Aliquet eget sit amet tellus cras adipiscing enim eu. In pellentesque massa placerat duis ultricies lacus sed turpis tincidunt. Ultricies mi eget mauris pharetra et ultrices neque ornare. Adipiscing commodo elit at imperdiet dui accumsan sit. Amet justo donec enim diam. Urna nunc id cursus metus aliquam.</div>
+            <div class="tab-pane fade" id="History" role="tabpanel" aria-labelledby="History-tab">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Iaculis urna id volutpat lacus laoreet non. Vel orci porta non pulvinar neque laoreet. Ullamcorper dignissim cras tincidunt lobortis. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien. Est velit egestas dui id ornare arcu odio ut sem. Tristique et egestas quis ipsum suspendisse ultrices gravida dictum fusce. Nullam non nisi est sit amet facilisis. Phasellus faucibus scelerisque eleifend donec pretium. Vulputate eu scelerisque felis imperdiet proin fermentum leo. Elementum integer enim neque volutpat ac tincidunt vitae. Sed augue lacus viverra vitae.
+
+                <br>Rhoncus mattis rhoncus urna neque. Pretium aenean pharetra magna ac placerat. Et tortor consequat id porta. Vitae elementum curabitur vitae nunc. Et odio pellentesque diam volutpat commodo sed egestas egestas. Ipsum a arcu cursus vitae congue mauris rhoncus aenean vel. Platea dictumst vestibulum rhoncus est pellentesque elit. Suspendisse faucibus interdum posuere lorem ipsum dolor sit. Cras ornare arcu dui vivamus arcu. Nisi porta lorem mollis aliquam ut. Enim diam vulputate ut pharetra sit amet aliquam id diam. Arcu vitae elementum curabitur vitae nunc sed velit. Pharetra et ultrices neque ornare aenean.
+                
+                <hr>Fames ac turpis egestas integer eget aliquet nibh praesent. Sem integer vitae justo eget magna fermentum iaculis eu. Id donec ultrices tincidunt arcu non. Scelerisque varius morbi enim nunc faucibus a pellentesque sit. Mattis ullamcorper velit sed ullamcorper morbi. Vitae sapien pellentesque habitant morbi tristique senectus. Eget duis at tellus at. Nisi lacus sed viverra tellus. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc sed. In hac habitasse platea dictumst quisque. Malesuada fames ac turpis egestas maecenas pharetra convallis. Risus commodo viverra maecenas accumsan. Nulla facilisi nullam vehicula ipsum a arcu cursus. Aliquet eget sit amet tellus cras adipiscing enim eu. In pellentesque massa placerat duis ultricies lacus sed turpis tincidunt. Ultricies mi eget mauris pharetra et ultrices neque ornare. Adipiscing commodo elit at imperdiet dui accumsan sit. Amet justo donec enim diam. Urna nunc id cursus metus aliquam.</div>
+          </div>
+    </div>
+    </body>
+</html>

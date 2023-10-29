@@ -22,7 +22,6 @@
             }
             #svg-text{
                 margin-left: 25%;
-                margin-top: 5%;
             }
             #svg text{
                 pointer-events: none;
@@ -34,9 +33,51 @@
                 justify-content: center;
                 text-align: center;
             }
+            .nav-link{
+                color: rgb(255, 255, 255);
+                
+            }
+            .nav-link:hover{
+                color: rgb(159, 159, 159);
+            }
+            #registrationButton{
+                color: rgb(255, 255, 255);
+                border-radius: 10px; 
+                width: auto; /* Making auto-sizable width */
+                height: auto; /* Making auto-sizable height */
+                padding: 10px 15px 10px 15px; /* Making space around letters */
+                background-color: rgb(122, 122, 213);
+            }
+            #registrationButton:hover{
+                color: rgb(159, 159, 159);
+            }
         </style>
     </head>
     <body>
+        <nav class="navbar navbar-expand-lg d-flex">
+            <!--Link to other page, left side of Nav-bar-->
+            <div class="px-4" id="nav" style="flex:1;">
+                <ul class="navbar-nav ">
+                    <li class="nav-item active">
+                        <a class="nav-link fw-bold" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Placeholder</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Placeholder</a>
+                    </li>
+                </ul>
+            </div>
+            <!--Login/ register button at Nav-bar-->
+            <div class="" id= "login" style="margin-left: auto;">
+                <ul class="navbar-nav text-light px-4">
+                    <li class="nav-item active">
+                        <a class="" id="registrationButton" href="#">login/register</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
         <div class="justify-content-center wrapper" style="width: 100%;">
             <div class="container " style="text-align: center; width: 50%; float: left;" id="svg-div">
                 <svg id="svg-text" width="500" height="110">
