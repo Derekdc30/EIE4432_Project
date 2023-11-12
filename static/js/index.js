@@ -5,7 +5,7 @@ $(document).ready(function () {
         e.preventDefault();
         $(this).tab('show');
       });
-    $.get("assets/Event.json", function (data) {
+    $.get("Event.json", function (data) {
             const divcontainer = document.createElement("div");
             divcontainer.classList.add("row");
             divcontainer.classList.add("row-cols-sm-1");
@@ -36,19 +36,49 @@ $(document).ready(function () {
         }).fail(function (error) {
                 const card=`
                     <div class="alert alert-danger">
-                            Failed to fetch drink menu. Please try again later
+                            Failed to fetch. Please try again later
                     </div>
                     `;
                 const cardcontainer = document.createElement("div");
                 cardcontainer.innerHTML = card;
                 document.getElementById("Event-Dashboard").append(cardcontainer);
         });
-        $("#registrationButton").click(function () {
-            $(".registrationTab").removeClass('d-none').addClass('show');
-        });
-        $(".close").click(function () {
-            $(".registrationTab").removeClass('show').addClass('hide');
-        });
+    $("#registrationButton").click(function () {
+        $(".registrationTab").removeClass('d-none').addClass('show');
     });
+    $(".close").click(function () {
+        $(".registrationTab").removeClass('show').addClass('hide');
+    });
+    $('#login').click(function(){
+        var username = $('#login_Name').val();
+        var password = $('#login_Password').val();
+
+        if(!username || !password){
+            alert("Username and password cannot be empty");
+            return;
+        }
+        var formdata = new FormData();
+        formdata.append('username', username);
+        formdata.append('password', password);
+        fetch('/auth/login',{
+            method: 'POST',
+            body: formdata
+        }).then(response => response.json())
+        .then(data =>{
+            if(data.status == 'success'){
+                //signin success action
+                alert("Logged as "+ data.user.username);
+            }
+            else if(data.status == 'failed'){
+                alert(data.message);
+            }
+            else{
+                alert('unknown error');
+            }
+        }).catch(error =>{
+            console.error("Error: ",error);
+        })
+    });
+});
 
     

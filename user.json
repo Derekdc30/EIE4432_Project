@@ -1,23 +1,8 @@
 [
   {
-    "username":"alice","password":"ecila","role":"user","enabled":true
+    "username":"admin","password":"adminpass","role":"admin"
   },
   {
-    "username":"bob","password":"bob1234","role":"user","enabled":false
-  },
-  {
-    "username":"janice","password":"ecinaj","role":"user","enabled":true
-  },
-  {
-    "username":"root","password":"root+pass","role":"admin","enabled":true
-  },
-  {
-    "username":"20060616D","password":"20060616D","role":"student","enabled":true
-  },
-  {
-    "username":"lab4user","password":"lab4userlab4user","role":"student","enabled":true
-  },
-  {
-    "username":"0616D","password":"20060616","role":"student","enabled":true
+    "username":"client","password":"clientpass","role":"user"
   }
 ]

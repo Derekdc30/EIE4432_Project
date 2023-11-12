@@ -10,7 +10,7 @@ $(document).ready(function () {
     $("#Payment_Proceed").click(function(){
         var option = document.getElementsByName("Payment_Method");
         $("#Seat_Reset").addClass("d-none");
-        for (i = 0; i < option.length; i++) {
+        for (let i = 0; i < option.length; i++) {
             if (option[i].checked)
                 var method = option[i].value;
         }
