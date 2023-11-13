@@ -182,6 +182,11 @@
                                         <input type="register_password" class="form-control" id="register_user_password" placeholder="Password">
                                         <small id="Passwordrequire" class="form-text text-muted">Atleast 8 digit with english charater</small>
                                     </div>
+
+                                    <div class="form-group py-2">
+                                        <label for="confirm_register_user_password">Enter password again</label>
+                                        <input type="confirm_register_password" class="form-control" id="confirm_register_user_password" placeholder="Confirm password">
+                                    </div>
             
                                     <!-- NickName input -->
                                     <div class="form-group py-2">
@@ -210,12 +215,11 @@
                                     <div class="form-group py-2">
                                         <label for="birthday">Birthday:</label><br>
                                         <input type="date" id="birthday" name="birthday">
-                                        <input type="submit">
                                     </div>
             
                                     <!-- Register or reset button -->
                                     <div class="py-2">
-                                        <button type="button" class="btn btn btn-success px-3" >Register</button>
+                                        <button type="button" class="btn btn btn-success px-3" formmethod="post" id="register">Register</button>
                                         <button type="button" class="btn btn btn-warning px-3" type="reset">Reset</button>
                                     </div>
                                 </form>

@@ -80,7 +80,7 @@ route.post('/register',form.none(),async (req, res)=>{
       message:'Username must be at least 3 characters',
     });
   }
-  if(username_exist(req.body.username)){
+  if(await username_exist(req.body.username)){
     return res.status(400).json({
       status:'failed',
       message:`Username ${req.body.username} already exist`,
@@ -92,18 +92,11 @@ route.post('/register',form.none(),async (req, res)=>{
       message:'Password must be at least 8 characters',
     });
   }
-  if(!(req.body.role == 'student' || req.body.role == 'user')){
-    return res.status(400).json({
-      status:'failed',
-      message:'Role can only be either student or user',
-    });
-  }
-  if(await update_user(req.body.username,req.body.password,req.body.role)){
+  if(await update_user(req.body.username,req.body.password,req.body.nickname, req.body.gender, req.body.birthday)){
     return res.status(400).json({
       status:'success',
       user:{
         username:req.body.username,
-        role: req.body.role,
       }
     });
   }

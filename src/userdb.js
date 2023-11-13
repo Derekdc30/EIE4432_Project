@@ -30,11 +30,11 @@ async function validate_user(username, password) {
     return false;
   }
 }
-async function update_user(username, password, role) {
+async function update_user(username, password, nickname, gender,birthday) {
   try {
     const result = await users.updateOne(
       { username },
-      { $set: { password, role} },
+      { $set: { password, nickname, gender, birthday} },
       { upsert: true }
     );
 
@@ -69,7 +69,6 @@ async function username_exist(username) {
   }
 }
 init_db().catch(console.dir);
-update_user('new_user', 'new_password', 'user', false).then((res) => console.log(res));
 export {
   init_db,
   users,

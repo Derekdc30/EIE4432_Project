@@ -79,6 +79,52 @@ $(document).ready(function () {
             console.error("Error: ",error);
         })
     });
+    $('#register').click(function() {
+    var username = $('#register_user_ID').val();
+    var password = $('#register_user_password').val();
+    var re_passowrd = $('#confirm_register_user_password').val();
+    var nickname = $('#register_user_nickname').val();
+    var gender = $('input[name="inlineRadioOptions"]:checked').val();
+    var birthday = $('#birthday').val();
+    if(!username || !password){
+      alert("Username and password cannot be empty");
+    }
+    else if(password!=re_passowrd){
+      alert('Password mismatch');
+    }
+    else if(!nickname){
+      alert("Please select your nickname");
+    }
+    else if(!gender){
+        alert("Please choose your gender");
+    }
+    else if (!birthday){
+        alert("Please input your birthday");
+    }
+    else{
+      var formdata = new FormData();
+      formdata.append('username',username);
+      formdata.append('password',password);
+      formdata.append('nickname', nickname);
+      formdata.append('gender', gender);
+      formdata.append('birthday', birthday);
+      fetch('/auth/register',{
+        method:'POST',
+        body:formdata
+      }).then(response=>response.json())
+      .then(data=>{
+        if(data.status == 'success'){
+          alert(`Welcome, ${username}!\nYou can login with your account now!`);
+          //action on register success
+        }
+        else{
+          alert(data.message);
+        }
+      }).catch(error =>{
+        alert("Error: ",error);
+      })
+    }
+  });
 });
 
     
