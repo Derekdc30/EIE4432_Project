@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import client from './dbclient.js';
+
 const users = client.db('lab5db').collection('user');
 async function init_db() {
   try {
@@ -15,11 +16,13 @@ async function init_db() {
   }
 }
 async function validate_user(username, password) {
+  await sha256(password).then(hash => {
+    password = hash;});
   try {
     if (!username || !password) {
       return false;
     }
-    const user = await users.findOne({ username, password });
+    const user = await users.findOne({ username,password });
     if (user) {
       return user;
     } else {
@@ -31,6 +34,8 @@ async function validate_user(username, password) {
   }
 }
 async function update_user(username, password, nickname, gender,birthday) {
+  await sha256(password).then(hash => {
+    password = hash;});
   try {
     const result = await users.updateOne(
       { username },
@@ -68,6 +73,21 @@ async function username_exist(username) {
     return false;
   }
 }
+async function sha256(message) {
+    // encode as UTF-8
+    const msgBuffer = new TextEncoder().encode(message);                    
+
+    // hash the message
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+    // convert ArrayBuffer to Array
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+    // convert bytes to hex string                  
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+}
+
 init_db().catch(console.dir);
 export {
   init_db,

@@ -52,7 +52,6 @@ $(document).ready(function () {
     $('#login').click(function(){
         var username = $('#login_Name').val();
         var password = $('#login_Password').val();
-
         if(!username || !password){
             alert("Username and password cannot be empty");
             return;
@@ -126,5 +125,14 @@ $(document).ready(function () {
     }
   });
 });
-
-    
+/*function sha256(input){
+  const crypto = window.crypto || window.msCrypto;
+  const encoder = new TextEncoder();
+  const data  = encoder.encode(input);
+  return crypto.subtle.digest('SHA-256',data)
+    .then(buffer=>{
+      const hashArray = Array.from(new Uint8Array(buffer));
+      const hashHex = hashArray.map(byte => byte.toString(16).padStart(2,'0')).join('');
+      return hashHex;
+    });
+}*/

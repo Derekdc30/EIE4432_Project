@@ -17,6 +17,7 @@ route.post('/login',form.none(), async (req, res)=>{
   req.session.logged = false;
   const username = req.body.username;
   const password = req.body.password;
+  
   const user = await validate_user(username, password);
   if (user) {
       req.session.logged = true;

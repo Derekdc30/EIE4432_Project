@@ -1,8 +1,8 @@
 [
   {
-    "username":"admin","password":"adminpass","role":"admin"
+    "username":"admin","password":"713bfda78870bf9d1b261f565286f85e97ee614efe5f0faf7c34e7ca4f65baca","role":"admin"
   },
   {
-    "username":"client","password":"clientpass","role":"user"
+    "username":"client","password":"5a6cc72b29128f7b42d44158bb89f2de3478e5dfa41903dc57ec27ebe0ffef41","role":"user"
   }
 ]
