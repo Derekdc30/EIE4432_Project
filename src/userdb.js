@@ -22,7 +22,7 @@ async function validate_user(username, password) {
     if (!username || !password) {
       return false;
     }
-    const user = await users.findOne({ username,password });
+    const user = await users.findOne({ username : username,password: password });
     if (user) {
       return user;
     } else {

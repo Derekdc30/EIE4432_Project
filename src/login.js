@@ -53,7 +53,7 @@ route.post('/logout',form.none(),(req, res)=>{
 });
 route.get('/me',form.none(), async (req, res)=>{
   if (req.session.logged) {
-    const user = fetch_user(req.session.username);
+    const user = await fetch_user(req.session.username);
       res.json({
         status: 'success',
         user: {

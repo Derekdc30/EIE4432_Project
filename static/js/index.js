@@ -143,6 +143,7 @@ function checkUserStatus() {
   fetch('/auth/me')
     .then(response => response.json())
     .then(data => {
+      console.log(data);
       if (data.status == 'success') {
         $(".registrationTab").removeClass('show').addClass('hide');
         $("#login_register").addClass('d-none');
