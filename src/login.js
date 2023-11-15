@@ -58,7 +58,6 @@ route.get('/me',form.none(), async (req, res)=>{
         status: 'success',
         user: {
           username: user.username,
-          role: user.role,
         },
       });
   } else {

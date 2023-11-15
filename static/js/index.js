@@ -1,6 +1,7 @@
 //<!--20060616d Choy Wing Ho-->
 //<!--22019343 Siu Ching Him-->
 $(document).ready(function () {
+  checkUserStatus()
     $('.nav-pills a').on('click', function(e) {
         e.preventDefault();
         $(this).tab('show');
@@ -67,11 +68,7 @@ $(document).ready(function () {
             if(data.status == 'success'){
                 //signin success action
                 alert("Logged as "+ data.user.username);
-                $(".registrationTab").removeClass('show').addClass('hide');
-                $("#login_register").addClass('d-none');
-                $("#logout_info").removeClass('d-none').addClass('show');
-                document.getElementById("login_form").reset();
-                document.getElementById("UserInfoPage").innerHTML = `Hello ${username}`;
+                checkUserStatus()
             }
             else if(data.status == 'failed'){
                 alert(data.message);
@@ -130,15 +127,36 @@ $(document).ready(function () {
       })
     }
   });
-});
-/*function sha256(input){
-  const crypto = window.crypto || window.msCrypto;
-  const encoder = new TextEncoder();
-  const data  = encoder.encode(input);
-  return crypto.subtle.digest('SHA-256',data)
-    .then(buffer=>{
-      const hashArray = Array.from(new Uint8Array(buffer));
-      const hashHex = hashArray.map(byte => byte.toString(16).padStart(2,'0')).join('');
-      return hashHex;
+
+  $('#logoutButton').click(function() {
+      const response = confirm("Confirm to logout");
+      if(response){
+        fetch('/auth/logout',{method: 'POST'}).then(data=>{
+          $("#login_register").removeClass('d-none').addClass('show');
+          $("#logout_info").removeClass('show').addClass('d-none');
+        })
+      }
     });
-}*/
+
+});
+function checkUserStatus() {
+  fetch('/auth/me')
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        $(".registrationTab").removeClass('show').addClass('hide');
+        $("#login_register").addClass('d-none');
+        $("#logout_info").removeClass('d-none').addClass('show');
+        document.getElementById("login_form").reset();
+        document.getElementById("UserInfoPage").innerHTML = `Hello ${data.user.username}`;
+      } else {
+        $(".registrationTab").removeClass('hide').addClass('show');
+        $("#login_register").removeClass('d-none').addClass('show');
+        $("#logout_info").removeClass('show').addClass('d-none');
+      }
+    })
+    .catch(error => {
+      alert('An error occurred');
+      window.open('/login.html', '_self');
+    });
+}
