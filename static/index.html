@@ -100,10 +100,18 @@
                 </form>
             </div>
             <!--Login/ register button at Nav-bar-->
-            <div class="" id= "login/register" style="margin-left: auto;">
+            <div class="" id= "login_register" style="margin-left: auto;">
                 <ul class="navbar-nav text-light px-4">
                     <li class="nav-item active">
                         <a class="" id="registrationButton" href="#">login/register</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-none d-flex d-inline" id="logout_info">
+                <a class="" id="UserInfoPage" href="UserAccount.html">placeholder</a>
+                <ul class="navbar-nav text-light px-4">
+                    <li class="nav-item active">
+                        <a class="" id="logoutButton" href="#">logout</a>
                     </li>
                 </ul>
             </div>
@@ -132,7 +140,7 @@
                         </div>
                         <div class="tab-content d-flex align-items-center justify-content-center" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
-                                <form action="/auth/login" method="post">
+                                <form action="/auth/login" method="post" id="login_form">
                                     <div class="text-center py-2">
                                         <p>Sign in with UserID and Password:</p>
                                     </div>
@@ -169,7 +177,7 @@
                                 </form>
                             </div>
                             <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
-                                <form>
+                                <form action="/auth/register" method="post" id="register_form">
                                     <!-- UserID input -->
                                     <div class="form-group py-2">
                                         <label for="register_user_ID">User ID</label>

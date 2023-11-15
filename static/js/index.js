@@ -67,6 +67,11 @@ $(document).ready(function () {
             if(data.status == 'success'){
                 //signin success action
                 alert("Logged as "+ data.user.username);
+                $(".registrationTab").removeClass('show').addClass('hide');
+                $("#login_register").addClass('d-none');
+                $("#logout_info").removeClass('d-none').addClass('show');
+                document.getElementById("login_form").reset();
+                document.getElementById("UserInfoPage").innerHTML = `Hello ${username}`;
             }
             else if(data.status == 'failed'){
                 alert(data.message);
@@ -114,7 +119,8 @@ $(document).ready(function () {
       .then(data=>{
         if(data.status == 'success'){
           alert(`Welcome, ${username}!\nYou can login with your account now!`);
-          //action on register success
+          $(".registrationTab").removeClass('show').addClass('hide');
+          document.getElementById("register_form").reset();
         }
         else{
           alert(data.message);

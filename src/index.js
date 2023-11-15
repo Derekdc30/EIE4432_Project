@@ -21,7 +21,13 @@ app.use('/auth', login);
 app.use(express.static('static'));
 app.use(express.static('assets'));
 
-//app.get('/',(req,res)=>{});
+app.get('/',(req,res)=>{
+    if (req.session.logged==true) {
+        res.redirect('/index.html');
+    } else {
+        res.redirect('/login.html');
+    }
+});
 app.listen(8080, () => {
   console.log('Server is running on port 8080');
 });
