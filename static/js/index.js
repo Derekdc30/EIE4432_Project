@@ -68,7 +68,7 @@ $(document).ready(function () {
             if(data.status == 'success'){
                 //signin success action
                 alert("Logged as "+ data.user.username);
-                checkUserStatus()
+                checkUserStatus();
             }
             else if(data.status == 'failed'){
                 alert(data.message);
@@ -143,7 +143,7 @@ function checkUserStatus() {
   fetch('/auth/me')
     .then(response => response.json())
     .then(data => {
-      if (data.status === 'success') {
+      if (data.status == 'success') {
         $(".registrationTab").removeClass('show').addClass('hide');
         $("#login_register").addClass('d-none');
         $("#logout_info").removeClass('d-none').addClass('show');

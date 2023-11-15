@@ -57,7 +57,7 @@ async function update_user(username, password, nickname, gender,birthday) {
 }
 async function fetch_user(username) {
   try {
-    const user = await users.findOne({ username });
+    const user = await users.findOne({ username: username });//username:username
     return user;
   } catch (err) {
     console.error('Unable to fetch from database:', err);
