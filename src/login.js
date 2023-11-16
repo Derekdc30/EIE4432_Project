@@ -107,4 +107,5 @@ route.post('/register',form.none(),async (req, res)=>{
     });
   }
 });
+
 export default route;

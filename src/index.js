@@ -3,6 +3,7 @@ import session from "express-session";
 import login from "./login.js";
 import mongostore from 'connect-mongo';
 import client from "./dbclient.js";'/dbclient.js';
+import {getEventDetails} from './eventdb.js';
 const app = express();
 app.use(
  session({
@@ -21,13 +22,13 @@ app.use('/auth', login);
 app.use(express.static('static'));
 app.use(express.static('assets'));
 
-app.get('/',(req,res)=>{
-    if (req.session.logged==true) {
-        res.redirect('/index.html');
-    } else {
-        res.redirect('/login.html');
-    }
+app.get('/api/events/:eventId', async (req, res) => {
+  const eventId = req.params.eventId;
+  // Retrieve event details from the database based on eventId
+  const eventDetails = await getEventDetails(eventId);
+  res.json(eventDetails);
 });
+
 app.listen(8080, () => {
   console.log('Server is running on port 8080');
 });

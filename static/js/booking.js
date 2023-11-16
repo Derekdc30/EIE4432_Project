@@ -2,6 +2,8 @@
 //<!--22019343 Siu Ching Him-->
 $(document).ready(function () {
     displayseat();
+    getdb();
+    
     $("#Seat_Reset").click(function(){
         $("#Seat_Reset").addClass("d-none");
         $(".booking-form").addClass("d-none");
@@ -87,4 +89,16 @@ function handleClick(event) {
     $(".Master-Visa-Payment").addClass("d-none");
     $(".AE-Payment").addClass("d-none");
     $(".Purchase-success").addClass("d-none");
+}
+function getdb(){
+    fetch('/api/events/event1')
+        .then(response => response.json())
+        .then(eventDetails => {
+            document.getElementById('Concert_Name').textContent = `Event Name: ${eventDetails.eventname} `;
+            document.getElementById('Concert_Date').textContent = `Date: ${eventDetails.date} `;
+            document.getElementById('Concert_Time').textContent = `Time: ${eventDetails.time}`;
+            document.getElementById('Concert_Venue').textContent = `Venue: ${eventDetails.venue}`;
+            document.getElementById('Concert_description').textContent = `Description: ${eventDetails.description}`;
+        })
+        .catch(error => console.error('Error fetching event details:', error));
 }

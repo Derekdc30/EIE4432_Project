@@ -2,14 +2,22 @@ import fs from 'fs/promises';
 import client from './dbclient.js';
 
 const users = client.db('lab5db').collection('user');
+const event = client.db('lab5db').collection('event');
 async function init_db() {
   try {
-    const count = await users.countDocuments();
-    if (count === 0) {
+    const existingUser = await users.findOne();
+    if (!existingUser) {
       const userData = await fs.readFile('user.json', 'utf-8');
       const usersDataArray = JSON.parse(userData);
       const result = await users.insertMany(usersDataArray);
       console.log(`Added ${result.insertedCount} users`);
+    }
+    const existingEvent = await event.findOne();
+    if (!existingEvent) {
+      const eventData = await fs.readFile('event.json', 'utf-8');
+      const eventsDataArray = JSON.parse(eventData);
+      const result = await event.insertMany(eventsDataArray);
+      console.log(`Added ${result.insertedCount} event(s) to the database`);
     }
   } catch (err) {
     console.error('Unable to initialize the database:', err);
@@ -74,16 +82,9 @@ async function username_exist(username) {
   }
 }
 async function sha256(message) {
-    // encode as UTF-8
     const msgBuffer = new TextEncoder().encode(message);                    
-
-    // hash the message
     const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-
-    // convert ArrayBuffer to Array
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-    // convert bytes to hex string                  
+    const hashArray = Array.from(new Uint8Array(hashBuffer));             
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     return hashHex;
 }
@@ -92,6 +93,7 @@ init_db().catch(console.dir);
 export {
   init_db,
   users,
+  event,
   validate_user,
   update_user,
   fetch_user,
