@@ -14,7 +14,7 @@
       - Show the list of events with event details (date/time, title, venue, description)<br />
       - At least one event<br />
       - Ticket sales for each event (Real-time ticket availability)<br />
-- [] Ticket Booking Page<br />
+- [x] Ticket Booking Page<br />
       -Select seats from the SVG seat map<br />
       - View available and occupied seats in the SVG-based seat map (use different colors)<br />
       - Real-time price calculation<br />

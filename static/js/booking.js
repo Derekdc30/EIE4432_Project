@@ -2,6 +2,9 @@
 //<!--22019343 Siu Ching Him-->
 var seatarr = [];
 var seatnum = 0;
+var selected=[];
+var price=[];
+var totalprice=0;
 $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const eventId = urlParams.get('eventId');
@@ -62,13 +65,28 @@ function displayseat(){
         rect.setAttribute("stroke", "gray");
         rect.setAttribute("strokeWidth", 5);
         if(seatarr.includes(i)){
-            rect.setAttribute("fill", "red");
+            rect.setAttribute("fill", "#d33157");
             rect.setAttribute("id",i);
         }
         else{
-            rect.setAttribute("fill", "white");
-            rect.addEventListener("click", handleClick);
-            rect.setAttribute("id",i);
+            if(i<21){
+                rect.setAttribute("fill", "white");
+                rect.addEventListener("click", handleClick);
+                rect.setAttribute("id",i);
+                rect.setAttribute("value",price[0]);
+            }
+            else if(i>20 && i<41){
+                rect.setAttribute("fill", "#caca21");
+                rect.addEventListener("click", handleClick);
+                rect.setAttribute("id",i);
+                rect.setAttribute("value",price[1]);
+            }
+            else{
+                rect.setAttribute("fill", "green");
+                rect.addEventListener("click", handleClick);
+                rect.setAttribute("id",i);
+                rect.setAttribute("value",price[2]);
+            }
         }
         svgCircle.appendChild(rect);
 
@@ -91,6 +109,7 @@ function displayseat(){
 
 function handleClick(event) {
     var rectID = event.target.getAttribute("id");
+    selected.push(rectID);
     $("#Seat_Reset").removeClass("d-none");
     $(".booking-form").removeClass("d-none");
     $(".info").addClass("d-none");
@@ -98,6 +117,10 @@ function handleClick(event) {
     $(".Master-Visa-Payment").addClass("d-none");
     $(".AE-Payment").addClass("d-none");
     $(".Purchase-success").addClass("d-none");
+    document.getElementById('SelectedSeat').textContent = `You have selected ${selected}`;
+    totalprice += parseInt(event.target.getAttribute("value"), 10);
+    document.getElementById('TotalPrice').textContent = `Total price is $${totalprice}`;
+    
 }
 function getdb(eventId) {
     fetch(`/api/events/${eventId}`)
@@ -105,6 +128,7 @@ function getdb(eventId) {
         .then(eventDetails => {
             seatarr = eventDetails.BookedSeat;
             seatnum = eventDetails.seatnumber;
+            price = eventDetails.price.split(' ').map(price => parseInt(price.slice(1), 10));
             document.getElementById('Concert_Name').textContent = `Event Name: ${eventDetails.eventname} `;
             document.getElementById('Concert_Date').textContent = `Date: ${eventDetails.date} `;
             document.getElementById('Concert_Time').textContent = `Time: ${eventDetails.time}`;

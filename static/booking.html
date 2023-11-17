@@ -80,6 +80,12 @@
         </nav>
         <div class="justify-content-center wrapper" style="width: 100%;">
             <div class="container " style="text-align: center; width: 50%; float: left;" id="svg-div">
+            <div class="d-flex d-inline">
+                    <p class="px-3 mx-5" style="background-color: #ffffff;">Highest Price</p>
+                    <p class="px-3 mx-5" style="background-color: #caca21;">Middle Price</p>
+                    <p class="px-3 mx-5" style="background-color: #279e27;">Lowest Price</p>
+                    <p class="px-3 mx-5" style="background-color: #d33157;">Not available</p>
+            </div>
                 <svg id="svg-text" width="500" height="110">
                     <rect width="200" height="60" style="fill:rgb(149, 149, 196);stroke-width:3;stroke:rgb(0,0,0)" />
                     <text x="60" y="40" class="h3">Stage</text>
@@ -105,10 +111,10 @@
                         <div class="booking-form d-none">
                             <form>
                                 <div>
-                                    <p class="h3">You have select seat No. 8,7</p>
+                                    <p class="h3" id="SelectedSeat">You have select seat No. 8,7</p>
                                 </div>
                                 <div>
-                                    <p class="h3">Total price is $160</p>
+                                    <p class="h3" id="TotalPrice">Total price is $160</p>
                                 </div>
                                 <div>
                                     <p class="h3">Please choose a payment method</p>
