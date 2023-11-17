@@ -3,7 +3,7 @@ import session from "express-session";
 import login from "./login.js";
 import mongostore from 'connect-mongo';
 import client from "./dbclient.js";'/dbclient.js';
-import {getEventDetails} from './eventdb.js';
+import {getEventDetails,getAllEvents} from './eventdb.js';
 const app = express();
 app.use(
  session({
@@ -27,6 +27,16 @@ app.get('/api/events/:eventId', async (req, res) => {
   // Retrieve event details from the database based on eventId
   const eventDetails = await getEventDetails(eventId);
   res.json(eventDetails);
+});
+app.get('/api/events', async (req, res) => {
+  try {
+    // Retrieve a list of all events from the database
+    const eventsList = await getAllEvents();
+    res.json(eventsList);
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 app.listen(8080, () => {

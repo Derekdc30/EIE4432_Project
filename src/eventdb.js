@@ -18,4 +18,13 @@ async function getEventDetails(eventId) {
     return null;
   }
 }
-export {getEventDetails};
+async function getAllEvents() {
+  try {
+    const eventsList = await event.find({}).toArray();
+    return eventsList;
+  } catch (err) {
+    console.error('Error fetching event details:', err);
+    return null;
+  }
+}
+export {getEventDetails,getAllEvents};

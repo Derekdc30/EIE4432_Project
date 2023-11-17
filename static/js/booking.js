@@ -1,9 +1,12 @@
 //<!--20060616d Choy Wing Ho-->
 //<!--22019343 Siu Ching Him-->
+var seatarr = [];
+var seatnum = 0;
 $(document).ready(function () {
-    displayseat();
-    getdb();
-    
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventId = urlParams.get('eventId');
+
+    getdb(eventId);
     $("#Seat_Reset").click(function(){
         $("#Seat_Reset").addClass("d-none");
         $(".booking-form").addClass("d-none");
@@ -49,7 +52,7 @@ function displayseat(){
     let y= 0;
     let x = 0; 
     var NS = "http://www.w3.org/2000/svg";
-    for(let i =1; i<=60; i++)
+    for(let i =1; i<=seatnum; i++)
     {
         var rect = document.createElementNS(NS, "rect");
         rect.setAttribute("x", x);
@@ -58,9 +61,15 @@ function displayseat(){
         rect.setAttribute("height", 30);
         rect.setAttribute("stroke", "gray");
         rect.setAttribute("strokeWidth", 5);
-        rect.setAttribute("fill", "white");
-        rect.setAttribute("id",i);
-        rect.addEventListener("click", handleClick);
+        if(seatarr.includes(i)){
+            rect.setAttribute("fill", "red");
+            rect.setAttribute("id",i);
+        }
+        else{
+            rect.setAttribute("fill", "white");
+            rect.addEventListener("click", handleClick);
+            rect.setAttribute("id",i);
+        }
         svgCircle.appendChild(rect);
 
         var text = document.createElementNS(NS, "text");
@@ -90,15 +99,18 @@ function handleClick(event) {
     $(".AE-Payment").addClass("d-none");
     $(".Purchase-success").addClass("d-none");
 }
-function getdb(){
-    fetch('/api/events/event1')
+function getdb(eventId) {
+    fetch(`/api/events/${eventId}`)
         .then(response => response.json())
         .then(eventDetails => {
+            seatarr = eventDetails.BookedSeat;
+            seatnum = eventDetails.seatnumber;
             document.getElementById('Concert_Name').textContent = `Event Name: ${eventDetails.eventname} `;
             document.getElementById('Concert_Date').textContent = `Date: ${eventDetails.date} `;
             document.getElementById('Concert_Time').textContent = `Time: ${eventDetails.time}`;
             document.getElementById('Concert_Venue').textContent = `Venue: ${eventDetails.venue}`;
             document.getElementById('Concert_description').textContent = `Description: ${eventDetails.description}`;
+            displayseat();
         })
         .catch(error => console.error('Error fetching event details:', error));
 }
