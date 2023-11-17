@@ -28,6 +28,7 @@ app.get('/api/events/:eventId', async (req, res) => {
   const eventDetails = await getEventDetails(eventId);
   res.json(eventDetails);
 });
+
 app.get('/api/events', async (req, res) => {
   try {
     // Retrieve a list of all events from the database
