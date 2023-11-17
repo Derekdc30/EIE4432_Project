@@ -18,7 +18,7 @@
       -Select seats from the SVG seat map<br />
       - View available and occupied seats in the SVG-based seat map (use different colors)<br />
       - Real-time price calculation<br />
-- [ ] Payment Page<br />
+- [x] Payment Page<br />
       -Show event details, seat selection and total price<br />
       - Input payment details (details could be fake)<br />
       - Feedback on payment status<br />
