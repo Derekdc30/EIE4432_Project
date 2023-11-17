@@ -10,7 +10,7 @@
       - Two roles: admin and users<br />
       - Use user ID and password to log in. The admin uses the default ID “admin” and password “adminpass” to log in.<br />
       - User logout<br />
-- [ ] Event Dashboard<br />
+- [x] Event Dashboard<br />
       - Show the list of events with event details (date/time, title, venue, description)<br />
       - At least one event<br />
       - Ticket sales for each event (Real-time ticket availability)<br />
