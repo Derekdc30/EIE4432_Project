@@ -5,6 +5,8 @@ var seatnum = 0;
 var selected=[];
 var price=[];
 var totalprice=0;
+var eventname="";
+var updatedseat=[];
 $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const eventId = urlParams.get('eventId');
@@ -38,21 +40,21 @@ $(document).ready(function () {
         }
     });
     $("#Master_Proceed").click(function(){
-        /*$(".Master-Visa-Payment").addClass("d-none");
-        $(".Purchase-success").removeClass("d-none");*/
         var Master_Card_No = $('#Master_Card_No').val();
         var Month = $('#Month').val();
         var Year = $('#Year').val();
         var Master_Cardholder = $('#Master_Cardholder').val();
         var Master_Security = $('#Master_Security').val();
-
-
+        updatedseat = [...new Set([...seatarr ,...selected])]
+        console.log(updatedseat);
         var formdata = new FormData();
         formdata.append('Master_Card_No', Master_Card_No);
         formdata.append('Month', Month);
         formdata.append('Year', Year);
         formdata.append('Master_Cardholder', Master_Cardholder);
         formdata.append('Master_Security', Master_Security);
+        formdata.append('seatarr', updatedseat);
+        formdata.append('eventname', eventname);
         fetch('/auth/pay/visa',{
             method: 'POST',
             body: formdata
@@ -61,6 +63,7 @@ $(document).ready(function () {
             if(data.status == 'success'){
                 $(".Master-Visa-Payment").addClass("d-none");
                 $(".Purchase-success").removeClass("d-none");
+                window.location.reload();
             }
             else if(data.status == 'failed'){
                 alert(data.message);
@@ -74,8 +77,11 @@ $(document).ready(function () {
     });
     $("#Paypal_Proceed").click(function(){
         var Paypal_email = $('#Paypal_email').val();
+        updatedseat = [...new Set([...seatarr ,...selected])]
         var formdata = new FormData();
         formdata.append('Paypal_email', Paypal_email);
+        formdata.append('seatarr', updatedseat);
+        formdata.append('eventname', eventname);
         fetch('/auth/pay/paypal',{
             method: 'POST',
             body: formdata
@@ -84,6 +90,7 @@ $(document).ready(function () {
             if(data.status == 'success'){
                 $(".Paypal-Payment").addClass("d-none");
                 $(".Purchase-success").removeClass("d-none");
+                window.location.reload();
             }
             else if(data.status == 'failed'){
                 alert(data.message);
@@ -102,11 +109,14 @@ $(document).ready(function () {
         var Year = $('#Year').val();
         var AE_Security = $('#AE_Security').val();
         var formdata = new FormData();
+        updatedseat = [...new Set([...seatarr ,...selected])]
         formdata.append('AE_Cardholder', AE_Cardholder);
         formdata.append('AE_Card_No', AE_Card_No);
         formdata.append('Month', Month);
         formdata.append('Year', Year);
         formdata.append('AE_Security', AE_Security);
+        formdata.append('seatarr', updatedseat);
+        formdata.append('eventname', eventname);
         fetch('/auth/pay/AE',{
             method: 'POST',
             body: formdata
@@ -115,6 +125,7 @@ $(document).ready(function () {
             if(data.status == 'success'){
                 $(".AE-Payment").addClass("d-none");
                 $(".Purchase-success").removeClass("d-none");
+                window.location.reload();
             }
             else if(data.status == 'failed'){
                 alert(data.message);
@@ -141,7 +152,7 @@ function displayseat(){
         rect.setAttribute("height", 30);
         rect.setAttribute("stroke", "gray");
         rect.setAttribute("strokeWidth", 5);
-        if(seatarr.includes(i)){
+        if(seatarr.includes(i.toString())){
             rect.setAttribute("fill", "#d33157");
             rect.setAttribute("id",i);
         }
@@ -203,8 +214,14 @@ function getdb(eventId) {
     fetch(`/api/events/${eventId}`)
         .then(response => response.json())
         .then(eventDetails => {
-            seatarr = eventDetails.BookedSeat;
+            if(!eventDetails.BookedSeat){
+                seatarr = [];
+            }
+            else{
+                 seatarr = eventDetails.BookedSeat.split(',').map(seat => seat.trim());
+            }
             seatnum = eventDetails.seatnumber;
+            eventname = eventDetails.eventname;
             price = eventDetails.price.split(' ').map(price => parseInt(price.slice(1), 10));
             document.getElementById('Concert_Name').textContent = `Event Name: ${eventDetails.eventname} `;
             document.getElementById('Concert_Date').textContent = `Date: ${eventDetails.date} `;

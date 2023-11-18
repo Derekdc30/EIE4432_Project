@@ -5,7 +5,8 @@ import {
   validate_user,
   update_user,
   fetch_user,
-  username_exist
+  username_exist,
+  update_event
 } from './userdb.js';
 
 const route = express.Router();
@@ -115,6 +116,7 @@ route.post('/pay/visa', form.none(),async (req, res) => {
       message: 'Missing fields',
     });
   }
+  await update_event(req.body.eventname,req.body.seatarr);
   return res.status(400).json({
     status: 'success',
     message: 'Payment successful',
@@ -127,6 +129,7 @@ route.post('/pay/paypal',form.none(), async (req, res)=>{
       message: 'Missing fields',
     });
   }
+  await update_event(req.body.eventname,req.body.seatarr);
   return res.status(400).json({
     status: 'success',
     message: 'Payment successful',
@@ -139,6 +142,7 @@ route.post('/pay/AE',form.none(), async (req, res)=>{
       message: 'Missing fields',
     });
   }
+  await update_event(req.body.eventname,req.body.seatarr);
   return res.status(400).json({
     status: 'success',
     message: 'Payment successful',

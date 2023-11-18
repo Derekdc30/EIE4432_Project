@@ -88,6 +88,24 @@ async function sha256(message) {
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     return hashHex;
 }
+async function update_event(eventName, bookedSeats) {
+  try {
+    const result = await event.updateOne(
+      { eventname: eventName },
+      { $set: { BookedSeat: bookedSeats } }
+    );
+    if (result.matchedCount === 1) {
+      console.log('Updated seat occupation for event:', eventName);
+      return true;
+    } else {
+      console.log('Event not found:', eventName);
+      return false;
+    }
+  } catch (error) {
+    console.error('Unable to update the database:', error);
+    return false;
+  }
+}
 
 init_db().catch(console.dir);
 export {
@@ -97,5 +115,6 @@ export {
   validate_user,
   update_user,
   fetch_user,
-  username_exist
+  username_exist,
+  update_event
 };
