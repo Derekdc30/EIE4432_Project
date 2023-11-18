@@ -38,16 +38,93 @@ $(document).ready(function () {
         }
     });
     $("#Master_Proceed").click(function(){
-        $(".Master-Visa-Payment").addClass("d-none");
-        $(".Purchase-success").removeClass("d-none");
+        /*$(".Master-Visa-Payment").addClass("d-none");
+        $(".Purchase-success").removeClass("d-none");*/
+        var Master_Card_No = $('#Master_Card_No').val();
+        var Month = $('#Month').val();
+        var Year = $('#Year').val();
+        var Master_Cardholder = $('#Master_Cardholder').val();
+        var Master_Security = $('#Master_Security').val();
+
+
+        var formdata = new FormData();
+        formdata.append('Master_Card_No', Master_Card_No);
+        formdata.append('Month', Month);
+        formdata.append('Year', Year);
+        formdata.append('Master_Cardholder', Master_Cardholder);
+        formdata.append('Master_Security', Master_Security);
+        fetch('/auth/pay/visa',{
+            method: 'POST',
+            body: formdata
+        }).then(response => response.json())
+        .then(data =>{
+            if(data.status == 'success'){
+                $(".Master-Visa-Payment").addClass("d-none");
+                $(".Purchase-success").removeClass("d-none");
+            }
+            else if(data.status == 'failed'){
+                alert(data.message);
+            }
+            else{
+                alert('unknown error');
+            }
+        }).catch(error =>{
+            console.error("Error: ",error);
+        })
     });
     $("#Paypal_Proceed").click(function(){
-        $(".Paypal-Payment").addClass("d-none");
-        $(".Purchase-success").removeClass("d-none");
+        var Paypal_email = $('#Paypal_email').val();
+        var formdata = new FormData();
+        formdata.append('Paypal_email', Paypal_email);
+        fetch('/auth/pay/paypal',{
+            method: 'POST',
+            body: formdata
+        }).then(response => response.json())
+        .then(data =>{
+            if(data.status == 'success'){
+                $(".Paypal-Payment").addClass("d-none");
+                $(".Purchase-success").removeClass("d-none");
+            }
+            else if(data.status == 'failed'){
+                alert(data.message);
+            }
+            else{
+                alert('unknown error');
+            }
+        }).catch(error =>{
+            console.error("Error: ",error);
+        })
     });
     $("#AE_Proceed").click(function(){
-        $(".AE-Payment").addClass("d-none");
-        $(".Purchase-success").removeClass("d-none");
+        var AE_Cardholder = $('#AE_Cardholder').val();
+        var AE_Card_No = $('#AE_Card_No').val();
+        var Month = $('#Month').val();
+        var Year = $('#Year').val();
+        var AE_Security = $('#AE_Security').val();
+        var formdata = new FormData();
+        formdata.append('AE_Cardholder', AE_Cardholder);
+        formdata.append('AE_Card_No', AE_Card_No);
+        formdata.append('Month', Month);
+        formdata.append('Year', Year);
+        formdata.append('AE_Security', AE_Security);
+        fetch('/auth/pay/AE',{
+            method: 'POST',
+            body: formdata
+        }).then(response => response.json())
+        .then(data =>{
+            if(data.status == 'success'){
+                $(".AE-Payment").addClass("d-none");
+                $(".Purchase-success").removeClass("d-none");
+            }
+            else if(data.status == 'failed'){
+                alert(data.message);
+            }
+            else{
+                alert('unknown error');
+            }
+        }).catch(error =>{
+            console.error("Error: ",error);
+        })
     });
 });
 function displayseat(){

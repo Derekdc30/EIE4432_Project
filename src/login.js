@@ -108,4 +108,41 @@ route.post('/register',form.none(),async (req, res)=>{
   }
 });
 
+route.post('/pay/visa', form.none(),async (req, res) => {
+  if (!req.body.Master_Card_No || !req.body.Month || !req.body.Year || !req.body.Master_Cardholder || !req.body.Master_Security) {
+    return res.status(500).json({
+      status: 'failed',
+      message: 'Missing fields',
+    });
+  }
+  return res.status(400).json({
+    status: 'success',
+    message: 'Payment successful',
+  });
+});
+route.post('/pay/paypal',form.none(), async (req, res)=>{
+  if(!req.body.Paypal_email){
+    return res.status(500).json({
+      status: 'failed',
+      message: 'Missing fields',
+    });
+  }
+  return res.status(400).json({
+    status: 'success',
+    message: 'Payment successful',
+  });
+});
+route.post('/pay/AE',form.none(), async (req, res)=>{
+  if (!req.body.AE_Cardholder || !req.body.Month || !req.body.Year || !req.body.AE_Card_No || !req.body.AE_Security) {
+    return res.status(500).json({
+      status: 'failed',
+      message: 'Missing fields',
+    });
+  }
+  return res.status(400).json({
+    status: 'success',
+    message: 'Payment successful',
+  });
+});
+
 export default route;
