@@ -166,3 +166,18 @@ function checkUserStatus() {
       window.open('/login.html', '_self');
     });
 }
+async function loginstatus(){
+  fetch('/auth/me')  // Assuming this endpoint provides a list of events
+        .then(response => response.json())
+        .then(data => {
+          if (data.status == 'success') {
+            return true;
+          }
+          else{
+            return false;
+          }
+        }).catch(error => {
+      alert('An error occurred');
+      window.open('/login.html', '_self');
+    });
+}
