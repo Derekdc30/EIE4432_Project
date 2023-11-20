@@ -7,7 +7,7 @@ var price=[];
 var totalprice=0;
 var eventname="";
 var updatedseat=[];
-$(document).ready(function () {
+$(document).ready(async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const eventId = urlParams.get('eventId');
 
@@ -196,19 +196,35 @@ function displayseat(){
 }
 
 function handleClick(event) {
-    var rectID = event.target.getAttribute("id");
-    selected.push(rectID);
-    $("#Seat_Reset").removeClass("d-none");
-    $(".booking-form").removeClass("d-none");
-    $(".info").addClass("d-none");
-    $(".Paypal-Payment").addClass("d-none");
-    $(".Master-Visa-Payment").addClass("d-none");
-    $(".AE-Payment").addClass("d-none");
-    $(".Purchase-success").addClass("d-none");
-    document.getElementById('SelectedSeat').textContent = `You have selected ${selected}`;
-    totalprice += parseInt(event.target.getAttribute("value"), 10);
-    document.getElementById('TotalPrice').textContent = `Total price is $${totalprice}`;
-    
+    fetch('/auth/me',{
+            method: 'GET',
+        }).then(response => response.json())
+        .then(data =>{
+            if(data.status == 'success'){
+                var rectID = event.target.getAttribute("id");
+                selected.push(rectID);
+                $("#Seat_Reset").removeClass("d-none");
+                $(".booking-form").removeClass("d-none");
+                $(".info").addClass("d-none");
+                $(".Paypal-Payment").addClass("d-none");
+                $(".Master-Visa-Payment").addClass("d-none");
+                $(".AE-Payment").addClass("d-none");
+                $(".Purchase-success").addClass("d-none");
+                document.getElementById('SelectedSeat').textContent = `You have selected ${selected}`;
+                totalprice += parseInt(event.target.getAttribute("value"), 10);
+                document.getElementById('TotalPrice').textContent = `Total price is $${totalprice}`;
+            }
+            else if(data.status == 'failed'){
+                alert("Please login first");
+                window.location.href = '/index.html';
+            }
+            else{
+                alert('unknown error');
+            }
+        }).catch(error =>{
+            console.error("Error: ",error);
+        })
+
 }
 function getdb(eventId) {
     fetch(`/api/events/${eventId}`)
