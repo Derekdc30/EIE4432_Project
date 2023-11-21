@@ -1,6 +1,6 @@
 import express from "express";
 import session from "express-session";
-import login from "./login.js";
+import login from "./route.js";
 import mongostore from 'connect-mongo';
 import client from "./dbclient.js";'/dbclient.js';
 import {getEventDetails,getAllEvents} from './eventdb.js';

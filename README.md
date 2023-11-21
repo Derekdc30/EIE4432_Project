@@ -24,11 +24,11 @@
       - Feedback on payment status<br />
       - Show electronic tickets to buyers after successful purchase<br />
       - Update the order status upon successful payment<br />
-- [ ] Seat Management Page (Admin only)<br />
+- [x] Seat Management Page (Admin only)<br />
       - Create SVG-based seat maps (at least 40 seats) for all venues<br />
       - View current available and occupied seats in the SVG-based seat map (use different colors)<br />
       - All seats with the same price<br />
-- [ ] Event Management Page (Admin only)<br />
+- [x] Event Management Page (Admin only)<br />
       - Create new events (date/time, title, venue, description)<br />
 2. Credit Features:<br />
 - [ ] User Account Registration<br />

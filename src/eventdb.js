@@ -27,4 +27,40 @@ async function getAllEvents() {
     return null;
   }
 }
-export {getEventDetails,getAllEvents};
+async function insertEvent(eventname,type, price, image, seatnumber, date, time,  venue, description, BookedSeat) {
+  try {
+    const result = await event.updateOne(
+      {eventname},
+      {$set: {type, price, image, seatnumber, date, time,  venue, description, BookedSeat}},
+      {upsert:true}
+    );
+    if (result.upsertedCount === 1) {
+      console.log('Added 1 event');
+    } else {
+      console.log('Added 0 event');
+    }
+    return true;
+  } catch (error) {
+    console.error('Unable to update the database:', error);
+    return false;
+  }
+}
+async function event_exist(eventname) {
+  try {
+    const user = await fetch_event(eventname);
+    return user !== null;
+  } catch (err) {
+    console.error('Unable to fetch from database:', err);
+    return false;
+  }
+}
+async function fetch_event(eventname) {
+  try {
+    const user = await event.findOne({ eventname: eventname });//username:username
+    return user;
+  } catch (err) {
+    console.error('Unable to fetch from database:', err);
+    return null;
+  }
+}
+export {getEventDetails,getAllEvents,insertEvent, event_exist,fetch_event};

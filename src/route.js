@@ -8,6 +8,11 @@ import {
   username_exist,
   update_event
 } from './userdb.js';
+import { 
+  insertEvent,
+  event_exist,
+  fetch_event 
+} from "./eventdb.js";
 
 const route = express.Router();
 const form = multer();
@@ -149,5 +154,28 @@ route.post('/pay/AE',form.none(), async (req, res)=>{
     message: 'Payment successful',
   });
 });
+route.post('/newevents', form.none(), async (req, res) => {
+  if(await event_exist(req.body.eventname))
+  {
+    return res.status(400).json({
+      status:'failed',
+      message:'Event exist',
+    });
+  }
+  if(await insertEvent(req.body.eventname, req.body.eventType, req.body.price, req.body.eventImage, parseInt(req.body.eventSeatNumber,10), req.body.eventDate, req.body.eventTime, req.body.eventVenue, req.body.eventDescription, req.body.BookedSeat)){
+    return res.status(400).json({
+      status:'success',
+      event:{
+        eventname:req.body.event,
+      }
+    });
+  }
+  else{
+    return res.status(500).json({
+      status: 'failed',
+      message:'Event created but unable to save into the database',
+    });
+  }
 
+});
 export default route;

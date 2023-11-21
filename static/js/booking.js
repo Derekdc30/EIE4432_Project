@@ -63,6 +63,7 @@ $(document).ready(async function () {
             if(data.status == 'success'){
                 $(".Master-Visa-Payment").addClass("d-none");
                 $(".Purchase-success").removeClass("d-none");
+                $("#payment_form_visa").reset();
                 window.location.reload();
             }
             else if(data.status == 'failed'){
@@ -90,6 +91,7 @@ $(document).ready(async function () {
             if(data.status == 'success'){
                 $(".Paypal-Payment").addClass("d-none");
                 $(".Purchase-success").removeClass("d-none");
+                $("#payment_form_paypal").reset();
                 window.location.reload();
             }
             else if(data.status == 'failed'){
@@ -125,6 +127,7 @@ $(document).ready(async function () {
             if(data.status == 'success'){
                 $(".AE-Payment").addClass("d-none");
                 $(".Purchase-success").removeClass("d-none");
+                $("#payment_form_AE").reset();
                 window.location.reload();
             }
             else if(data.status == 'failed'){
@@ -152,7 +155,7 @@ function displayseat(){
         rect.setAttribute("height", 30);
         rect.setAttribute("stroke", "gray");
         rect.setAttribute("strokeWidth", 5);
-        if(seatarr.includes(i.toString())){
+        if(seatarr.indexOf(i.toString())!== -1){
             rect.setAttribute("fill", "#d33157");
             rect.setAttribute("id",i);
         }
@@ -192,6 +195,7 @@ function displayseat(){
             y+=50;
             x=0;
         }
+        $('#svg').attr('height', (seatnum/10)*50);
     }
 }
 function handleClick(event) {
