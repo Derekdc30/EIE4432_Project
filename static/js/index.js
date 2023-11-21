@@ -166,3 +166,21 @@ function checkUserStatus() {
       window.open('/login.html', '_self');
     });
 }
+function checkUserRole() {
+        fetch('/auth/me')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status == 'success') {
+                    if (data.user.role == 'admin') {
+                        window.location.href = '/admin.html';
+                    } else {
+                        window.location.href = '/UserAccount.html';
+                    }
+                }
+            })
+            .catch(error => {
+                alert('An error occurred');
+                window.open('/login.html', '_self');
+            });
+    }
