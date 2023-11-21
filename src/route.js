@@ -126,19 +126,32 @@ route.post('/pay/visa', form.none(),async (req, res) => {
   return res.status(400).json({
     status: 'success',
     message: 'Payment successful',
+    event : {
+      eventname: req.body.eventname,
+      seat : req.body.seatarr,
+    }
   });
+  
 });
 route.post('/pay/paypal',form.none(), async (req, res)=>{
   if(!req.body.Paypal_email){
     return res.status(500).json({
       status: 'failed',
       message: 'Missing fields',
+      event : {
+      eventname: req.body.eventname,
+      seat : req.body.seatarr,
+    }
     });
   }
   await update_event(req.body.eventname,req.body.seatarr);
   return res.status(400).json({
     status: 'success',
     message: 'Payment successful',
+    event : {
+      eventname: req.body.eventname,
+      seat : req.body.seatarr,
+    }
   });
 });
 route.post('/pay/AE',form.none(), async (req, res)=>{

@@ -40,16 +40,11 @@
             .nav-link:hover{
                 color: rgb(159, 159, 159);
             }
-            #registrationButton{
-                color: rgb(255, 255, 255);
-                border-radius: 10px; 
-                width: auto; /* Making auto-sizable width */
-                height: auto; /* Making auto-sizable height */
-                padding: 10px 15px 10px 15px; /* Making space around letters */
-                background-color: rgb(122, 122, 213);
-            }
-            #registrationButton:hover{
-                color: rgb(159, 159, 159);
+            #digitalReceiptContainer {
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
         </style>
     </head>
@@ -258,6 +253,9 @@
                         </div>
                         <div class="Purchase-success d-none">
                             <p class="h1">Purchase successful</p>
+                            <div class="Purchase-success d-none" id="digitalReceiptContainer">
+                                
+                            </div>
                         </div>
                     </div>
                 </div>

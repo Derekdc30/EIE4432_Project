@@ -6,7 +6,10 @@ var selected=[];
 var price=[];
 var totalprice=0;
 var eventname="";
+var venue="";
 var updatedseat=[];
+var date="";
+var time="";
 $(document).ready(async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const eventId = urlParams.get('eventId');
@@ -63,8 +66,15 @@ $(document).ready(async function () {
             if(data.status == 'success'){
                 $(".Master-Visa-Payment").addClass("d-none");
                 $(".Purchase-success").removeClass("d-none");
-                $("#payment_form_visa").reset();
-                window.location.reload();
+                document.getElementById("payment_form_visa").reset();
+                const concertDetails = {
+                name: `${eventname}`,
+                date: `${date}`,
+                time: `${time}`,
+                venue: `${venue}`,
+                price: `${totalprice}`,
+                };
+                generateReceipt(concertDetails);
             }
             else if(data.status == 'failed'){
                 alert(data.message);
@@ -91,8 +101,15 @@ $(document).ready(async function () {
             if(data.status == 'success'){
                 $(".Paypal-Payment").addClass("d-none");
                 $(".Purchase-success").removeClass("d-none");
-                $("#payment_form_paypal").reset();
-                window.location.reload();
+                document.getElementById("payment_form_paypal").reset();
+                const concertDetails = {
+                name: `${eventname}`,
+                date: `${date}`,
+                time: `${time}`,
+                venue: `${venue}`,
+                price: `${totalprice}`,
+                };
+                generateReceipt(concertDetails);
             }
             else if(data.status == 'failed'){
                 alert(data.message);
@@ -127,8 +144,15 @@ $(document).ready(async function () {
             if(data.status == 'success'){
                 $(".AE-Payment").addClass("d-none");
                 $(".Purchase-success").removeClass("d-none");
-                $("#payment_form_AE").reset();
-                window.location.reload();
+                document.getElementById("payment_form_AE").reset();
+                const concertDetails = {
+                name: `${eventname}`,
+                date: `${date}`,
+                time: `${time}`,
+                venue: `${venue}`,
+                price: `${totalprice}`,
+                };
+                generateReceipt(concertDetails);
             }
             else if(data.status == 'failed'){
                 alert(data.message);
@@ -241,6 +265,9 @@ function getdb(eventId) {
             }
             seatnum = eventDetails.seatnumber;
             eventname = eventDetails.eventname;
+            venue = eventDetails.venue;
+            date = eventDetails.date;
+            time = eventDetails.time;
             price = eventDetails.price.split(' ').map(price => parseInt(price.slice(1), 10));
             document.getElementById('Concert_Name').textContent = `Event Name: ${eventDetails.eventname} `;
             document.getElementById('Concert_Date').textContent = `Date: ${eventDetails.date} `;
@@ -251,4 +278,26 @@ function getdb(eventId) {
         })
         .catch(error => console.error('Error fetching event details:', error));
 }
+function generateReceipt(concertDetails) {
+  // Get the digital receipt container
+  const receiptContainer = document.getElementById("digitalReceiptContainer");
 
+  // Create receipt content
+  const ticketContent = `
+            <h2>Concert Ticket</h2>
+            <p>${concertDetails.name}</p>
+            <p>Date: ${concertDetails.date}</p>
+            <p>Time: ${concertDetails.time}</p>
+            <p>Venue: ${concertDetails.venue}</p>
+            <p>Seats: ${seatarr.join(", ")}</p>
+            <p>Total Price: $${totalprice}</p>
+            <img src="barcode.png" alt="Barcode" width="150px" height="150px">
+            <p class="disclaimer">This is your electronic ticket. Please present it at the entrance for admission.</p>
+        `;
+
+  // Set the receipt content to the container
+  receiptContainer.innerHTML = ticketContent;
+
+  // Display the receipt container by removing the 'd-none' class
+  receiptContainer.classList.remove('d-none');
+}
