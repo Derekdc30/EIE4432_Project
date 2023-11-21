@@ -194,7 +194,6 @@ function displayseat(){
         }
     }
 }
-
 function handleClick(event) {
     fetch('/auth/me',{
             method: 'GET',
@@ -248,3 +247,5 @@ function getdb(eventId) {
         })
         .catch(error => console.error('Error fetching event details:', error));
 }
+
+export {displayseat};
