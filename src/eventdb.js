@@ -8,7 +8,7 @@ route.use(express.urlencoded({ extended: true }));
 route.use(express.json());
 const event = client.db('lab5db').collection('event');
 
-async function getEventDetails(eventId) {
+async function getEventDetails(eventId) { // this function is to get a event detail
   try {
     // Fetch event details from the database based on eventId
     const eventDetails = await event.findOne({ eventname:eventId });
@@ -18,7 +18,7 @@ async function getEventDetails(eventId) {
     return null;
   }
 }
-async function getAllEvents() {
+async function getAllEvents() { // this function is to get all event at database
   try {
     const eventsList = await event.find({}).toArray();
     return eventsList;
@@ -27,7 +27,7 @@ async function getAllEvents() {
     return null;
   }
 }
-async function insertEvent(eventname,type, price, image, seatnumber, date, time,  venue, description, BookedSeat) {
+async function insertEvent(eventname,type, price, image, seatnumber, date, time,  venue, description, BookedSeat) { // this function is to add new event to database
   try {
     const result = await event.updateOne(
       {eventname},
@@ -45,16 +45,16 @@ async function insertEvent(eventname,type, price, image, seatnumber, date, time,
     return false;
   }
 }
-async function event_exist(eventname) {
+async function event_exist(eventname) { // this function is to check event exist or not
   try {
-    const user = await fetch_event(eventname);
+    const user = await getEventDetails(eventname);
     return user !== null;
   } catch (err) {
     console.error('Unable to fetch from database:', err);
     return false;
   }
 }
-async function fetch_event(eventname) {
+async function fetch_event(eventname) { // this function is to get 
   try {
     const user = await event.findOne({ eventname: eventname });//username:username
     return user;

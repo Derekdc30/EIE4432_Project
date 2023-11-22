@@ -188,7 +188,7 @@ function displayseat(){
                 rect.setAttribute("fill", "white");
                 rect.addEventListener("click", handleClick);
                 rect.setAttribute("id",i);
-                rect.setAttribute("value",price[0]);
+                rect.setAttribute("value",price[2]);
             }
             else if(i>20 && i<41){
                 rect.setAttribute("fill", "#caca21");
@@ -200,7 +200,7 @@ function displayseat(){
                 rect.setAttribute("fill", "green");
                 rect.addEventListener("click", handleClick);
                 rect.setAttribute("id",i);
-                rect.setAttribute("value",price[2]);
+                rect.setAttribute("value",price[0]);
             }
         }
         svgCircle.appendChild(rect);
