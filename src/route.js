@@ -23,6 +23,7 @@ route.post('/login',form.none(), async (req, res)=>{
   req.session.logged = false;
   const username = req.body.username;
   const password = req.body.password;
+  const rememberMe = req.body.rememberMe;
   
   const user = await validate_user(username, password);
   if (user) {
@@ -30,7 +31,10 @@ route.post('/login',form.none(), async (req, res)=>{
       req.session.username = user.username;
       req.session.role = user.role;
       req.session.timestamp = Date.now();
-
+      const rememberMeToken = generateToken(); 
+      if (rememberMe) {
+        res.cookie('remember_me', rememberMeToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 }); // 30 days
+      } 
       res.json({
         status: 'success',
         user: {
@@ -114,7 +118,6 @@ route.post('/register',form.none(),async (req, res)=>{
     });
   }
 });
-
 route.post('/pay/visa', form.none(),async (req, res) => {
   if (!req.body.Master_Card_No || !req.body.Month || !req.body.Year || !req.body.Master_Cardholder || !req.body.Master_Security) {
     return res.status(500).json({
@@ -191,4 +194,15 @@ route.post('/newevents', form.none(), async (req, res) => {
   }
 
 });
+
+const generateToken = () => {
+  const tokenLength = 32;
+  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let token = '';
+  for (let i = 0; i < tokenLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    token += characters.charAt(randomIndex);
+  }
+  return token;
+};
 export default route;

@@ -58,6 +58,7 @@ $(document).ready(function () {
     $('#login').click(function(){
         var username = $('#login_Name').val();
         var password = $('#login_Password').val();
+        var rememberMe = document.getElementById('login_Check').checked;
         if(!username || !password){
             alert("Username and password cannot be empty");
             return;
@@ -65,6 +66,7 @@ $(document).ready(function () {
         var formdata = new FormData();
         formdata.append('username', username);
         formdata.append('password', password);
+        formdata.append('rememberMe', rememberMe);
         fetch('/auth/login',{
             method: 'POST',
             body: formdata
