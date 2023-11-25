@@ -6,7 +6,10 @@ import {
   update_user,
   fetch_user,
   username_exist,
-  update_event
+  update_event,
+  update_token,
+  validate_token,
+  forgotPassword
 } from './userdb.js';
 import { 
   insertEvent,
@@ -19,33 +22,44 @@ const form = multer();
 route.use(express.urlencoded({ extended: true }));
 route.use(express.json());
 
-route.post('/login',form.none(), async (req, res)=>{
+route.post('/login', form.none(), async (req, res) => {
   req.session.logged = false;
   const username = req.body.username;
   const password = req.body.password;
   const rememberMe = req.body.rememberMe;
-  
+
   const user = await validate_user(username, password);
   if (user) {
-      req.session.logged = true;
-      req.session.username = user.username;
-      req.session.role = user.role;
-      req.session.timestamp = Date.now(); 
-      res.json({
-        status: 'success',
-        user: {
-          username: user.username,
-          role: user.role,
-        },
-      });
-    } else {
-      res.status(401).json({
-        status: 'failed',
-        message: 'Incorrect username and password',
-      });
-    }
+    req.session.logged = true;
+    req.session.username = user.username;
+    req.session.role = user.role;
+    req.session.timestamp = Date.now();
+    if (rememberMe) {
+      const token = req.body.token || generateToken();
+      res.cookie('remember_me', token, {
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    });
+    update_token(username, token, password);
+  }
+    res.json({
+      status: 'success',
+      user: {
+        username: user.username,
+        role: user.role,
+      },
+    });
+  } else {
+    res.status(401).json({
+      status: 'failed',
+      message: 'Incorrect username and password',
+    });
+  }
 });
+
 route.post('/logout',form.none(),(req, res)=>{
+  if(!req.body.timeout){
+    res.clearCookie('remember_me');
+  }
   if(req.session.logged){
     req.session.destroy();
     res.end();
@@ -190,5 +204,49 @@ route.post('/newevents', form.none(), async (req, res) => {
   }
 
 });
-
+route.post('/loginwithtoken', form.none(), async (req, res) => {
+  const token = req.body.token;
+  console.log("route: "+req.body.token);
+  const user = await validate_token(token);
+  
+  if (user) {
+    req.session.logged = true;
+    req.session.username = user.username;
+    res.json({
+      status: 'success',
+      user: {
+        username: user.username,
+      },
+    });
+  } else {
+    res.status(401).json({
+      status: 'failed',
+      message: 'Invalid token',
+    });
+  }
+});
+const generateToken = () => {
+  const tokenLength = 32;
+  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let token = '';
+  for (let i = 0; i < tokenLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    token += characters.charAt(randomIndex);
+  }
+  return token;
+};
+route.post('/forgot',form.none(), async (req, res)=>{
+  if(await forgotPassword(req.body.userID, req.body.birthday, req.body.nickname, req.body.newPassword)){
+    res.status(500).json({
+        status: 'success',
+        message: 'password is reset',
+      });
+  }
+  else{
+    res.status(401).json({
+        status: 'success',
+        message: 'error at resetting password',
+      });
+  }
+});
 export default route;

@@ -12,7 +12,7 @@
         <script src="/js/index.js"></script>
         <script src="/js/activityDetection.js" defer></script>
         <style>
-            .registrationTab {
+            .tabs {
                 position: fixed;
                 top: 0;
                 left: 0;
@@ -20,10 +20,10 @@
                 height: 100%;
                 background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
               }
-            .registrationTab.hide {
+            .tabs.hide {
                 display: none; /* Hide the registration tab by default */
               }
-            .registrationTab.show {
+            .tabs.show {
                 display: block; /* Show the registration tab when the "show" class is added */
               }
             body{
@@ -138,7 +138,7 @@
             
         </div>
         <!-- registration tab, visable when login button press-->
-        <div class="registrationTab d-none">
+        <div class="registrationTab tabs d-none">
             <div class="card mx-auto shadow-5-strong" style=" width:fit-content; background: hsla(0, 0%, 100%, 0.8);backdrop-filter: blur(30px);">
                 <div class="card-body px-5">
                     <div class=" d-flex justify-content-end pb-3">
@@ -170,7 +170,7 @@
                                     <!-- Password input -->
                                     <div class="form-outline py-2">
                                         <label class="form-label" for="login_Password">Password</label>
-                                        <input type="text" id="login_Password" class="form-control" name="login_Password">
+                                        <input type="password" id="login_Password" class="form-control" name="login_Password">
                                     </div>
                             
                                     <!-- 2 column grid layout -->
@@ -184,7 +184,7 @@
                             
                                     <div class="justify-content-center py-2">
                                         <!-- Simple link -->
-                                        <a href="#!">Forgot password?</a>
+                                        <a href="#!" id="forgotpasswordbtn">Forgot password?</a>
                                     </div>
                             
                                     <!-- Submit button -->
@@ -259,5 +259,59 @@
                 </div>
             </div>
         </div>
+
+        <div class="forgotTab d-none tabs">
+            <div class="card mx-auto" style="width: fit-content; background: hsla(0, 0%, 100%, 0.8); backdrop-filter: blur(30px);">
+                <div class="card-body px-5">
+                    <div class="d-flex justify-content-end pb-3">
+                        <button class="close" style="border: 0; background: none;"><img src="cross-x.png" style="width: 20px; height: 20px;"></button>
+                    </div>
+                    <div class="justify-content-center">
+                        <div class="d-flex align-items-center justify-content-center py-2">
+                            <h3 class="text-black px-5">Forgot Password</h3>
+                        </div>
+                        <div class="tab-pane" id="pills-forgot-password" role="tabpanel" >
+                            <form action="/auth/forgotpassword" method="post" id="forgot_password_form">
+                                <!-- User ID input -->
+                                <div class="form-group py-2">
+                                    <label for="forgot_user_ID">User ID</label>
+                                    <input type="text" class="form-control" id="forgot_user_ID" name="forgot_user_ID" placeholder="Enter User ID" required>
+                                </div>
+
+                                <div class="form-group py-2">
+                                    <label for="register_user_nickname">Nickname</label>
+                                    <input type="register_nickname" class="form-control" id="forgot_user_nickname" placeholder="Enter Nickname">
+                                </div>
+        
+                                <!-- Birthday calander select -->
+                                <div class="form-group py-2">
+                                    <label for="birthday">Birthday:</label><br>
+                                    <input type="date" id="forgot_birthday" name="birthday">
+                                </div>
+
+                                <!-- New Password input -->
+                                <div class="form-group py-2">
+                                    <label for="new_password">New Password</label>
+                                    <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter New Password" required>
+                                </div>
+
+                                <!-- Confirm New Password input -->
+                                <div class="form-group py-2">
+                                    <label for="confirm_new_password">Confirm New Password</label>
+                                    <input type="password" class="form-control" id="confirm_new_password" name="confirm_new_password" placeholder="Confirm New Password" required>
+                                </div>
+
+                                <!-- Submit button -->
+                                <div class="py-2">
+                                    <button type="button" class="btn btn-primary btn-block" formmethod="post" id="reset_password">Reset Password</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </body>
 </html>

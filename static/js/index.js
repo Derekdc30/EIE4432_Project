@@ -6,7 +6,7 @@ $(document).ready(function () {
         e.preventDefault();
         $(this).tab('show');
       });
-    fetch('/api/events')  // Assuming this endpoint provides a list of events
+    fetch('/api/events') 
         .then(response => response.json())
         .then(data => {
             const divcontainer = document.createElement("div");
@@ -50,10 +50,37 @@ $(document).ready(function () {
         });
 
     $("#registrationButton").click(function () {
-        $(".registrationTab").removeClass('d-none').addClass('show');
+      const rememberMeToken = getCookie('remember_me');
+        var formdata = new FormData();
+        formdata.append('token', rememberMeToken);
+        if (rememberMeToken) {
+          fetch('/auth/loginwithtoken', {
+            method: 'POST',
+            body: formdata
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status === 'success') {
+                alert('Logged in using Remember Me');
+                checkUserStatus();
+              } else {
+                alert(data.message);
+                $(".registrationTab").removeClass('d-none').addClass('show');
+              }
+            })
+            .catch((error) => {
+              console.error('Error logging in with token:', error);
+              $(".registrationTab").removeClass('d-none').addClass('show');
+            });
+        }
+        else{
+          $(".registrationTab").removeClass('d-none').addClass('show');
+        }
+        
     });
     $(".close").click(function () {
         $(".registrationTab").removeClass('show').addClass('hide');
+        $(".forgotTab").removeClass('show').addClass('hide');
     });
     $('#login').click(function(){
         var username = $('#login_Name').val();
@@ -67,6 +94,7 @@ $(document).ready(function () {
         formdata.append('username', username);
         formdata.append('password', password);
         formdata.append('rememberMe', rememberMe);
+        formdata.append('token', getCookie('remember_me'))
         fetch('/auth/login',{
             method: 'POST',
             body: formdata
@@ -145,6 +173,48 @@ $(document).ready(function () {
       }
     });
 
+  $('#forgotpasswordbtn').click(function() {
+      $(".registrationTab").removeClass('show').addClass('hide');
+      $(".forgotTab").removeClass('d-none').addClass('show');
+    });
+  $('#reset_password').click(function() {
+      var userID = $("#forgot_user_ID").val();
+      var nickname = $("#forgot_user_nickname").val();
+      var birthday = $("#forgot_birthday").val();
+      var newPassword = $("#new_password").val();
+      var confirmNewPassword = $("#confirm_new_password").val();
+      var formdata = new FormData();
+      formdata.append('userID',userID);
+      formdata.append('nickname',nickname);
+      formdata.append('birthday',birthday);
+      formdata.append('newPassword',newPassword);
+      formdata.append('confirmNewPassword', confirmNewPassword);
+      if(!userID || !nickname || !birthday || !newPassword || !confirmNewPassword){
+        alert("Field cannot be empty");
+        return
+      }
+      fetch('/auth/forgot',{
+        method:'POST',
+        body:formdata
+      })
+      .then(response => response.json())
+      .then(data =>{
+       if(data.status == 'success'){
+                //signin success action
+                alert(data.message);
+                $(".registrationTab").removeClass('show').addClass('hide');
+                $(".forgotTab").removeClass('d-none').addClass('show');
+            }
+            else if(data.status == 'failed'){
+                alert(data.message);
+            }
+            else{
+                alert('unknown error');
+            }
+        }).catch(error =>{
+            console.error("Error: ",error);
+        })
+    });
 });
 function checkUserStatus() {
   fetch('/auth/me')
@@ -186,3 +256,11 @@ function checkUserRole() {
                 window.open('/login.html', '_self');
             });
     }
+function getCookie(name) {
+    const cookieValue = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (cookieValue) {
+    const value = cookieValue[2];
+    return value;
+    }
+    return '';
+  }

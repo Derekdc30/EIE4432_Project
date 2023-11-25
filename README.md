@@ -33,7 +33,7 @@
 2. Credit Features:<br />
 - [ ] User Account Registration<br />
       - User registration page: support profile image on top of other standard information.<br />
-- [ ] User Login<br />
+- [x] User Login<br />
       - Choice to remember login user-id<br />
       - Forget password feature<br />
       - The user will be automatically logged out after a certain period of idle time<br />
