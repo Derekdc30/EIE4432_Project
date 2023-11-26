@@ -53,9 +53,24 @@ async function validate_user(username, password) {
   }
 }
 async function update_user(username, password, nickname, gender, birthday, profileImage) {
-  await sha256(password).then(hash => {
-    password = hash;
-  });
+  const user = await users.findOne({ username : username })
+  var temp;
+  if(user){
+    await sha256(password).then(hash => {
+        temp = hash;
+      });
+    if(user.password != temp){
+      password = temp;
+    }
+    else{
+      password = user.password;
+    }
+  }else{
+    await sha256(password).then(hash => {
+        password = hash;
+      });
+  }
+  
 
   try {
     const result = await users.updateOne(

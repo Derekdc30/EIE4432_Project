@@ -1,5 +1,6 @@
 // Call the function when the page is ready
 var user;
+var isUpdateInProgress = false;
 $(document).ready(function () {
     getUserDataAndImage();
 });
@@ -33,29 +34,29 @@ function displayUserInfo(user) {
     // Construct the HTML content with user information
     var userInfoHTML =
         '<div class="m-3 h5">' +
-        '<div class="row mb-3">' +
-        '<div class="col"><p>Username:</p></div>' +
-        '<div class="col">' + user.username + '</div>' +
-        '</div>' +
-        '<div class="row mb-3">' +
-        '<div class="col"><p>Birthday:</p></div>' +
-        '<div class="col">' + user.birthday + '</div>' +
-        '</div>' +
-        '<div class="row mb-3">' +
-        '<div class="col"><p>Gender:</p></div>' +
-        '<div class="col">' + user.gender + '</div>' +
-        '</div>' +
-        '<div class="row mb-3">' +
-        '<div class="col"><p>Nickname:</p></div>' +
-        '<div class="col">' + user.nickname + '</div>' +
-        '</div>' +
-        '<div class="row mb-3">' +
-        '<div class="col"><p>Password:</p></div>' +
-        '<div class="col">********</div>' +
-        '</div>' +
-        '<div class="row mb-3">' +
-        '<div class="col"><button id="modifyUserInfoBtn" class="btn btn-primary" onClick="replaceWithEditForm()">Edit</button></div>' +
-        '</div>' +
+          '<div class="row mb-3">' +
+              '<div class="col"><p>Username:</p></div>' +
+              '<div class="col">' + user.username + '</div>' +
+          '</div>' +
+          '<div class="row mb-3">' +
+              '<div class="col"><p>Birthday:</p></div>' +
+              '<div class="col">' + user.birthday + '</div>' +
+          '</div>' +
+          '<div class="row mb-3">' +
+              '<div class="col"><p>Gender:</p></div>' +
+              '<div class="col">' + user.gender + '</div>' +
+          '</div>' +
+          '<div class="row mb-3">' +
+              '<div class="col"><p>Nickname:</p></div>' +
+              '<div class="col">' + user.nickname + '</div>' +
+          '</div>' +
+          '<div class="row mb-3">' +
+              '<div class="col"><p>Password:</p></div>' +
+              '<div class="col">********</div>' +
+          '</div>' +
+          '<div class="row mb-3">' +
+              '<div class="col"><button id="modifyUserInfoBtn" class="btn btn-primary" onClick="replaceWithEditForm()">Edit</button></div>' +
+          '</div>' +
         '</div>';
 
     $('#Account_info').html(userInfoHTML);
@@ -71,34 +72,41 @@ function displayProfileImage(base64Image) {
 
 // Function to replace user information with a form for modification
 function replaceWithEditForm() {
-    // Construct a form with input fields populated with current user data
+   if (isUpdateInProgress) {
+        alert('Please wait before making another update.');
+        return;
+    }
     var editFormHTML = 
        '<div class="m-3">' +
-        '<form id="editUserInfoForm">' +
-        '<div class="row mb-3">' +
-        '<div class="col"><label for="username" class="form-label">Username:</label></div>' +
-        '<div class="col"><input type="text" class="form-control" name="username" value="' + user.username + '"></div>' +
-        '</div>' +
-        '<div class="row mb-3">' +
-        '<div class="col"><label for="birthday" class="form-label">Birthday:</label></div>' +
-        '<div class="col"><input type="text" class="form-control" name="birthday" value="' + user.birthday + '"></div>' +
-        '</div>' +
-        '<div class="row mb-3">' +
-        '<div class="col"><label for="gender" class="form-label">Gender:</label></div>' +
-        '<div class="col"><input type="text" class="form-control" name="gender" value="' + user.gender + '"></div>' +
-        '</div>' +
-        '<div class="row mb-3">' +
-        '<div class="col"><label for="nickname" class="form-label">Nickname:</label></div>' +
-        '<div class="col"><input type="text" class="form-control" name="nickname" value="' + user.nickname + '"></div>' +
-        '</div>' +
-        '<div class="row mb-3">' +
-        '<div class="col"><label for="password" class="form-label">Password:</label></div>' +
-        '<div class="col"><input type="password" class="form-control" name="password" value="' + user.password + '"></div>' +
-        '</div>' +
-        '<div class="row">' +
-        '<div class="col"><button type="button" id="saveChangesBtn" class="btn btn-primary" onClick="saveChanges()">Save Changes</button></div>' +
-        '</div>' +
-        '</form>' +
+          '<form id="editUserInfoForm">' +
+            '<div class="row mb-3">' +
+                '<div class="col"><label for="username" class="form-label">Username:</label></div>' +
+                '<div class="col"><input type="text" class="form-control" name="username" value="' + user.username + '"></div>' +
+            '</div>' +
+            '<div class="row mb-3">' +
+                '<div class="col"><label for="birthday" class="form-label">Birthday:</label></div>' +
+                '<div class="col"><input type="text" class="form-control" name="birthday" value="' + user.birthday + '"></div>' +
+            '</div>' +
+            '<div class="row mb-3">' +
+                '<div class="col"><label for="gender" class="form-label">Gender:</label></div>' +
+                '<div class="col"><input type="text" class="form-control" name="gender" value="' + user.gender + '"></div>' +
+            '</div>' +
+            '<div class="row mb-3">' +
+                '<div class="col"><label for="nickname" class="form-label">Nickname:</label></div>' +
+                '<div class="col"><input type="text" class="form-control" name="nickname" value="' + user.nickname + '"></div>' +
+            '</div>' +
+            '<div class="row mb-3">' +
+                '<div class="col"><label for="password" class="form-label">Password:</label></div>' +
+                '<div class="col"><input type="password" class="form-control" name="password" value="' + user.password + '"></div>' +
+            '</div>' +
+            '<div class="row mb-3">'+
+                '<div class="col"><label for="User_Image">Profile picture</label></div>'+
+                '<div class="col"><input type="file" class="form-control" name="profileImage" id="User_Image" accept="image/*"></div>'+
+            '</div>'+
+            '<div class="row">' +
+                '<div class="col"><button type="button" id="saveChangesBtn" class="btn btn-primary" onClick="saveChanges()">Save Changes</button></div>' +
+            '</div>' +
+          '</form>' +
         '</div>';
 
     // Replace the user information with the form
@@ -110,18 +118,43 @@ function replaceWithEditForm() {
 
 // Function to save changes and revert to displaying user information
 function saveChanges() {
-    // Get values from the form
+   if (isUpdateInProgress) {
+        alert('Please wait before making another update.');
+        return;
+    }
     var updatedUserData = {
         username: $('input[name="username"]').val(),
         birthday: $('input[name="birthday"]').val(),
         gender: $('input[name="gender"]').val(),
         nickname: $('input[name="nickname"]').val(),
-        password: $('input[name="password"]').val()
+        password: $('input[name="password"]').val(),
+        profileImage: document.querySelector('input[name="profileImage"]').files[0]
     };
+      var formdata = new FormData();
+      formdata.append('username', $('input[name="username"]').val());
+      formdata.append('birthday', $('input[name="birthday"]').val());
+      formdata.append('gender', $('input[name="gender"]').val());
+      formdata.append('nickname', $('input[name="nickname"]').val());
+      formdata.append('password', $('input[name="password"]').val());
+      formdata.append('profileImage', document.querySelector('input[name="profileImage"]').files[0]);
 
-    // Update the data attribute with the new user data
-    $('#Account_info').data('user', updatedUserData);
-
-    // Display the updated user information
-    displayUserInfo(updatedUserData);
+      fetch('/auth/updateinfo',{
+        method:'POST',
+        body:formdata
+      }).then(response=>response.json())
+      .then(data=>{
+        if(data.status == 'success'){
+          $('#Account_info').data('user', updatedUserData);
+          displayUserInfo(updatedUserData);
+          isUpdateInProgress = true;
+          setTimeout(() => {
+              isUpdateInProgress = false;
+          }, 30000);
+        }
+        else{
+          alert(data.message);
+        }
+      }).catch(error =>{
+          alert("Error: ",error);
+      })
 }

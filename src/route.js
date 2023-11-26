@@ -58,7 +58,6 @@ route.post('/login', form.none(), async (req, res) => {
     });
   }
 });
-
 route.post('/logout',form.none(),(req, res)=>{
   if(!req.body.timeout){
     res.clearCookie('remember_me');
@@ -132,7 +131,6 @@ route.get('/me', form.none(), async (req, res) => {
     });
   }
 });
-
 route.post('/register', form.single('profileImage'), async (req, res) => {
   if(!req.body.username || !req.body.password){
     return res.status(400).json({
@@ -293,6 +291,22 @@ route.post('/forgot',form.none(), async (req, res)=>{
         status: 'success',
         message: 'error at resetting password',
       });
+  }
+});
+route.post('/updateinfo',form.single('profileImage'), async (req, res)=>{
+  if(await update_user(req.body.username,req.body.password,req.body.nickname, req.body.gender, req.body.birthday,req.file)){
+    return res.status(400).json({
+      status:'success',
+      user:{
+        username:req.body.username,
+      }
+    });
+  }
+  else{
+    return res.status(500).json({
+      status: 'failed',
+      message:'Account created but unable to save into the database',
+    });
   }
 });
 export default route;
