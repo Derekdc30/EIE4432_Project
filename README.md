@@ -31,13 +31,13 @@
 - [x] Event Management Page (Admin only)<br />
       - Create new events (date/time, title, venue, description)<br />
 2. Credit Features:<br />
-- [ ] User Account Registration<br />
+- [x] User Account Registration<br />
       - User registration page: support profile image on top of other standard information.<br />
 - [x] User Login<br />
       - Choice to remember login user-id<br />
       - Forget password feature<br />
       - The user will be automatically logged out after a certain period of idle time<br />
-- [ ] User Account Management<br />
+- [x] User Account Management<br />
       - View user profile<br />
       - Update user profile, including nickname, password, email and profile image<br />
 - [ ] Event Dashboard<br />

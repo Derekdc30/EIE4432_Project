@@ -144,6 +144,10 @@ $(document).ready(function () {
       formdata.append('nickname', nickname);
       formdata.append('gender', gender);
       formdata.append('birthday', birthday);
+      var profileImageInput = document.querySelector('input[name="profileImage"]');
+      if (profileImageInput.files.length > 0) {
+        formdata.append('profileImage', profileImageInput.files[0]);
+      }
       fetch('/auth/register',{
         method:'POST',
         body:formdata

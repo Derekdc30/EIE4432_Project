@@ -1,9 +1,12 @@
 import fs from 'fs/promises';
 import client from './dbclient.js';
+import { GridFSBucket, ObjectId } from 'mongodb';
+import { Readable } from 'stream';
 
 const users = client.db('lab5db').collection('user');
 const event = client.db('lab5db').collection('event');
 const tokens = client.db('lab5db').collection('token');
+const gridFSBucket = new GridFSBucket(client.db('lab5db'));
 async function init_db() {
   try {
     const existingUser = await users.findOne();
@@ -49,13 +52,15 @@ async function validate_user(username, password) {
     return false;
   }
 }
-async function update_user(username, password, nickname, gender,birthday) {
+async function update_user(username, password, nickname, gender, birthday, profileImage) {
   await sha256(password).then(hash => {
-    password = hash;});
+    password = hash;
+  });
+
   try {
     const result = await users.updateOne(
       { username },
-      { $set: { password, nickname, gender, birthday} },
+      { $set: { password, nickname, gender, birthday } },
       { upsert: true }
     );
 
@@ -63,6 +68,15 @@ async function update_user(username, password, nickname, gender,birthday) {
       console.log('Added 1 user');
     } else {
       console.log('Added 0 users');
+    }
+
+    // Handle image upload using GridFS
+    if (profileImage) {
+      const readableStream = Readable.from(profileImage.buffer);
+      const uploadStream = gridFSBucket.openUploadStream(username);
+      readableStream.pipe(uploadStream);
+      const fileId = uploadStream.id;
+      await users.updateOne({ username }, { $set: { profileImageId: fileId } });
     }
 
     return true;
@@ -135,7 +149,6 @@ async function validate_token(token) {
     return false;
   }
 }
-
 async function update_token(username, token, password) {
   await sha256(password).then((hash) => {
     password = hash;
@@ -174,8 +187,6 @@ async function updatePassword(username, newPassword) {
     return false;
   }
 }
-
-// Forgot password function
 async function forgotPassword(username, birthday, nickname, newPassword) {
   try {
     // Fetch user data based on the provided username
@@ -194,6 +205,7 @@ async function forgotPassword(username, birthday, nickname, newPassword) {
     return { status: 'error', message: 'An error occurred during password reset' };
   }
 }
+
 init_db().catch(console.dir);
 export {
   init_db,
@@ -207,5 +219,6 @@ export {
   update_event,
   update_token,
   validate_token,
-  forgotPassword
+  forgotPassword,
+  gridFSBucket
 };

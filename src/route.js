@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import fs from 'fs/promises';
+import { ObjectId } from 'mongodb';
 import {
   validate_user,
   update_user,
@@ -9,7 +9,8 @@ import {
   update_event,
   update_token,
   validate_token,
-  forgotPassword
+  forgotPassword,
+  gridFSBucket
 } from './userdb.js';
 import { 
   insertEvent,
@@ -19,8 +20,10 @@ import {
 
 const route = express.Router();
 const form = multer();
+
 route.use(express.urlencoded({ extended: true }));
 route.use(express.json());
+
 
 route.post('/login', form.none(), async (req, res) => {
   req.session.logged = false;
@@ -71,16 +74,57 @@ route.post('/logout',form.none(),(req, res)=>{
       });
   }
 });
-route.get('/me',form.none(), async (req, res)=>{
+route.get('/me', form.none(), async (req, res) => {
   if (req.session.logged) {
     const user = await fetch_user(req.session.username);
-      res.json({
-        status: 'success',
-        user: {
-          username: user.username,
-          role :user.role,
-        },
+
+    if (user) {
+      // Check if the user has a profile image ID
+      if (user.profileImageId) {
+        try {
+          // Retrieve the image from GridFS using the profileImageId
+          const imageStream = gridFSBucket.openDownloadStream(new ObjectId(user.profileImageId)); // Fix: use 'new'
+          const chunks = [];
+          
+          imageStream.on('data', (chunk) => {
+            chunks.push(chunk);
+          });
+
+          imageStream.on('end', () => {
+            // Concatenate the chunks into a Buffer
+            const buffer = Buffer.concat(chunks);
+            // Convert the Buffer to base64
+            const base64Image = buffer.toString('base64');
+
+            // Add the base64Image to the user object
+            user.profileImage = base64Image;
+
+            // Send the user data with the profileImage field to the client
+            res.json({
+              status: 'success',
+              user,
+            });
+          });
+        } catch (error) {
+          console.error('Error fetching image from GridFS:', error);
+          res.status(500).json({
+            status: 'failed',
+            message: 'Error fetching image from GridFS',
+          });
+        }
+      } else {
+        // If the user does not have a profile image, send the user data without the image
+        res.json({
+          status: 'success',
+          user,
+        });
+      }
+    } else {
+      res.status(401).json({
+        status: 'failed',
+        message: 'Unauthorized',
       });
+    }
   } else {
     res.status(401).json({
       status: 'failed',
@@ -88,7 +132,8 @@ route.get('/me',form.none(), async (req, res)=>{
     });
   }
 });
-route.post('/register',form.none(),async (req, res)=>{
+
+route.post('/register', form.single('profileImage'), async (req, res) => {
   if(!req.body.username || !req.body.password){
     return res.status(400).json({
       status:'failed',
@@ -113,7 +158,8 @@ route.post('/register',form.none(),async (req, res)=>{
       message:'Password must be at least 8 characters',
     });
   }
-  if(await update_user(req.body.username,req.body.password,req.body.nickname, req.body.gender, req.body.birthday)){
+
+  if(await update_user(req.body.username,req.body.password,req.body.nickname, req.body.gender, req.body.birthday,req.file)){
     return res.status(400).json({
       status:'success',
       user:{
