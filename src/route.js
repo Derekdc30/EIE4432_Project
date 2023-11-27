@@ -182,7 +182,8 @@ route.post('/pay/visa', form.none(),async (req, res) => {
     });
   }
   await update_event(req.body.eventname,req.body.seatarr);
-  const currentDate = new Date();
+  var currentDate = new Date();
+  currentDate = currentDate.getFullYear()+"/"+currentDate.getMonth()+"/"+currentDate.getDate()+" "+currentDate.getHours()+":"+currentDate.getMinutes();
   await update_transaction(req.body.username,currentDate,req.body.eventname,req.body.price,req.body.booked);
   return res.status(400).json({
     status: 'success',
@@ -206,7 +207,8 @@ route.post('/pay/paypal',form.none(), async (req, res)=>{
     });
   }
   await update_event(req.body.eventname,req.body.seatarr);
-    const currentDate = new Date();
+  var currentDate = new Date();
+  currentDate = currentDate.getFullYear()+"/"+currentDate.getMonth()+"/"+currentDate.getDate()+" "+currentDate.getHours()+":"+currentDate.getMinutes();
   await update_transaction(req.body.username,currentDate,req.body.eventname,req.body.price,req.body.booked);
   return res.status(400).json({
     status: 'success',
@@ -225,7 +227,8 @@ route.post('/pay/AE',form.none(), async (req, res)=>{
     });
   }
   await update_event(req.body.eventname,req.body.seatarr);
-  const currentDate = new Date();
+  var currentDate = new Date();
+  currentDate = currentDate.getFullYear()+"/"+currentDate.getMonth()+"/"+currentDate.getDate()+" "+currentDate.getHours()+":"+currentDate.getMinutes();
   await update_transaction(req.body.username,currentDate,req.body.eventname,req.body.price,req.body.booked);
   return res.status(400).json({
     status: 'success',

@@ -60,7 +60,7 @@ $(document).ready(async function () {
         formdata.append('seatarr', updatedseat);
         formdata.append('booked', selected.join(", "));
         formdata.append('eventname', eventname);
-        formdata.append('price', price);
+        formdata.append('price', totalprice);
         formdata.append('username', username);
         fetch('/auth/pay/visa',{
             method: 'POST',
@@ -98,7 +98,7 @@ $(document).ready(async function () {
         formdata.append('seatarr', updatedseat);
         formdata.append('booked', selected.join(", "));
         formdata.append('eventname', eventname);
-        formdata.append('price', price);
+        formdata.append('price', totalprice);
         formdata.append('username', username);
         fetch('/auth/pay/paypal',{
             method: 'POST',
@@ -144,7 +144,7 @@ $(document).ready(async function () {
         formdata.append('seatarr', updatedseat);
         formdata.append('booked', selected.join(", "));
         formdata.append('eventname', eventname);
-        formdata.append('price', price);
+        formdata.append('price', totalprice);
         formdata.append('username', username);
         fetch('/auth/pay/AE',{
             method: 'POST',

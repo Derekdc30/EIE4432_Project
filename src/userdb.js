@@ -229,10 +229,13 @@ async function forgotPassword(username, birthday, nickname, newPassword) {
 }
 async function update_transaction(username,date,eventname,price,seat){
   try {
-    const result = await transaction.insertOne(
-      { username },
-      { $set: { eventname, date, price, seat } },
-    );
+    const result = await transaction.insertOne({
+      username,
+      eventname,
+      date,
+      price,
+      seat,
+    });
 
     if (result.insertedCount === 1) {
       console.log('Added 1 transaction');
