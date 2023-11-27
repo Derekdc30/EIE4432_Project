@@ -6,48 +6,30 @@ $(document).ready(function () {
         e.preventDefault();
         $(this).tab('show');
       });
-    fetch('/api/events') 
+    fetch('/api/events')
         .then(response => response.json())
         .then(data => {
-            const divcontainer = document.createElement("div");
-            divcontainer.classList.add("row");
-            divcontainer.classList.add("row-cols-sm-1");
-            divcontainer.classList.add("row-cols-md-2");
-            divcontainer.classList.add("row-cols-lg-4");
-            divcontainer.classList.add("justify-content-center");
-            data.forEach(async obj => {
-              let image = null;
+            renderEvents(data); // Render events on page load
+            const eventNames = data.map(event => event.eventname);
 
-                try {
-                    const imageResponse = await fetch(`/api/eventimage/${obj.eventname}`, { method: 'GET' });
-                    const imageData = await imageResponse.json();
+            // Update suggestion list
+            updateEventSuggestions(eventNames);
+            // Add an event listener for the search input
+            document.getElementById("eventSearch").addEventListener("input", function () {
+                const searchTerm = this.value.toLowerCase();
+                const filteredEvents = data.filter(event => {
+                    const nameMatch = event.eventname.toLowerCase().includes(searchTerm);
+                    const typeMatch = event.type.toLowerCase().includes(searchTerm);
+                    const priceMatch = event.price.toLowerCase().includes(searchTerm);
 
-                    if (imageData.status === 'success') {
-                        image = 'data:image/jpeg;base64,' + imageData.event.profileImage;
-                    }
-                } catch (error) {
-                    console.error('Error fetching events:', error);
-                }
+                    return nameMatch || typeMatch || priceMatch;
+                });
 
-                const card = `
-                    <div class="col card m-2 justify-content-center" id="${obj.eventname}">
-                      <a href="/booking.html?eventId=${obj.eventname}">
-                        <img class="card-img" src="${image}" style="width: 100%; height: 20rem; object-fit:cover">
-                        <div class="card-body text-start">
-                            <h5 class="card-title">${obj.eventname}</h5>
-                            <p class="badge bg-success p-2">
-                                ${obj.type}
-                            </p>
-                            <p class="card-text">${obj.price}</p>
-                        </div>
-                    </div>
-                `;
-                const cardcontainer = document.createElement("div");
-                cardcontainer.innerHTML = card;
-                divcontainer.append(cardcontainer);
+                renderEvents(filteredEvents);
+                // Update suggestion list based on the filtered events
+                //const filteredEventNames = filteredEvents.map(event => event.eventname);
+                //updateEventSuggestions(filteredEventNames);
             });
-
-            document.getElementById("Event-Dashboard").append(divcontainer);
         })
         .catch(error => {
             console.error('Error fetching events:', error);
@@ -280,3 +262,64 @@ function getCookie(name) {
     }
     return '';
   }
+
+function renderEvents(events) {
+    // Clear previous events
+    document.getElementById("Event-Dashboard").innerHTML = "";
+
+    // Render events
+    const divcontainer = document.createElement("div");
+    divcontainer.classList.add("row");
+    divcontainer.classList.add("row-cols-sm-1");
+    divcontainer.classList.add("row-cols-md-2");
+    divcontainer.classList.add("row-cols-lg-4");
+    divcontainer.classList.add("justify-content-center");
+
+    events.forEach(async obj => {
+        let image = null;
+
+        try {
+            const imageResponse = await fetch(`/api/eventimage/${obj.eventname}`, { method: 'GET' });
+            const imageData = await imageResponse.json();
+
+            if (imageData.status === 'success') {
+                image = 'data:image/jpeg;base64,' + imageData.event.profileImage;
+            }
+        } catch (error) {
+            console.error('Error fetching events:', error);
+        }
+
+        const card = `
+            <div class="col card m-2 justify-content-center" id="${obj.eventname}">
+                <a href="/booking.html?eventId=${obj.eventname}">
+                    <img class="card-img" src="${image}" style="width: 100%; height: 20rem; object-fit:cover">
+                    <div class="card-body text-start">
+                        <h5 class="card-title">${obj.eventname}</h5>
+                        <p class="badge bg-success p-2">
+                            ${obj.type}
+                        </p>
+                        <p class="card-text">${obj.price}</p>
+                    </div>
+                </a>
+            </div>
+        `;
+        const cardcontainer = document.createElement("div");
+        cardcontainer.innerHTML = card;
+        divcontainer.append(cardcontainer);
+    });
+
+    document.getElementById("Event-Dashboard").append(divcontainer);
+}
+
+function updateEventSuggestions(suggestions) {
+    const datalist = document.getElementById("eventSuggestions");
+    // Clear previous suggestions
+    datalist.innerHTML = "";
+
+    // Add new suggestions
+    suggestions.forEach(suggestion => {
+        const option = document.createElement("option");
+        option.value = suggestion;
+        datalist.appendChild(option);
+    });
+}

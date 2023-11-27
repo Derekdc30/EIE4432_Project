@@ -40,9 +40,9 @@
 - [x] User Account Management<br />
       - View user profile<br />
       - Update user profile, including nickname, password, email and profile image<br />
-- [ ] Event Dashboard<br />
-      - (Done) Show the list of events with event details (date/time, title, venue, description, plus cover image)<br />
-      - (Done) At least two events<br />
+- [x] Event Dashboard<br />
+      - Show the list of events with event details (date/time, title, venue, description, plus cover image)<br />
+      - At least two events<br />
       - Filter events by date/time, title, venue, description with search function<br />
       - Real-time event name suggestion while searching (like Google auto-complete predictions)<br />
 - [x] Transaction History<br />

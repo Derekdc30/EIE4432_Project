@@ -89,12 +89,12 @@ function generateEventTabs(events) {
                             <button class="nav-link ${index === 0 ? 'active' : ''}" id="${tabId}" data-bs-toggle="tab" data-bs-target="#${tabPaneId}" type="button" role="tab" aria-controls="${tabPaneId}" aria-selected="${index === 0}">${event.title}</button>
                         </li>`);
 
-            const tabPane = $(`<div class="tab-pane fade ${index === 0 ? 'show active' : ''}" id="${tabPaneId}" role="tabpanel" aria-labelledby="${tabId}">
+            const tabPane = $(`<div class="col-6 tab-pane fade ${index === 0 ? 'show active' : ''}" id="${tabPaneId}" role="tabpanel" aria-labelledby="${tabId}">
                                 <div class="d-flex d-inline p-3">
-                                    <p class="px-3 mx-5 text-black" style="background-color: #ffffff;">Highest Price</p>
-                                    <p class="px-3 mx-5 text-black" style="background-color: #caca21;">Middle Price</p>
-                                    <p class="px-3 mx-5 text-black" style="background-color: #279e27;">Lowest Price</p>
-                                    <p class="px-3 mx-5 text-black" style="background-color: #d33157;">Not available</p>
+                                    <p class="px-3 text-black" style="background-color: #ffffff;">Highest Price</p>
+                                    <p class="px-3 text-black" style="background-color: #caca21;">Middle Price</p>
+                                    <p class="px-3 text-black" style="background-color: #279e27;">Lowest Price</p>
+                                    <p class="px-3 text-black" style="background-color: #d33157;">Not available</p>
                                 </div>
                                 <svg id="svg-text" width="500" height="110">
                                     <rect width="200" height="60" style="fill:rgb(149, 149, 196);stroke-width:3;stroke:rgb(0,0,0)" />
@@ -106,6 +106,29 @@ function generateEventTabs(events) {
             tabList.append(tab);
             tabContent.append(tabPane);
             displaySeatMap(`svg-${index}`,event.seatnumber,event.booked)
+            
+            const editEventForm = $(`<div class="col-6">
+                                    <h3>Edit Event</h3>
+                                    <form id="editEventForm-${index}">
+                                        <div class="mb-3">
+                                            <label for="editEventTitle">Event Title</label>
+                                            <input type="text" class="form-control" id="editEventTitle" value="${event.title}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editEventType">Event Type</label>
+                                            <input type="text" class="form-control" id="editEventType" value="Sample Type">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editEventPrice">Event Price</label>
+                                            <input type="text" class="form-control" id="editEventPrice" value="Sample Price">
+                                        </div>
+                                        <!-- Add more fields as needed -->
+
+                                        <button type="button" class="btn btn-primary">Save Changes</button>
+                                    </form>
+                                </div>`);
+            tabPane.append(editEventForm);
+
         });
          const createEventTab = $(`<li class="nav-item" role="presentation">
                                 <button class="nav-link" id="CreateEvent-tab" data-bs-toggle="tab" data-bs-target="#CreateEvent" type="button" role="tab" aria-controls="CreateEvent" aria-selected="false">Create New Event</button>

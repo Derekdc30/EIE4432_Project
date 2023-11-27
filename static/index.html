@@ -81,12 +81,7 @@
                 color: rgb(159, 159, 159);
             }
             .search-bar input{
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
-            }
-            .search-bar button{
-                border-bottom-right-radius: 10px;
-                border-top-right-radius: 10px;
+                border-radius: 10px;
             }
         </style>
     </head>
@@ -112,8 +107,8 @@
             <!--Search bar at Nav-bar-->
             <div class="search-container text-center search-bar">
                 <form>
-                    <input type="text" placeholder="Search Concert">
-                    <button type="submit"><i class="fa fa-search" style='color:green'></i></button>
+                    <input type="text" id="eventSearch" placeholder="Search Concert" list="eventSuggestions" autocomplete="off">
+                    <datalist id="eventSuggestions"></datalist>
                 </form>
             </div>
             <!--Login/ register button at Nav-bar-->
