@@ -15,12 +15,24 @@ $(document).ready(function () {
             divcontainer.classList.add("row-cols-md-2");
             divcontainer.classList.add("row-cols-lg-4");
             divcontainer.classList.add("justify-content-center");
+            data.forEach(async obj => {
+              let image = null;
 
-            data.forEach(obj => {
+                try {
+                    const imageResponse = await fetch(`/api/eventimage/${obj.eventname}`, { method: 'GET' });
+                    const imageData = await imageResponse.json();
+
+                    if (imageData.status === 'success') {
+                        image = 'data:image/jpeg;base64,' + imageData.event.profileImage;
+                    }
+                } catch (error) {
+                    console.error('Error fetching events:', error);
+                }
+
                 const card = `
                     <div class="col card m-2 justify-content-center" id="${obj.eventname}">
                       <a href="/booking.html?eventId=${obj.eventname}">
-                        <img class="card-img" src="${obj.image}" style="width: 100%; height: 20rem; object-fit:cover">
+                        <img class="card-img" src="${image}" style="width: 100%; height: 20rem; object-fit:cover">
                         <div class="card-body text-start">
                             <h5 class="card-title">${obj.eventname}</h5>
                             <p class="badge bg-success p-2">

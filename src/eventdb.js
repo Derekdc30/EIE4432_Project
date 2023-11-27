@@ -2,11 +2,14 @@ import fs from 'fs/promises';
 import client from './dbclient.js';
 import express from "express";
 import multer from "multer";
+import { GridFSBucket, ObjectId } from 'mongodb';
+import { Readable } from 'stream';
 const route = express.Router();
 const form = multer();
 route.use(express.urlencoded({ extended: true }));
 route.use(express.json());
 const event = client.db('lab5db').collection('event');
+const gridFSBucket = new GridFSBucket(client.db('lab5db'));
 
 async function getEventDetails(eventId) { // this function is to get a event detail
   try {
@@ -31,13 +34,20 @@ async function insertEvent(eventname,type, price, image, seatnumber, date, time,
   try {
     const result = await event.updateOne(
       {eventname},
-      {$set: {type, price, image, seatnumber, date, time,  venue, description, BookedSeat}},
+      {$set: {type, price, seatnumber, date, time,  venue, description, BookedSeat}},
       {upsert:true}
     );
     if (result.upsertedCount === 1) {
       console.log('Added 1 event');
     } else {
       console.log('Added 0 event');
+    }
+    if (image) {
+      const readableStream = Readable.from(image.buffer);
+      const uploadStream = gridFSBucket.openUploadStream(eventname);
+      readableStream.pipe(uploadStream);
+      const fileId = uploadStream.id;
+      await event.updateOne({ eventname }, { $set: { profileImageId: fileId } });
     }
     return true;
   } catch (error) {

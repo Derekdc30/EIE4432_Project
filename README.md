@@ -41,17 +41,17 @@
       - View user profile<br />
       - Update user profile, including nickname, password, email and profile image<br />
 - [ ] Event Dashboard<br />
-      - Show the list of events with event details (date/time, title, venue, description, plus cover image)<br />
-      - At least two events<br />
+      - (Done) Show the list of events with event details (date/time, title, venue, description, plus cover image)<br />
+      - (Done) At least two events<br />
       - Filter events by date/time, title, venue, description with search function<br />
       - Real-time event name suggestion while searching (like Google auto-complete predictions)<br />
 - [x] Transaction History<br />
       - Show the entire transaction history with ticket information and price<br />
 - [ ] Seat Management Page (Admin only)<br />
       - Modify SVG-based seat maps for all venues<br />
-      - At least two categories of price for all seats, e.g. economy price and first-class price for flight tickets.<br />
+      - (Done) At least two categories of price for all seats, e.g. economy price and first-class price for flight tickets.<br />
 - [ ] Event Management Page (Admin only)<br />
-      - Create new events (add cover image on top of date/time, title, venue, and description)<br />
+      - (Done) Create new events (add cover image on top of date/time, title, venue, and description)<br />
       - Filter events by date/time, title, venue, description with search function<br />
       - Modify existing events (date/time, title, venue, description, cover image)<br />
       - List all users’ transaction history with ticket information and price for each event<br />

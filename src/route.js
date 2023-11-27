@@ -235,7 +235,7 @@ route.post('/pay/AE',form.none(), async (req, res)=>{
     message: 'Payment successful',
   });
 });
-route.post('/newevents', form.none(), async (req, res) => {
+route.post('/newevents', form.single('eventImage'), async (req, res) => {
   if(await event_exist(req.body.eventname))
   {
     return res.status(400).json({
@@ -243,7 +243,7 @@ route.post('/newevents', form.none(), async (req, res) => {
       message:'Event exist',
     });
   }
-  if(await insertEvent(req.body.eventname, req.body.eventType, req.body.price, req.body.eventImage, parseInt(req.body.eventSeatNumber,10), req.body.eventDate, req.body.eventTime, req.body.eventVenue, req.body.eventDescription, req.body.BookedSeat)){
+  if(await insertEvent(req.body.eventname, req.body.eventType, req.body.price, req.file, parseInt(req.body.eventSeatNumber,10), req.body.eventDate, req.body.eventTime, req.body.eventVenue, req.body.eventDescription, req.body.BookedSeat)){
     return res.status(400).json({
       status:'success',
       event:{

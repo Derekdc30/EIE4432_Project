@@ -17,11 +17,11 @@ $(document).ready(function () {
         var eventPriceHigh = $('#eventPriceHigh').val();
         var eventPriceMiddle = $('#eventPriceMiddle').val();
         var eventPriceLow = $('#eventPriceLow').val();
-        var eventImage = $('#eventImage').val();
         var eventSeatNumber = $('#eventSeatNumber').val();
         var eventDateTime = $('#eventDateTime').val();
         var eventVenue = $('#eventVenue').val();
         var eventDescription = $('#eventDescription').val();
+        var eventImage = document.querySelector('input[name="eventImage"]').files[0]
         var datetimeArray = eventDateTime.split('T');
         if(!eventname){
             alert("Event name cannot be empty");
@@ -138,7 +138,7 @@ function generateEventTabs(events) {
                                             <!-- Right column -->
                                             <div class="mb-2">
                                                 <label for="User_Image">Event picture</label>
-                                                <input type="file" class="form-control" name="profileImage" id="User_Image" accept="image/*">
+                                                <input type="file" class="form-control" name="eventImage" id="event_Image" accept="image/*">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="eventType" class="form-label">Type</label>
