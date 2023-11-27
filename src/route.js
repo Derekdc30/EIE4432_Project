@@ -258,7 +258,6 @@ route.post('/newevents', form.none(), async (req, res) => {
 });
 route.post('/loginwithtoken', form.none(), async (req, res) => {
   const token = req.body.token;
-  console.log("route: "+req.body.token);
   const user = await validate_token(token);
   
   if (user) {

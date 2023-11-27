@@ -154,7 +154,6 @@ async function update_event(eventName, bookedSeats) {
 async function validate_token(token) {
   try {
     const tempuser = await tokens.findOne({ token: token });
-    console.log("db temp: "+ tempuser);
     if (tempuser) {
       const user = await users.findOne({ username: tempuser.username });
       if (user) {
