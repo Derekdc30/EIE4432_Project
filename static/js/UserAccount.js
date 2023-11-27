@@ -3,6 +3,7 @@ var user;
 var isUpdateInProgress = false;
 $(document).ready(function () {
     getUserDataAndImage();
+    getUserTransactionHistory();
 });
 
 // Function to get user data from the server
@@ -158,3 +159,60 @@ function saveChanges() {
           alert("Error: ",error);
       })
 }
+
+// Function to get and display user transaction history
+function getUserTransactionHistory() {
+    // Make a fetch request to your '/transactionHistory' route
+    fetch('/auth/transactionHistory')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Display the transaction history
+                displayTransactionHistory(data.transactions);
+            } else {
+                console.error('Error fetching transaction history:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching transaction history:', error);
+        });
+}
+
+// Function to display user transaction history
+function displayTransactionHistory(transactions) {
+    // Check if there are transactions to display
+    if (transactions && transactions.length > 0) {
+        // Construct HTML content with transaction history
+        var transactionHistoryHTML =
+            '<div class="m-3">' +
+                '<h5 class="mb-3">Transaction History</h5>';
+
+        transactions.forEach(transaction => {
+            transactionHistoryHTML +=
+                '<div class="card mb-3">' +
+                    '<div class="card-body">' +
+                        '<p><strong>Event Name:</strong> ' + transaction.eventname + '</p>' +
+                        '<p><strong>Date:</strong> ' + transaction.date + '</p>' +
+                        '<p><strong>Price:</strong> ' + transaction.price + '</p>' +
+                        '<p><strong>Seats:</strong> ' + transaction.seat + '</p>' +
+                    '</div>' +
+                '</div>';
+        });
+
+        transactionHistoryHTML += '</div>';
+
+        // Replace the content of the 'History' tab with the transaction history
+        $('#History').html(transactionHistoryHTML);
+    } else {
+        // If no transactions are found, display a message
+        var noTransactionsHTML =
+            '<div class="m-3">' +
+                '<p>No transactions found for the user.</p>' +
+            '</div>';
+
+        // Replace the content of the 'History' tab with the message
+        $('#History').html(noTransactionsHTML);
+    }
+}
+
+

@@ -10,6 +10,7 @@ var venue="";
 var updatedseat=[];
 var date="";
 var time="";
+var username="";
 $(document).ready(async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const eventId = urlParams.get('eventId');
@@ -57,7 +58,10 @@ $(document).ready(async function () {
         formdata.append('Master_Cardholder', Master_Cardholder);
         formdata.append('Master_Security', Master_Security);
         formdata.append('seatarr', updatedseat);
+        formdata.append('booked', selected.join(", "));
         formdata.append('eventname', eventname);
+        formdata.append('price', price);
+        formdata.append('username', username);
         fetch('/auth/pay/visa',{
             method: 'POST',
             body: formdata
@@ -92,7 +96,10 @@ $(document).ready(async function () {
         var formdata = new FormData();
         formdata.append('Paypal_email', Paypal_email);
         formdata.append('seatarr', updatedseat);
+        formdata.append('booked', selected.join(", "));
         formdata.append('eventname', eventname);
+        formdata.append('price', price);
+        formdata.append('username', username);
         fetch('/auth/pay/paypal',{
             method: 'POST',
             body: formdata
@@ -135,7 +142,10 @@ $(document).ready(async function () {
         formdata.append('Year', Year);
         formdata.append('AE_Security', AE_Security);
         formdata.append('seatarr', updatedseat);
+        formdata.append('booked', selected.join(", "));
         formdata.append('eventname', eventname);
+        formdata.append('price', price);
+        formdata.append('username', username);
         fetch('/auth/pay/AE',{
             method: 'POST',
             body: formdata
@@ -228,6 +238,7 @@ function handleClick(event) {
         }).then(response => response.json())
         .then(data =>{
             if(data.status == 'success'){
+                username= data.user.username;
                 var rectID = event.target.getAttribute("id");
                 selected.push(rectID);
                 $("#Seat_Reset").removeClass("d-none");
@@ -289,7 +300,7 @@ function generateReceipt(concertDetails) {
             <p>Date: ${concertDetails.date}</p>
             <p>Time: ${concertDetails.time}</p>
             <p>Venue: ${concertDetails.venue}</p>
-            <p>Seats: ${seatarr.join(", ")}</p>
+            <p>Seats: ${selected.join(", ")}</p>
             <p>Total Price: $${totalprice}</p>
             <img src="barcode.png" alt="Barcode" width="150px" height="150px">
             <p class="disclaimer">This is your electronic ticket. Please present it at the entrance for admission.</p>

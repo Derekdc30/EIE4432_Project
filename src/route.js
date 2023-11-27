@@ -10,7 +10,9 @@ import {
   update_token,
   validate_token,
   forgotPassword,
-  gridFSBucket
+  gridFSBucket,
+  update_transaction,
+  fetch_transaction
 } from './userdb.js';
 import { 
   insertEvent,
@@ -180,6 +182,8 @@ route.post('/pay/visa', form.none(),async (req, res) => {
     });
   }
   await update_event(req.body.eventname,req.body.seatarr);
+  const currentDate = new Date();
+  await update_transaction(req.body.username,currentDate,req.body.eventname,req.body.price,req.body.booked);
   return res.status(400).json({
     status: 'success',
     message: 'Payment successful',
@@ -202,6 +206,8 @@ route.post('/pay/paypal',form.none(), async (req, res)=>{
     });
   }
   await update_event(req.body.eventname,req.body.seatarr);
+    const currentDate = new Date();
+  await update_transaction(req.body.username,currentDate,req.body.eventname,req.body.price,req.body.booked);
   return res.status(400).json({
     status: 'success',
     message: 'Payment successful',
@@ -219,6 +225,8 @@ route.post('/pay/AE',form.none(), async (req, res)=>{
     });
   }
   await update_event(req.body.eventname,req.body.seatarr);
+  const currentDate = new Date();
+  await update_transaction(req.body.username,currentDate,req.body.eventname,req.body.price,req.body.booked);
   return res.status(400).json({
     status: 'success',
     message: 'Payment successful',
@@ -309,4 +317,34 @@ route.post('/updateinfo',form.single('profileImage'), async (req, res)=>{
     });
   }
 });
+route.get('/transactionHistory', form.single('profileImage'), async (req, res) => {
+  if (req.session.logged) {
+    try {
+      const transactions = await fetch_transaction(req.session.username);
+      if (transactions && transactions.length > 0) {
+        res.json({
+          status: 'success',
+          transactions: transactions,
+        });
+      } else {
+        res.json({
+          status: 'success',
+          message: 'No transactions found for the user.',
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+      res.status(500).json({
+        status: 'failed',
+        message: 'Error fetching transactions from the database',
+      });
+    }
+  } else {
+    res.status(401).json({
+      status: 'failed',
+      message: 'Unauthorized',
+    });
+  }
+});
+
 export default route;

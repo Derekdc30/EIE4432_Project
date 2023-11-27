@@ -6,6 +6,7 @@ import { Readable } from 'stream';
 const users = client.db('lab5db').collection('user');
 const event = client.db('lab5db').collection('event');
 const tokens = client.db('lab5db').collection('token');
+const transaction = client.db('lab5db').collection('transaction');
 const gridFSBucket = new GridFSBucket(client.db('lab5db'));
 async function init_db() {
   try {
@@ -28,6 +29,13 @@ async function init_db() {
       const tokenData = await fs.readFile('token.json', 'utf-8');
       const tokenDataArray = JSON.parse(tokenData);
       const result = await tokens.insertMany(tokenDataArray);
+      console.log(`Added ${result.insertedCount} token(s) to the database`);
+    }
+    const existingTransaction = await transaction.findOne();
+    if (!existingTransaction) {
+      const transactionData = await fs.readFile('token.json', 'utf-8');
+      const transactionDataArray = JSON.parse(transactionData);
+      const result = await transaction.insertMany(transactionDataArray);
       console.log(`Added ${result.insertedCount} token(s) to the database`);
     }
   } catch (err) {
@@ -220,6 +228,33 @@ async function forgotPassword(username, birthday, nickname, newPassword) {
     return { status: 'error', message: 'An error occurred during password reset' };
   }
 }
+async function update_transaction(username,date,eventname,price,seat){
+  try {
+    const result = await transaction.insertOne(
+      { username },
+      { $set: { eventname, date, price, seat } },
+    );
+
+    if (result.insertedCount === 1) {
+      console.log('Added 1 transaction');
+    } else {
+      console.log('Added 0 transaction');
+    }
+    return true;
+  } catch (err) {
+    console.error('Unable to update the database:', err);
+    return false;
+  }
+}
+async function fetch_transaction(username) {
+  try {
+    const transactions = await transaction.find({ username: username }).toArray();
+    return transactions;
+  } catch (err) {
+    console.error('Unable to fetch transactions from the database:', err);
+    return null;
+  }
+}
 
 init_db().catch(console.dir);
 export {
@@ -235,5 +270,7 @@ export {
   update_token,
   validate_token,
   forgotPassword,
-  gridFSBucket
+  gridFSBucket,
+  update_transaction,
+  fetch_transaction
 };
