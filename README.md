@@ -45,7 +45,7 @@
       - At least two events<br />
       - Filter events by date/time, title, venue, description with search function<br />
       - Real-time event name suggestion while searching (like Google auto-complete predictions)<br />
-- [ ] Transaction History<br />
+- [x] Transaction History<br />
       - Show the entire transaction history with ticket information and price<br />
 - [ ] Seat Management Page (Admin only)<br />
       - Modify SVG-based seat maps for all venues<br />
