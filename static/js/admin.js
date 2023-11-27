@@ -137,8 +137,8 @@ function generateEventTabs(events) {
                                         <div class="col-6">
                                             <!-- Right column -->
                                             <div class="mb-2">
-                                                <label for="eventImage" class="form-label">Image URL</label>
-                                                <input type="text" class="form-control" id="eventImage" required>
+                                                <label for="User_Image">Event picture</label>
+                                                <input type="file" class="form-control" name="profileImage" id="User_Image" accept="image/*">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="eventType" class="form-label">Type</label>
