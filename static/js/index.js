@@ -358,22 +358,17 @@ function updateEventSuggestions(suggestions) {
 
 function filterEvents(events) {
     const filterDate = $("#filterDate").val();
+    const filterTime = $('#filterTime').val();
     const filterTitle = $("#filterTitle").val().toLowerCase();
     const filterVenue = $("#filterVenue").val().toLowerCase();
     const filterDescription = $("#filterDescription").val().toLowerCase();
 
     return events.filter(event => {
-        // Check if the event date is a valid date
-        const eventDate = new Date(event.date);
-        if (isNaN(eventDate)) {
+        // Filter by date/time
+        if (filterDate && !event.date.includes(filterDate)) {
             return false;
         }
-
-        // Convert valid event date to ISO string
-        const eventDateString = eventDate.toISOString().split('T')[0];
-
-        // Filter by date/time
-        if (filterDate && eventDateString !== filterDate) {
+        if (filterTime && !event.time.includes(filterTime)) {
             return false;
         }
 

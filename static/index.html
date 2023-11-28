@@ -101,9 +101,13 @@
             <!-- Add a collapsed dropdown menu for the filter options -->
             <div class="collapse" id="filterMenu">
                 <form class="d-flex">
-                    <div class="input-group">
-                        <label for="filterDate" class="visually-hidden">Filter by Date/Time</label>
-                        <input type="datetime-local" class="form-control" id="filterDate" placeholder="Filter by Date/Time">
+                        <div class="col-md-3">
+                        <label for="filterDate" class="form-label">Filter Date</label>
+                        <input type="date" class="form-control" id="filterDate">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="filterTime" class="form-label">Filter Time</label>
+                        <input type="time" class="form-control" id="filterTime">
                     </div>
                     <div class="input-group">
                         <label for="filterTitle" class="visually-hidden">Filter by Title</label>
