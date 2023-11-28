@@ -1,6 +1,7 @@
 import express from "express";
 import multer from "multer";
 import { ObjectId } from 'mongodb';
+import { Readable } from 'stream';
 import {
   validate_user,
   update_user,
@@ -17,7 +18,9 @@ import {
 import { 
   insertEvent,
   event_exist,
-  fetch_event 
+  fetch_event,
+  getEventDetails,
+  getAllEvents
 } from "./eventdb.js";
 
 const route = express.Router();
@@ -348,5 +351,97 @@ route.get('/transactionHistory', form.single('profileImage'), async (req, res) =
     });
   }
 });
+route.get('/api/events/:eventId', async (req, res) => {
+  const eventId = req.params.eventId;
+  // Retrieve event details from the database based on eventId
+  const eventDetails = await getEventDetails(eventId);
+  res.json(eventDetails);
+});
+route.get('/api/events', async (req, res) => {
+  try {
+    // Retrieve a list of all events from the database
+    const eventsList = await getAllEvents();
+    res.json(eventsList);
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+route.get('/api/eventimage/:eventId',async (req, res)=>{
+   const eventId = req.params.eventId;
+  const event = await getEventDetails(eventId);
+  if (event.profileImageId) {
+        try {
+          // Retrieve the image from GridFS using the profileImageId
+          const imageStream = gridFSBucket.openDownloadStream(new ObjectId(event.profileImageId));
+          const chunks = [];
+          
+          imageStream.on('data', (chunk) => {
+            chunks.push(chunk);
+          });
 
+          imageStream.on('end', () => {
+            // Concatenate the chunks into a Buffer
+            const buffer = Buffer.concat(chunks);
+            // Convert the Buffer to base64
+            const base64Image = buffer.toString('base64');
+
+            // Add the base64Image to the user object
+            event.profileImage = base64Image;
+
+            // Send the user data with the profileImage field to the client
+            res.json({
+              status: 'success',
+              event,
+            });
+          });
+        } catch (error) {
+          console.error('Error fetching image from GridFS:', error);
+          res.status(500).json({
+            status: 'failed',
+            message: 'Error fetching image from GridFS',
+          });
+        }
+      }
+});
+route.post('/updateevent/:eventId', form.single('eventImage'), async (req, res) => {
+  const eventId = req.params.eventId;
+
+  // Fetch existing event details
+  const existingEvent = await fetch_event(eventId);
+
+  if (!existingEvent) {
+    return res.status(404).json({
+      status: 'failed',
+      message: 'Event not found',
+    });
+  }
+
+  // Update event details
+  const updatedEventData = {
+    eventType: req.body.eventType || existingEvent.eventType,
+    price: req.body.price || existingEvent.price,
+    seat: req.body.seatnumber || existingEvent.seatnumber,
+    eventDate: req.body.eventDate || existingEvent.eventDate,
+    eventTime: req.body.eventTime || existingEvent.eventTime,
+    eventVenue: req.body.eventVenue || existingEvent.eventVenue,
+    eventDescription: req.body.eventDescription || existingEvent.eventDescription,
+    bookedSeat: req.body.bookedSeat || existingEvent.bookedSeat,
+  };
+
+  // Update the event details in the database
+  const updateResult = await update_event(eventId, updatedEventData.eventType,updatedEventData.price,req.file,updatedEventData.seat,updatedEventData.eventDate,updatedEventData.eventTime,updatedEventData.eventVenue,updatedEventData.eventDescription,updatedEventData.bookedSeat);
+
+  if (updateResult) {
+    return res.status(200).json({
+      status: 'success',
+      message: 'Event details updated successfully',
+    });
+  } else {
+    return res.status(500).json({
+      status: 'failed',
+      message: 'Error updating event details',
+    });
+  }
+});
 export default route;

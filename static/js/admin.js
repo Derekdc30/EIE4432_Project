@@ -1,10 +1,21 @@
 $(document).ready(function () {
   const eventData = []
-  fetch('/api/events')  // Assuming this endpoint provides a list of events
+  fetch('/auth/api/events')  // Assuming this endpoint provides a list of events
         .then(response => response.json())
         .then(data => {
           data.forEach(obj =>{
-            eventData.push({title:`${obj.eventname}`,seatnumber: `${obj.seatnumber}`, booked:`${obj.BookedSeat}`})
+            eventData.push({
+                title:`${obj.eventname}`,
+                seatnumber: `${obj.seatnumber}`, 
+                booked:`${obj.BookedSeat}`,
+                description:`${obj.description}`,
+                price:`${obj.price}`,
+                date:`${obj.date}`,
+                time:`${obj.time}`,
+                type:`${obj.type}`,
+                venue:`${obj.venue}`,
+
+            })
           })
           generateEventTabs(eventData);
         })
@@ -76,6 +87,72 @@ $(document).ready(function () {
             });
         }
     });
+
+    $(document).on('click', '#editEvent', function () {
+        const eventId = $(this).data('event-id');
+        console.log('Event ID:', eventId);
+        var eventname = $('#eventTitle').val();
+        var eventType = $('#eventType').val();
+        var eventPriceHigh = $('#eventPriceHigh').val();
+        var eventPriceMiddle = $('#eventPriceMiddle').val();
+        var eventPriceLow = $('#eventPriceLow').val();
+        var eventSeatNumber = $('#eventSeatNumber').val();
+        var eventDateTime = $('#eventDateTime').val();
+        var eventVenue = $('#eventVenue').val();
+        var eventDescription = $('#eventDescription').val();
+        var eventImage = document.querySelector('input[name="eventImage"]').files[0]
+        var datetimeArray = eventDateTime.split('T');
+        console.log(eventSeatNumber);
+        if(!eventname){
+            alert("Event name cannot be empty");
+        }
+        else if(!eventType){
+            alert("Event type cannot be empty");
+        }
+        else if(!eventPriceHigh || !eventPriceMiddle || !eventPriceLow){
+            alert("Price cannot be empty");
+        }
+        else if (!eventSeatNumber){
+            alert("Seat number cannot be empty");
+        }
+        else if (!eventDateTime){
+            alert("Event Date and Time cannot be empty");
+        }
+        else if (!eventVenue){
+            alert("Event Venue cannot be empty");
+        }
+        else if (!eventDescription){
+            alert("Event Description cannot be empty");
+        }
+        else{
+            var formdata = new FormData();
+            formdata.append('eventname', eventname);
+            formdata.append('eventType', eventType);
+            formdata.append('price', "$"+eventPriceLow+" $"+eventPriceMiddle+" $"+eventPriceHigh);
+            formdata.append('eventImage', eventImage);
+            formdata.append('eventSeatNumber', parseInt(eventSeatNumber,10));
+            formdata.append('eventDate', datetimeArray[0]);
+            formdata.append('eventTime', datetimeArray[1]);
+            formdata.append('eventVenue', eventVenue);
+            formdata.append('eventDescription', eventDescription);
+            formdata.append('BookedSeat', []);
+            fetch(`/auth/updateevent/${eventId}`,{
+                method:'POST',
+                body:formdata
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status == 'success'){
+                    alert("Edit success")
+                } else {
+                alert(data.message || 'Unknown error');
+                }
+            })
+            .catch(error => {
+                alert(error);
+            });
+        }
+    });
 });
 function generateEventTabs(events) {
         const tabList = $('#myTab');
@@ -86,48 +163,85 @@ function generateEventTabs(events) {
             const tabId = `tab-${index}`;
             const tabPaneId = `tabPane-${index}`;
             const tab = $(`<li class="nav-item" role="presentation">
-                            <button class="nav-link ${index === 0 ? 'active' : ''}" id="${tabId}" data-bs-toggle="tab" data-bs-target="#${tabPaneId}" type="button" role="tab" aria-controls="${tabPaneId}" aria-selected="${index === 0}">${event.title}</button>
-                        </li>`);
+                    <button class="nav-link ${index === 0 ? 'active' : ''}" id="${tabId}" data-bs-toggle="tab" data-bs-target="#${tabPaneId}" type="button" role="tab" aria-controls="${tabPaneId}" aria-selected="${index === 0}" data-event-id="${event.id}">${event.title}</button>
+                </li>`);
 
-            const tabPane = $(`<div class="col-6 tab-pane fade ${index === 0 ? 'show active' : ''}" id="${tabPaneId}" role="tabpanel" aria-labelledby="${tabId}">
-                                <div class="d-flex d-inline p-3">
-                                    <p class="px-3 text-black" style="background-color: #ffffff;">Highest Price</p>
-                                    <p class="px-3 text-black" style="background-color: #caca21;">Middle Price</p>
-                                    <p class="px-3 text-black" style="background-color: #279e27;">Lowest Price</p>
-                                    <p class="px-3 text-black" style="background-color: #d33157;">Not available</p>
+
+             const tabPane = $(`<div class="tab-pane fade ${index === 0 ? 'show active' : ''}" id="${tabPaneId}" role="tabpanel" aria-labelledby="${tabId}">
+                            <div class="row">
+                                <div class="col-6">
+                                    <!-- Left column - Seat Map -->
+                                    <div class="d-flex d-inline p-3">
+                                        <p class="px-3 text-black" style="background-color: #ffffff;">Highest Price</p>
+                                        <p class="px-3 text-black" style="background-color: #caca21;">Middle Price</p>
+                                        <p class="px-3 text-black" style="background-color: #279e27;">Lowest Price</p>
+                                        <p class="px-3 text-black" style="background-color: #d33157;">Not available</p>
+                                    </div>
+                                    <svg id="svg-text" width="200" height="60">
+                                        <rect width="200" height="60" style="fill:rgb(149, 149, 196);stroke-width:3;stroke:rgb(0,0,0)" />
+                                        <text x="60" y="40" class="h3">Stage</text>
+                                    </svg>
+                                    <svg id="svg-${index}" width="500" height="${event.seatnumber * 5}" xmlns="http://www.w3.org/2000/svg"></svg>
                                 </div>
-                                <svg id="svg-text" width="500" height="110">
-                                    <rect width="200" height="60" style="fill:rgb(149, 149, 196);stroke-width:3;stroke:rgb(0,0,0)" />
-                                    <text x="60" y="40" class="h3">Stage</text>
-                                </svg>
-                                <svg id="svg-${index}" width="1000" height="${event.seatnumber*5}" xmlns="http://www.w3.org/2000/svg"></svg>
-                             </div>`);
+                                <div class="col-6">
+                                    <!-- Right column - Edit Event Form -->
+                                    <form id="edit${event.title}" class="row" action="/auth/updateevent/${event.title}" method="post">
+                                        <!-- Populate form fields with event data -->
+                                        <div class="col-12">
+                                        
+                                            <div class="mb-3">
+                                                <label for="eventDateTime" class="form-label">Date/Time</label>
+                                                <input type="datetime-local" class="form-control" id="eventDateTime" value="${event.date}T${event.time}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="eventTitle" class="form-label">Title</label>
+                                                <input type="text" class="form-control" id="eventTitle" value="${event.title}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="eventPriceHigh" class="form-label">Highest Price</label>
+                                                <input type="text" class="form-control" id="eventPriceHigh" value="${event.price.split(' ').map(price => parseInt(price.slice(1), 10))[2]}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="eventPriceMiddle" class="form-label">Middle Price</label>
+                                                <input type="text" class="form-control" id="eventPriceMiddle" value="${event.price.split(' ').map(price => parseInt(price.slice(1), 10))[1]}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="eventPriceLow" class="form-label">Lowest Price</label>
+                                                <input type="text" class="form-control" id="eventPriceLow" value="${event.price.split(' ').map(price => parseInt(price.slice(1), 10))[0]}" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="User_Image">Event picture</label>
+                                                <input type="file" class="form-control" name="eventImage" id="event_Image" accept="image/*">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="eventType" class="form-label">Type</label>
+                                                <input type="text" class="form-control" id="eventType" value="${event.type}" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="eventSeatNumber" class="form-label">Seat Number</label>
+                                                <input type="number" class="form-control" id="eventSeatNumber" value="${event.seatnumber}" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="eventVenue" class="form-label">Venue</label>
+                                                <input type="text" class="form-control" id="eventVenue" value="${event.venue}" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="eventDescription" class="form-label">Description</label>
+                                                <textarea class="form-control" id="eventDescription" rows="3" required>${event.description}</textarea>
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-primary" id="editEvent" formmethod="post" data-event-id="${event.title}">Edit Event</button>
 
-            tabList.append(tab);
-            tabContent.append(tabPane);
-            displaySeatMap(`svg-${index}`,event.seatnumber,event.booked)
-            
-            const editEventForm = $(`<div class="col-6">
-                                    <h3>Edit Event</h3>
-                                    <form id="editEventForm-${index}">
-                                        <div class="mb-3">
-                                            <label for="editEventTitle">Event Title</label>
-                                            <input type="text" class="form-control" id="editEventTitle" value="${event.title}">
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="editEventType">Event Type</label>
-                                            <input type="text" class="form-control" id="editEventType" value="Sample Type">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="editEventPrice">Event Price</label>
-                                            <input type="text" class="form-control" id="editEventPrice" value="Sample Price">
-                                        </div>
-                                        <!-- Add more fields as needed -->
-
-                                        <button type="button" class="btn btn-primary">Save Changes</button>
                                     </form>
-                                </div>`);
-            tabPane.append(editEventForm);
+                                </div>
+                            </div>
+                        </div>`);
+
+        tabList.append(tab);
+        tabContent.append(tabPane);
+        displaySeatMap(`svg-${index}`, event.seatnumber, event.booked);
 
         });
          const createEventTab = $(`<li class="nav-item" role="presentation">

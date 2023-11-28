@@ -265,7 +265,7 @@ function handleClick(event) {
 
 }
 function getdb(eventId) {
-    fetch(`/api/events/${eventId}`)
+    fetch(`/auth/api/events/${eventId}`)
         .then(response => response.json())
         .then(eventDetails => {
             if(!eventDetails.BookedSeat){

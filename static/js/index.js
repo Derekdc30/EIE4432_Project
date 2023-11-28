@@ -6,7 +6,7 @@ $(document).ready(function () {
         e.preventDefault();
         $(this).tab('show');
       });
-    fetch('/api/events')
+    fetch('/auth/api/events')
         .then(response => response.json())
         .then(data => {
             renderEvents(data); // Render events on page load
@@ -213,6 +213,38 @@ $(document).ready(function () {
             console.error("Error: ",error);
         })
     });
+
+  $("#filterEvents").click(function () {
+      fetch('/auth/api/events')
+          .then(response => response.json())
+          .then(data => {
+              const filteredEvents = filterEvents(data);
+              renderEvents(filteredEvents);
+          })
+          .catch(error => {
+              console.error('Error fetching events:', error);
+          });
+  });
+
+  document.getElementById("eventSearch").addEventListener("input", function () {
+    const searchTerm = this.value.toLowerCase();
+    fetch('/auth/api/events')
+        .then(response => response.json())
+        .then(data => {
+            const filteredEvents = filterEvents(data.filter(event => {
+                // Allow partial search in event name, type, and price
+                return (
+                    event.eventname.toLowerCase().includes(searchTerm) ||
+                    event.type.toLowerCase().includes(searchTerm) ||
+                    event.price.toLowerCase().includes(searchTerm)
+                );
+            }));
+            renderEvents(filteredEvents);
+        })
+        .catch(error => {
+            console.error('Error fetching events:', error);
+        });
+});
 });
 function checkUserStatus() {
   fetch('/auth/me')
@@ -279,7 +311,7 @@ function renderEvents(events) {
         let image = null;
 
         try {
-            const imageResponse = await fetch(`/api/eventimage/${obj.eventname}`, { method: 'GET' });
+            const imageResponse = await fetch(`/auth/api/eventimage/${obj.eventname}`, { method: 'GET' });
             const imageData = await imageResponse.json();
 
             if (imageData.status === 'success') {
@@ -321,5 +353,60 @@ function updateEventSuggestions(suggestions) {
         const option = document.createElement("option");
         option.value = suggestion;
         datalist.appendChild(option);
+    });
+}
+
+function filterEvents(events) {
+    const filterDate = $("#filterDate").val();
+    const filterTitle = $("#filterTitle").val().toLowerCase();
+    const filterVenue = $("#filterVenue").val().toLowerCase();
+    const filterDescription = $("#filterDescription").val().toLowerCase();
+
+    return events.filter(event => {
+        // Check if the event date is a valid date
+        const eventDate = new Date(event.date);
+        if (isNaN(eventDate)) {
+            return false;
+        }
+
+        // Convert valid event date to ISO string
+        const eventDateString = eventDate.toISOString().split('T')[0];
+
+        // Filter by date/time
+        if (filterDate && eventDateString !== filterDate) {
+            return false;
+        }
+
+        // Filter by title
+        const eventName = event.eventname.toLowerCase();
+        if (filterTitle && !eventName.includes(filterTitle)) {
+            return false;
+        }
+
+        // Filter by venue
+        const eventVenue = event.venue.toLowerCase();
+        if (filterVenue && !eventVenue.includes(filterVenue)) {
+            return false;
+        }
+
+        // Filter by description
+        const eventDescription = event.description.toLowerCase();
+        if (filterDescription && !eventDescription.includes(filterDescription)) {
+            return false;
+        }
+
+        // Filter by type
+        const eventType = event.type.toLowerCase();
+        if (filterDescription && !eventType.includes(filterDescription)) {
+            return false;
+        }
+
+        // Filter by price
+        const eventPrice = event.price.toLowerCase();
+        if (filterDescription && !eventPrice.includes(filterDescription)) {
+            return false;
+        }
+
+        return true;
     });
 }
