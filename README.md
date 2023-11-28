@@ -47,11 +47,11 @@
       - Real-time event name suggestion while searching (like Google auto-complete predictions)<br />
 - [x] Transaction History<br />
       - Show the entire transaction history with ticket information and price<br />
-- [ ] Seat Management Page (Admin only)<br />
+- [x] Seat Management Page (Admin only)<br />
       - Modify SVG-based seat maps for all venues<br />
-      - (Done) At least two categories of price for all seats, e.g. economy price and first-class price for flight tickets.<br />
-- [ ] Event Management Page (Admin only)<br />
-      - (Done) Create new events (add cover image on top of date/time, title, venue, and description)<br />
+      - At least two categories of price for all seats, e.g. economy price and first-class price for flight tickets.<br />
+- [x] Event Management Page (Admin only)<br />
+      - Create new events (add cover image on top of date/time, title, venue, and description)<br />
       - Filter events by date/time, title, venue, description with search function<br />
       - Modify existing events (date/time, title, venue, description, cover image)<br />
       - List all users’ transaction history with ticket information and price for each event<br />

@@ -13,13 +13,13 @@ import {
   forgotPassword,
   gridFSBucket,
   update_transaction,
-  fetch_transaction
+  fetch_transaction,
+  all_transaction
 } from './userdb.js';
 import { 
   insertEvent,
   event_exist,
   fetch_event,
-  getEventDetails,
   getAllEvents
 } from "./eventdb.js";
 
@@ -246,7 +246,7 @@ route.post('/newevents', form.single('eventImage'), async (req, res) => {
       message:'Event exist',
     });
   }
-  if(await insertEvent(req.body.eventname, req.body.eventType, req.body.price, req.file, parseInt(req.body.eventSeatNumber,10), req.body.eventDate, req.body.eventTime, req.body.eventVenue, req.body.eventDescription, req.body.BookedSeat)){
+  if(await insertEvent(req.body.eventname, req.body.eventType, req.body.price, req.file, parseInt(req.body.eventSeatNumber,10), req.body.eventDate, req.body.eventTime, req.body.eventVenue, req.body.eventDescription, req.body.BookedSeat,generateuid())){
     return res.status(400).json({
       status:'success',
       event:{
@@ -292,6 +292,16 @@ const generateToken = () => {
   }
   return token;
 };
+const generateuid = () => {
+  const tokenLength = 16;
+  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let token = '';
+  for (let i = 0; i < tokenLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    token += characters.charAt(randomIndex);
+  }
+  return token;
+};
 route.post('/forgot',form.none(), async (req, res)=>{
   if(await forgotPassword(req.body.userID, req.body.birthday, req.body.nickname, req.body.newPassword)){
     res.status(500).json({
@@ -322,7 +332,7 @@ route.post('/updateinfo',form.single('profileImage'), async (req, res)=>{
     });
   }
 });
-route.get('/transactionHistory', form.single('profileImage'), async (req, res) => {
+route.get('/transactionHistory', form.none(), async (req, res) => {
   if (req.session.logged) {
     try {
       const transactions = await fetch_transaction(req.session.username);
@@ -354,7 +364,7 @@ route.get('/transactionHistory', form.single('profileImage'), async (req, res) =
 route.get('/api/events/:eventId', async (req, res) => {
   const eventId = req.params.eventId;
   // Retrieve event details from the database based on eventId
-  const eventDetails = await getEventDetails(eventId);
+  const eventDetails = await fetch_event(eventId);
   res.json(eventDetails);
 });
 route.get('/api/events', async (req, res) => {
@@ -369,7 +379,7 @@ route.get('/api/events', async (req, res) => {
 });
 route.get('/api/eventimage/:eventId',async (req, res)=>{
    const eventId = req.params.eventId;
-  const event = await getEventDetails(eventId);
+  const event = await fetch_event(eventId);
   if (event.profileImageId) {
         try {
           // Retrieve the image from GridFS using the profileImageId
@@ -404,9 +414,8 @@ route.get('/api/eventimage/:eventId',async (req, res)=>{
         }
       }
 });
-route.post('/updateevent/:eventId', form.single('eventImage'), async (req, res) => {
+route.post('/api/updateevent/:eventId', form.single('eventImage'), async (req, res) => {
   const eventId = req.params.eventId;
-
   // Fetch existing event details
   const existingEvent = await fetch_event(eventId);
 
@@ -419,18 +428,18 @@ route.post('/updateevent/:eventId', form.single('eventImage'), async (req, res) 
 
   // Update event details
   const updatedEventData = {
-    eventType: req.body.eventType || existingEvent.eventType,
-    price: req.body.price || existingEvent.price,
-    seat: req.body.seatnumber || existingEvent.seatnumber,
-    eventDate: req.body.eventDate || existingEvent.eventDate,
-    eventTime: req.body.eventTime || existingEvent.eventTime,
-    eventVenue: req.body.eventVenue || existingEvent.eventVenue,
-    eventDescription: req.body.eventDescription || existingEvent.eventDescription,
-    bookedSeat: req.body.bookedSeat || existingEvent.bookedSeat,
+    eventType: req.body.eventType,
+    price: req.body.price,
+    seat: req.body.eventSeatNumber,
+    eventDate: req.body.eventDate,
+    eventTime: req.body.eventTime,
+    eventVenue: req.body.eventVenue,
+    eventDescription: req.body.eventDescription,
+    bookedSeat: existingEvent.bookedSeat,
   };
-
+  console.log("form: "+ updatedEventData);
   // Update the event details in the database
-  const updateResult = await update_event(eventId, updatedEventData.eventType,updatedEventData.price,req.file,updatedEventData.seat,updatedEventData.eventDate,updatedEventData.eventTime,updatedEventData.eventVenue,updatedEventData.eventDescription,updatedEventData.bookedSeat);
+  const updateResult = await insertEvent(req.body.eventname, updatedEventData.eventType,updatedEventData.price,req.file,updatedEventData.seat,updatedEventData.eventDate,updatedEventData.eventTime,updatedEventData.eventVenue,updatedEventData.eventDescription,updatedEventData.bookedSeat,existingEvent.uid);
 
   if (updateResult) {
     return res.status(200).json({
@@ -442,6 +451,25 @@ route.post('/updateevent/:eventId', form.single('eventImage'), async (req, res) 
       status: 'failed',
       message: 'Error updating event details',
     });
+  }
+});
+route.get('/api/alltransactionhistory', form.none(), async (req, res) => {
+  try {
+    const transactions = await all_transaction();
+     if (transactions && transactions.length > 0) {
+        res.json({
+          status: 'success',
+          transaction: transactions,
+        });
+      } else {
+        res.json({
+          status: 'success',
+          message: 'No transactions found for the user.',
+        });
+      }
+  } catch (error) {
+    console.error('Error fetching transaction:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 export default route;

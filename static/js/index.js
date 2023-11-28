@@ -311,7 +311,7 @@ function renderEvents(events) {
         let image = null;
 
         try {
-            const imageResponse = await fetch(`/auth/api/eventimage/${obj.eventname}`, { method: 'GET' });
+            const imageResponse = await fetch(`/auth/api/eventimage/${obj.uid}`, { method: 'GET' });
             const imageData = await imageResponse.json();
 
             if (imageData.status === 'success') {
@@ -323,7 +323,7 @@ function renderEvents(events) {
 
         const card = `
             <div class="col card m-2 justify-content-center" id="${obj.eventname}">
-                <a href="/booking.html?eventId=${obj.eventname}">
+                <a href="/booking.html?eventId=${obj.uid}">
                     <img class="card-img" src="${image}" style="width: 100%; height: 20rem; object-fit:cover">
                     <div class="card-body text-start">
                         <h5 class="card-title">${obj.eventname}</h5>

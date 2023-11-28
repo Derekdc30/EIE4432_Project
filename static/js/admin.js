@@ -1,5 +1,6 @@
-$(document).ready(function () {
   const eventData = []
+$(document).ready(function () {
+
   fetch('/auth/api/events')  // Assuming this endpoint provides a list of events
         .then(response => response.json())
         .then(data => {
@@ -14,13 +15,22 @@ $(document).ready(function () {
                 time:`${obj.time}`,
                 type:`${obj.type}`,
                 venue:`${obj.venue}`,
-
+                uid:`${obj.uid}`
             })
           })
           generateEventTabs(eventData);
         })
         .catch(error => {
           alert(error);
+        });
+
+        fetch('/auth/api/alltransactionhistory',{method:'GET'})
+        .then(response => response.json())
+        .then(transactionData => {
+            generateTransactionTab(transactionData.transaction);
+            })
+        .catch(error => {
+            alert(error);
         });
     $(document).on('click', '#createEvent', function() {
         var eventname = $('#eventTitle').val();
@@ -88,71 +98,7 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('click', '#editEvent', function () {
-        const eventId = $(this).data('event-id');
-        console.log('Event ID:', eventId);
-        var eventname = $('#eventTitle').val();
-        var eventType = $('#eventType').val();
-        var eventPriceHigh = $('#eventPriceHigh').val();
-        var eventPriceMiddle = $('#eventPriceMiddle').val();
-        var eventPriceLow = $('#eventPriceLow').val();
-        var eventSeatNumber = $('#eventSeatNumber').val();
-        var eventDateTime = $('#eventDateTime').val();
-        var eventVenue = $('#eventVenue').val();
-        var eventDescription = $('#eventDescription').val();
-        var eventImage = document.querySelector('input[name="eventImage"]').files[0]
-        var datetimeArray = eventDateTime.split('T');
-        console.log(eventSeatNumber);
-        if(!eventname){
-            alert("Event name cannot be empty");
-        }
-        else if(!eventType){
-            alert("Event type cannot be empty");
-        }
-        else if(!eventPriceHigh || !eventPriceMiddle || !eventPriceLow){
-            alert("Price cannot be empty");
-        }
-        else if (!eventSeatNumber){
-            alert("Seat number cannot be empty");
-        }
-        else if (!eventDateTime){
-            alert("Event Date and Time cannot be empty");
-        }
-        else if (!eventVenue){
-            alert("Event Venue cannot be empty");
-        }
-        else if (!eventDescription){
-            alert("Event Description cannot be empty");
-        }
-        else{
-            var formdata = new FormData();
-            formdata.append('eventname', eventname);
-            formdata.append('eventType', eventType);
-            formdata.append('price', "$"+eventPriceLow+" $"+eventPriceMiddle+" $"+eventPriceHigh);
-            formdata.append('eventImage', eventImage);
-            formdata.append('eventSeatNumber', parseInt(eventSeatNumber,10));
-            formdata.append('eventDate', datetimeArray[0]);
-            formdata.append('eventTime', datetimeArray[1]);
-            formdata.append('eventVenue', eventVenue);
-            formdata.append('eventDescription', eventDescription);
-            formdata.append('BookedSeat', []);
-            fetch(`/auth/updateevent/${eventId}`,{
-                method:'POST',
-                body:formdata
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.status == 'success'){
-                    alert("Edit success")
-                } else {
-                alert(data.message || 'Unknown error');
-                }
-            })
-            .catch(error => {
-                alert(error);
-            });
-        }
-    });
+    $('#searchButton').on('click', filterEvents);
 });
 function generateEventTabs(events) {
         const tabList = $('#myTab');
@@ -162,9 +108,9 @@ function generateEventTabs(events) {
         events.forEach((event, index) => {
             const tabId = `tab-${index}`;
             const tabPaneId = `tabPane-${index}`;
-            const tab = $(`<li class="nav-item" role="presentation">
-                    <button class="nav-link ${index === 0 ? 'active' : ''}" id="${tabId}" data-bs-toggle="tab" data-bs-target="#${tabPaneId}" type="button" role="tab" aria-controls="${tabPaneId}" aria-selected="${index === 0}" data-event-id="${event.id}">${event.title}</button>
-                </li>`);
+            const tab = $(`<li class="nav-item" role="presentation" data-title="${event.title}" data-date="${event.date}" data-venue="${event.venue}" data-description="${event.description}">
+                <button class="nav-link ${index === 0 ? 'active' : ''}" id="${tabId}" data-bs-toggle="tab" data-bs-target="#${tabPaneId}" type="button" role="tab" aria-controls="${tabPaneId}" aria-selected="${index === 0}" data-event-id="${event.uid}">${event.title}</button>
+            </li>`);
 
 
              const tabPane = $(`<div class="tab-pane fade ${index === 0 ? 'show active' : ''}" id="${tabPaneId}" role="tabpanel" aria-labelledby="${tabId}">
@@ -185,53 +131,52 @@ function generateEventTabs(events) {
                                 </div>
                                 <div class="col-6">
                                     <!-- Right column - Edit Event Form -->
-                                    <form id="edit${event.title}" class="row" action="/auth/updateevent/${event.title}" method="post">
+                                    <form id="edit${event.title}" class="row" action="/auth/api/updateevent/${event.uid}" method="post">
                                         <!-- Populate form fields with event data -->
                                         <div class="col-12">
                                         
                                             <div class="mb-3">
                                                 <label for="eventDateTime" class="form-label">Date/Time</label>
-                                                <input type="datetime-local" class="form-control" id="eventDateTime" value="${event.date}T${event.time}" required>
+                                                <input type="datetime-local" class="form-control" id="eventDateTime_${event.uid}" value="${event.date}T${event.time}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="eventTitle" class="form-label">Title</label>
-                                                <input type="text" class="form-control" id="eventTitle" value="${event.title}" required>
+                                                <input type="text" class="form-control" id="eventTitle_${event.uid}" value="${event.title}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="eventPriceHigh" class="form-label">Highest Price</label>
-                                                <input type="text" class="form-control" id="eventPriceHigh" value="${event.price.split(' ').map(price => parseInt(price.slice(1), 10))[2]}" required>
+                                                <input type="text" class="form-control" id="eventPriceHigh_${event.uid}" value="${event.price.split(' ').map(price => parseInt(price.slice(1), 10))[2]}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="eventPriceMiddle" class="form-label">Middle Price</label>
-                                                <input type="text" class="form-control" id="eventPriceMiddle" value="${event.price.split(' ').map(price => parseInt(price.slice(1), 10))[1]}" required>
+                                                <input type="text" class="form-control" id="eventPriceMiddle_${event.uid}" value="${event.price.split(' ').map(price => parseInt(price.slice(1), 10))[1]}" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="eventPriceLow" class="form-label">Lowest Price</label>
-                                                <input type="text" class="form-control" id="eventPriceLow" value="${event.price.split(' ').map(price => parseInt(price.slice(1), 10))[0]}" required>
+                                                <input type="text" class="form-control" id="eventPriceLow_${event.uid}" value="${event.price.split(' ').map(price => parseInt(price.slice(1), 10))[0]}" required>
                                             </div>
                                             <div class="mb-2">
                                                 <label for="User_Image">Event picture</label>
-                                                <input type="file" class="form-control" name="eventImage" id="event_Image" accept="image/*">
+                                                <input type="file" class="form-control" name="eventImage_${event.uid}" id="evtitlent_Image_${event.uid}" accept="image/*">
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-3">title
                                                 <label for="eventType" class="form-label">Type</label>
-                                                <input type="text" class="form-control" id="eventType" value="${event.type}" required>
+                                                <input type="text" class="form-control" id="eventType_${event.uid}" value="${event.type}" required>
                                             </div>
                                             <div class="mb-2">
                                                 <label for="eventSeatNumber" class="form-label">Seat Number</label>
-                                                <input type="number" class="form-control" id="eventSeatNumber" value="${event.seatnumber}" required>
+                                                <input type="number" class="form-control" id="eventSeatNumber_${event.uid}" value="${event.seatnumber}" required>
                                             </div>
                                             <div class="mb-2">
                                                 <label for="eventVenue" class="form-label">Venue</label>
-                                                <input type="text" class="form-control" id="eventVenue" value="${event.venue}" required>
+                                                <input type="text" class="form-control" id="eventVenue_${event.uid}" value="${event.venue}" required>
                                             </div>
                                             <div class="mb-2">
                                                 <label for="eventDescription" class="form-label">Description</label>
-                                                <textarea class="form-control" id="eventDescription" rows="3" required>${event.description}</textarea>
+                                                <textarea class="form-control" id="eventDescription_${event.uid}" rows="3" required>${event.description}</textarea>
                                             </div>
                                             <div>
-                                                <button class="btn btn-primary" id="editEvent" formmethod="post" data-event-id="${event.title}">Edit Event</button>
-
+                                                <button type="button" class="btn btn-primary" formmethod="post" onClick="editevent('${event.uid}')" id="editEvent">Save Changes</button>
                                             </div>
                                         </div>
                                     </form>
@@ -299,12 +244,11 @@ function generateEventTabs(events) {
                                         </div>
                                     </form>
                                 </div>`);
-
         tabList.append(createEventTab);
         tabContent.append(createEventTabPane);
     }
 
-    function displaySeatMap(svgId, seatnum, booked) {
+function displaySeatMap(svgId, seatnum, booked) {
     var svgCircle = document.getElementById(svgId);
     let y = 0;
     let x = 0;
@@ -352,3 +296,115 @@ function generateEventTabs(events) {
         }
     }
 }
+
+async function editevent(eventid){
+        console.log('Event ID:', eventid);
+        var eventname = $(`#eventTitle_${eventid}`).val();
+        var eventType = $(`#eventType_${eventid}`).val();
+        var eventPriceHigh = $(`#eventPriceHigh_${eventid}`).val();
+        var eventPriceMiddle = $(`#eventPriceMiddle_${eventid}`).val();
+        var eventPriceLow = $(`#eventPriceLow_${eventid}`).val();
+        var eventSeatNumber = $(`#eventSeatNumber_${eventid}`).val();
+        var eventDateTime = $(`#eventDateTime_${eventid}`).val();
+        var eventVenue = $(`#eventVenue_${eventid}`).val();
+        var eventDescription = $(`#eventDescription_${eventid}`).val();
+        var eventImage = document.querySelector(`input[name="eventImage_${eventid}"]`).files[0];
+        var datetimeArray = eventDateTime.split('T');
+        console.log(eventname);
+        if(!eventname){
+            alert("Event name cannot be empty");
+        }
+        else if(!eventType){
+            alert("Event type cannot be empty");
+        }
+        else if(!eventPriceHigh || !eventPriceMiddle || !eventPriceLow){
+            alert("Price cannot be empty");
+        }
+        else if (!eventSeatNumber){
+            alert("Seat number cannot be empty");
+        }
+        else if (!eventDateTime){
+            alert("Event Date and Time cannot be empty");
+        }
+        else if (!eventVenue){
+            alert("Event Venue cannot be empty");
+        }
+        else if (!eventDescription){
+            alert("Event Description cannot be empty");
+        }
+        else{
+            var formdata = new FormData();
+            formdata.append('eventname', eventname);
+            formdata.append('eventType', eventType);
+            formdata.append('price', "$"+eventPriceLow+" $"+eventPriceMiddle+" $"+eventPriceHigh);
+            formdata.append('eventImage', eventImage);
+            formdata.append('eventSeatNumber', parseInt(eventSeatNumber,10));
+            formdata.append('eventDate', datetimeArray[0]);
+            formdata.append('eventTime', datetimeArray[1]);
+            formdata.append('eventVenue', eventVenue);
+            formdata.append('eventDescription', eventDescription);
+            formdata.append('BookedSeat', eventData.booked);
+            formdata.append('uid', eventid);
+            fetch(`/auth/api/updateevent/${eventid}`,{
+                method:'POST',
+                body:formdata
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status == 'success'){
+                    alert("Edit success")
+                } else {
+                alert(data.message || 'Unknown error');
+                }
+            })
+            .catch(error => {
+                alert(error);
+            });
+        }
+}
+
+function generateTransactionTab(transactions) {
+    const tabList = $('#myTab');
+    const tabContent = $('#myTabContent');
+
+    // Create Transaction History Tab
+    const transactionTab = $(`<li class="nav-item" role="presentation">
+                                <button class="nav-link" id="Transaction-tab" data-bs-toggle="tab" data-bs-target="#Transaction" type="button" role="tab" aria-controls="Transaction" aria-selected="false">Transaction History</button>
+                             </li>`);
+    const transactionTabPane = $(`<div class="tab-pane fade" id="Transaction" role="tabpanel" aria-labelledby="Transaction-tab"></div>`);
+
+    // Populate Transaction History Tab Content
+    transactions.forEach((transaction, index) => {
+        const transactionDetails = `<p>Transaction ID: ${transaction.username}</p>
+                                    <p>Event: ${transaction.eventname}</p>
+                                    <p>Date: ${transaction.date}</p>
+                                    <p>Price: ${transaction.price}</p>
+                                    <hr>`;
+
+        transactionTabPane.append(transactionDetails);
+    });
+
+    // Append Transaction History Tab and Content to the DOM
+    tabList.append(transactionTab);
+    tabContent.append(transactionTabPane);
+}
+function filterEvents() {
+    const searchTitle = $('#searchTitle').val().toLowerCase();
+    const searchDate = $('#searchDate').val();
+    const searchTime = $('#searchTime').val();
+    const searchVenue = $('#searchVenue').val().toLowerCase();
+    const searchDescription = $('#searchDescription').val().toLowerCase();
+
+    const filteredEvents = eventData.filter(event => {
+        const titleMatch = event.title.toLowerCase().includes(searchTitle);
+        const dateMatch = event.date.includes(searchDate);
+        const timeMatch = event.time.includes(searchTime);
+        const venueMatch = event.venue.toLowerCase().includes(searchVenue);
+        const descriptionMatch = event.description.toLowerCase().includes(searchDescription);
+
+        return titleMatch && dateMatch && timeMatch && venueMatch && descriptionMatch;
+    });
+
+    generateEventTabs(filteredEvents);
+}
+

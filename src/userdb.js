@@ -257,7 +257,15 @@ async function fetch_transaction(username) {
     return null;
   }
 }
-
+async function all_transaction(){
+  try {
+    const transactions = await transaction.find({}).toArray();
+    return transactions;
+  } catch (err) {
+    console.error('Unable to fetch transactions from the database:', err);
+    return null;
+  }
+}
 init_db().catch(console.dir);
 export {
   init_db,
@@ -274,5 +282,6 @@ export {
   forgotPassword,
   gridFSBucket,
   update_transaction,
-  fetch_transaction
+  fetch_transaction,
+  all_transaction
 };
