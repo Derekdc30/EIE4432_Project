@@ -1,5 +1,4 @@
 const eventData = []
-var transaction;
 $(document).ready(function () {
   fetch('/auth/api/events')  // Assuming this endpoint provides a list of events
         .then(response => response.json())
@@ -18,18 +17,6 @@ $(document).ready(function () {
                 uid:`${obj.uid}`
             })
           })
-          /*fetch('/auth/api/userbookedseat',{method:'GET',body:eventData.title})
-          .then(response => response.json())
-          .then(data =>{
-                data.forEach(obj =>{
-                    transaction.push({
-                        username: `${obj.username}`,
-                        seat: `${obj.seat}`
-                    })
-                })
-          }).catch(error=>{
-            alert('Error: '+error);
-          })*/
           generateEventTabs(eventData);
         })
         .catch(error => {
@@ -198,7 +185,23 @@ function generateEventTabs(events) {
 
         tabList.append(tab);
         tabContent.append(tabPane);
-        displaySeatMap(`svg-${index}`, event.seatnumber, event.booked);
+        const transaction =[];
+        var formdata = new FormData();
+        formdata.append('username',event.title);
+        fetch('/auth/api/userbookedseat',{method:'POST',body:formdata})
+          .then(response => response.json())
+          .then(data =>{
+                data.forEach(obj =>{
+                    transaction.push({
+                        title:`${event.title}`,
+                        username: `${obj.username}`,
+                        seat: `${obj.seat}`
+                    })
+                })
+          }).catch(error=>{
+            alert('Error: '+error);
+          })
+        displaySeatMap(`svg-${index}`, event.seatnumber, event.booked,transaction);
 
         });
          const createEventTab = $(`<li class="nav-item" role="presentation">
@@ -260,7 +263,7 @@ function generateEventTabs(events) {
         tabContent.append(createEventTabPane);
     }
 
-function displaySeatMap(svgId, seatnum, booked) {
+function displaySeatMap(svgId, seatnum, booked, transaction) {
     var svgCircle = document.getElementById(svgId);
     let y = 0;
     let x = 0;
@@ -277,13 +280,15 @@ function displaySeatMap(svgId, seatnum, booked) {
         if (booked.split(',').indexOf(i.toString()) !== -1) {
             rect.setAttribute("fill", "#d33157");
             rect.setAttribute("id", i);
-            /*const usersForSeat = transaction
-                .filter(transaction => transaction.seat.split(',').indexOf(i.toString()) !== -1)
-                .map(transaction => transaction.username);
-
-            rect.addEventListener("mouseenter", function () {
-                displayHoverText(usersForSeat.join(', '));
-            });*/
+            console.log(transaction);
+            transaction.forEach(obj=>{  //error
+                console.log('seat: ');
+                if(obj.seat.split(', ').indexOf(i.toString()) !== -1){
+                    rect.addEventListener("mouseenter", function () {
+                        displayHoverText(obj.username);
+                    });
+                }
+            })
         } else {
             if (i < 21) {
                 rect.setAttribute("fill", "white");

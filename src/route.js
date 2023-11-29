@@ -473,9 +473,10 @@ route.get('/api/alltransactionhistory', form.none(), async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-route.get('/api/userbookedseat', form.none(), async(req,res) =>{
+route.post('/api/userbookedseat', form.none(), async(req,res) =>{
   try {
-    const transactions = await transaction.find({eventname:req.body.eventname}).toArray();
+    console.log(req.body.username);
+    const transactions = await transaction.find({eventname:req.body.username}).toArray();
     return res.json(transactions);
   } catch (err) {
     console.error('Unable to fetch transactions from the database:', err);
