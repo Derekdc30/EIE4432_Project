@@ -31,6 +31,14 @@ $(document).ready(function () {
         .catch(error => {
             alert(error);
         });
+        fetch('/auth/api/allAccount',{method:'GET'})
+        .then(response => response.json())
+        .then(data => {
+            generateAccountTab(data.accounts);
+            })
+        .catch(error => {
+            alert(error);
+        });
     $(document).on('click', '#createEvent', function() {
         var eventname = $('#eventTitle').val();
         var eventType = $('#eventType').val();
@@ -104,7 +112,7 @@ function generateEventTabs(events) {
         const tabContent = $('#myTabContent');
         tabList.empty();
         tabContent.empty();
-        events.forEach((event, index) => {
+        events.forEach(async (event, index) => {
             const tabId = `tab-${index}`;
             const tabPaneId = `tabPane-${index}`;
             const tab = $(`<li class="nav-item" role="presentation" data-title="${event.title}" data-date="${event.date}" data-venue="${event.venue}" data-description="${event.description}">
@@ -185,15 +193,13 @@ function generateEventTabs(events) {
 
         tabList.append(tab);
         tabContent.append(tabPane);
-        const transaction =[];
-        var formdata = new FormData();
-        formdata.append('username',event.title);
-        fetch('/auth/api/userbookedseat',{method:'POST',body:formdata})
+        const transaction = [];
+        await fetch(`/auth/api/userbookedseat/${event.title}`,{method:'GET'})
           .then(response => response.json())
           .then(data =>{
                 data.forEach(obj =>{
                     transaction.push({
-                        title:`${event.title}`,
+                        title:`${obj.eventname}`,
                         username: `${obj.username}`,
                         seat: `${obj.seat}`
                     })
@@ -201,6 +207,7 @@ function generateEventTabs(events) {
           }).catch(error=>{
             alert('Error: '+error);
           })
+
         displaySeatMap(`svg-${index}`, event.seatnumber, event.booked,transaction);
 
         });
@@ -280,9 +287,7 @@ function displaySeatMap(svgId, seatnum, booked, transaction) {
         if (booked.split(',').indexOf(i.toString()) !== -1) {
             rect.setAttribute("fill", "#d33157");
             rect.setAttribute("id", i);
-            console.log(transaction);
-            transaction.forEach(obj=>{  //error
-                console.log('seat: ');
+            transaction.forEach((obj,index)=>{ 
                 if(obj.seat.split(', ').indexOf(i.toString()) !== -1){
                     rect.addEventListener("mouseenter", function () {
                         displayHoverText(obj.username);
@@ -412,6 +417,34 @@ function generateTransactionTab(transactions) {
     // Append Transaction History Tab and Content to the DOM
     tabList.append(transactionTab);
     tabContent.append(transactionTabPane);
+}
+
+function generateAccountTab(account) {
+    const tabList = $('#myTab');
+    const tabContent = $('#myTabContent');
+
+    // Create Transaction History Tab
+    const accountTab = $(`<li class="nav-item" role="presentation">
+                                <button class="nav-link" id="Transaction-tab" data-bs-toggle="tab" data-bs-target="#Account" type="button" role="tab" aria-controls="Account" aria-selected="false">Account</button>
+                             </li>`);
+    const accountTabPane = $(`<div class="tab-pane fade" id="Account" role="tabpanel" aria-labelledby="Account-tab"></div>`);
+    console.log(account);
+    // Populate Transaction History Tab Content
+    account.forEach((account, index) => {
+        console.log(account.profileImage);
+        const accountDetails = `<p>Account name: ${account.username}</p>
+                                    <p>Birthday: ${account.birthday}</p>
+                                    <p>Gender: ${account.gender}</p>
+                                    <p>Nickname: ${account.nickname}</p>
+                                    <img id="userImage" src="${'data:image/jpeg;base64,' + account.profileImage}" alt="User Image" style="max-width: 50%;">
+                                    <hr>`;
+
+        accountTabPane.append(accountDetails);
+    });
+
+    // Append Transaction History Tab and Content to the DOM
+    tabList.append(accountTab);
+    tabContent.append(accountTabPane);
 }
 
 function filterEvents() {

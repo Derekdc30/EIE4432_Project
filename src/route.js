@@ -3,6 +3,7 @@ import multer from "multer";
 import { ObjectId } from 'mongodb';
 import { Readable } from 'stream';
 import {
+  users,
   validate_user,
   update_user,
   fetch_user,
@@ -473,14 +474,52 @@ route.get('/api/alltransactionhistory', form.none(), async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-route.post('/api/userbookedseat', form.none(), async(req,res) =>{
+route.get('/api/userbookedseat/:eventId',form.none(), async(req,res) =>{
+    const eventId = req.params.eventId;
   try {
-    console.log(req.body.username);
-    const transactions = await transaction.find({eventname:req.body.username}).toArray();
-    return res.json(transactions);
+    const transactions = await transaction.find({eventname:eventId}).toArray();
+    res.json(transactions);
   } catch (err) {
     console.error('Unable to fetch transactions from the database:', err);
     return null;
   }
+});
+route.get('/api/allAccount', form.none(),async(req,res)=>{
+  const accounts = await users.find({}).toArray();
+  accounts.forEach(user => {
+    if (user.profileImageId) {
+        try {
+          // Retrieve the image from GridFS using the profileImageId
+          const imageStream = gridFSBucket.openDownloadStream(new ObjectId(user.profileImageId)); // Fix: use 'new'
+          const chunks = [];
+          
+          imageStream.on('data', (chunk) => {
+            chunks.push(chunk);
+          });
+
+          imageStream.on('end', () => {
+            // Concatenate the chunks into a Buffer
+            const buffer = Buffer.concat(chunks);
+            // Convert the Buffer to base64
+            const base64Image = buffer.toString('base64');
+
+            // Add the base64Image to the user object
+            accounts.user.profileImage = base64Image;
+
+            // Send the user data with the profileImage field to the client
+          });
+        } catch (error) {
+          console.error('Error fetching image from GridFS:', error);
+          res.status(500).json({
+            status: 'failed',
+            message: 'Error fetching image from GridFS',
+          });
+        }
+      } 
+  });
+    return res.json({
+    status: 'success',
+    accounts,
+  });
 });
 export default route;
