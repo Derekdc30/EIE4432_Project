@@ -1,6 +1,6 @@
-  const eventData = []
+const eventData = []
+var transaction;
 $(document).ready(function () {
-
   fetch('/auth/api/events')  // Assuming this endpoint provides a list of events
         .then(response => response.json())
         .then(data => {
@@ -18,6 +18,18 @@ $(document).ready(function () {
                 uid:`${obj.uid}`
             })
           })
+          /*fetch('/auth/api/userbookedseat',{method:'GET',body:eventData.title})
+          .then(response => response.json())
+          .then(data =>{
+                data.forEach(obj =>{
+                    transaction.push({
+                        username: `${obj.username}`,
+                        seat: `${obj.seat}`
+                    })
+                })
+          }).catch(error=>{
+            alert('Error: '+error);
+          })*/
           generateEventTabs(eventData);
         })
         .catch(error => {
@@ -262,21 +274,26 @@ function displaySeatMap(svgId, seatnum, booked) {
         rect.setAttribute("height", 30);
         rect.setAttribute("stroke", "gray");
         rect.setAttribute("strokeWidth", 5);
-        if(booked.split(',').indexOf(i.toString())!== -1){
+        if (booked.split(',').indexOf(i.toString()) !== -1) {
             rect.setAttribute("fill", "#d33157");
             rect.setAttribute("id", i);
-        } else{
-            if(i<21){
+            /*const usersForSeat = transaction
+                .filter(transaction => transaction.seat.split(',').indexOf(i.toString()) !== -1)
+                .map(transaction => transaction.username);
+
+            rect.addEventListener("mouseenter", function () {
+                displayHoverText(usersForSeat.join(', '));
+            });*/
+        } else {
+            if (i < 21) {
                 rect.setAttribute("fill", "white");
-                rect.setAttribute("id",i);
-            }
-            else if(i>20 && i<41){
+                rect.setAttribute("id", i);
+            } else if (i > 20 && i < 41) {
                 rect.setAttribute("fill", "#caca21");
-                rect.setAttribute("id",i);
-            }
-            else{
+                rect.setAttribute("id", i);
+            } else {
                 rect.setAttribute("fill", "green");
-                rect.setAttribute("id",i);;
+                rect.setAttribute("id", i);
             }
         }
         svgCircle.appendChild(rect);
@@ -294,6 +311,9 @@ function displaySeatMap(svgId, seatnum, booked) {
             y+=50;
             x=0;
         }
+    }
+    function displayHoverText(seatNumber) {
+        alert(seatNumber);
     }
 }
 
@@ -388,6 +408,7 @@ function generateTransactionTab(transactions) {
     tabList.append(transactionTab);
     tabContent.append(transactionTabPane);
 }
+
 function filterEvents() {
     const searchTitle = $('#searchTitle').val().toLowerCase();
     const searchDate = $('#searchDate').val();

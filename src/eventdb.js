@@ -22,6 +22,7 @@ async function getAllEvents() { // this function is to get all event at database
 }
 async function insertEvent(eventname, type, price, image, seatnumber, date, time, venue, description, BookedSeat, uid) {
   try {
+    console.log("booked: "+BookedSeat);
     // Check if the event already exists
     const existingEvent = await fetch_event(uid);
 

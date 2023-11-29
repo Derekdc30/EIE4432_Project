@@ -266,12 +266,14 @@ async function all_transaction(){
     return null;
   }
 }
+
 init_db().catch(console.dir);
 export {
   init_db,
   users,
   event,
   tokens,
+  transaction,
   validate_user,
   update_user,
   fetch_user,

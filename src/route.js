@@ -14,7 +14,8 @@ import {
   gridFSBucket,
   update_transaction,
   fetch_transaction,
-  all_transaction
+  all_transaction,
+  transaction
 } from './userdb.js';
 import { 
   insertEvent,
@@ -435,11 +436,11 @@ route.post('/api/updateevent/:eventId', form.single('eventImage'), async (req, r
     eventTime: req.body.eventTime,
     eventVenue: req.body.eventVenue,
     eventDescription: req.body.eventDescription,
-    bookedSeat: existingEvent.bookedSeat,
+    bookedSeat: existingEvent.BookedSeat,
   };
   console.log("form: "+ updatedEventData);
   // Update the event details in the database
-  const updateResult = await insertEvent(req.body.eventname, updatedEventData.eventType,updatedEventData.price,req.file,updatedEventData.seat,updatedEventData.eventDate,updatedEventData.eventTime,updatedEventData.eventVenue,updatedEventData.eventDescription,updatedEventData.bookedSeat,existingEvent.uid);
+  const updateResult = await insertEvent(req.body.eventname, updatedEventData.eventType,updatedEventData.price,req.file,updatedEventData.seat,updatedEventData.eventDate,updatedEventData.eventTime,updatedEventData.eventVenue,updatedEventData.eventDescription,existingEvent.bookedSeat,existingEvent.uid);
 
   if (updateResult) {
     return res.status(200).json({
@@ -470,6 +471,15 @@ route.get('/api/alltransactionhistory', form.none(), async (req, res) => {
   } catch (error) {
     console.error('Error fetching transaction:', error);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+route.get('/api/userbookedseat', form.none(), async(req,res) =>{
+  try {
+    const transactions = await transaction.find({eventname:req.body.eventname}).toArray();
+    return res.json(transactions);
+  } catch (err) {
+    console.error('Unable to fetch transactions from the database:', err);
+    return null;
   }
 });
 export default route;
