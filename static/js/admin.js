@@ -435,13 +435,41 @@ function generateAccountTab(account) {
         const imgTag = account.profileImage
       ? `<img id="userImage" src="${'data:image/jpeg;base64,' + account.profileImage}" alt="User Image" style="max-width: 25%;">`
       : '';
+     const loginAttemptDate = new Date(account.loginattempt);
 
+    // Format the date for display
+    const formattedDate = loginAttemptDate.toLocaleString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZoneName: 'short',
+    });
+
+    const changeAttemptDate = new Date(account.change);
+
+    // Format the date for display
+    const formattedDatechange = changeAttemptDate.toLocaleString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZoneName: 'short',
+    });
     const accountDetails = `<div style="overflow: hidden;">
                                 <div style="float: left;">
                                     <p>Account name: ${account.username}</p>
                                     <p>Birthday: ${account.birthday}</p>
                                     <p>Gender: ${account.gender}</p>
                                     <p>Nickname: ${account.nickname}</p>
+                                    <p>Last login attempt: ${formattedDate}</p>
+                                    <p>Last profile/ password change: ${formattedDatechange}</p>
                                 </div>
                                 ${imgTag}
                             </div>

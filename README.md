@@ -56,7 +56,7 @@
       - Modify existing events (date/time, title, venue, description, cover image)<br />
       - List all users’ transaction history with ticket information and price for each event<br />
 3. Advanced Features:<br />
-- [ ] User Account Management<br />
+- [x] User Account Management<br />
       - View other user account information (Admin only)<br />
       - Track and log user account activities, such as login attempts, profile edits, and password changes (Both admin and user)<br />
 - [x] Seat Management Page (Admin only)<br />

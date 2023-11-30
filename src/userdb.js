@@ -46,6 +46,8 @@ async function validate_user(username, password) {
   await sha256(password).then(hash => {
     password = hash;});
   try {
+    const currentDate = new Date();
+    await users.updateOne({username:username},{$set:{loginattempt:currentDate}});
     if (!username || !password) {
       return false;
     }
@@ -64,6 +66,8 @@ async function update_user(username, password, nickname, gender, birthday, profi
   const user = await users.findOne({ username : username })
   var temp;
   if(user){
+    const currentDate = new Date();
+    await users.updateOne({username:username},{$set:{change:currentDate}});
     await sha256(password).then(hash => {
         temp = hash;
       });
