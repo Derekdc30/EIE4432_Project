@@ -1,6 +1,6 @@
 const eventData = []
-$(document).ready(function () {
-  fetch('/auth/api/events')  // Assuming this endpoint provides a list of events
+$(document).ready(async function () {
+  await fetch('/auth/api/events')  // Assuming this endpoint provides a list of events
         .then(response => response.json())
         .then(data => {
           data.forEach(obj =>{
@@ -23,7 +23,7 @@ $(document).ready(function () {
           alert(error);
         });
 
-        fetch('/auth/api/alltransactionhistory',{method:'GET'})
+        await fetch('/auth/api/alltransactionhistory',{method:'GET'})
         .then(response => response.json())
         .then(transactionData => {
             generateTransactionTab(transactionData.transaction);
@@ -31,7 +31,7 @@ $(document).ready(function () {
         .catch(error => {
             alert(error);
         });
-        fetch('/auth/api/allAccount',{method:'GET'})
+        await fetch('/auth/api/allAccount',{method:'GET'})
         .then(response => response.json())
         .then(data => {
             generateAccountTab(data.accounts);
@@ -182,8 +182,9 @@ function generateEventTabs(events) {
                                                 <label for="eventDescription" class="form-label">Description</label>
                                                 <textarea class="form-control" id="eventDescription_${event.uid}" rows="3" required>${event.description}</textarea>
                                             </div>
-                                            <div>
+                                            <div >
                                                 <button type="button" class="btn btn-primary" formmethod="post" onClick="editevent('${event.uid}')" id="editEvent">Save Changes</button>
+                                                <button type="button" class="btn btn-primary formmethod="post" onClick="cancelEvent('${event.uid}')" id="cancelButton">Cancel event</button>
                                             </div>
                                         </div>
                                     </form>
@@ -431,13 +432,20 @@ function generateAccountTab(account) {
     console.log(account);
     // Populate Transaction History Tab Content
     account.forEach((account, index) => {
-        console.log(account.profileImage);
-        const accountDetails = `<p>Account name: ${account.username}</p>
+        const imgTag = account.profileImage
+      ? `<img id="userImage" src="${'data:image/jpeg;base64,' + account.profileImage}" alt="User Image" style="max-width: 25%;">`
+      : '';
+
+    const accountDetails = `<div style="overflow: hidden;">
+                                <div style="float: left;">
+                                    <p>Account name: ${account.username}</p>
                                     <p>Birthday: ${account.birthday}</p>
                                     <p>Gender: ${account.gender}</p>
                                     <p>Nickname: ${account.nickname}</p>
-                                    <img id="userImage" src="${'data:image/jpeg;base64,' + account.profileImage}" alt="User Image" style="max-width: 50%;">
-                                    <hr>`;
+                                </div>
+                                ${imgTag}
+                            </div>
+                            <hr>`;
 
         accountTabPane.append(accountDetails);
     });
@@ -467,3 +475,22 @@ function filterEvents() {
     generateEventTabs(filteredEvents);
 }
 
+async function cancelEvent(eventID){
+    const isConfirmed = window.confirm('Are you sure you want to cancel this event?');
+
+    // Check if the user confirmed
+    if (isConfirmed) {
+        await fetch(`/auth/api/cancelEvent/${eventID}`,{method:'POST'})
+        .then(response => response.json())
+        .then(data =>{
+            if(data.status === 'success'){
+                alert("Event deleted");
+            }
+        }).catch(error=>{
+            alert('Error: '+error);
+          })
+    } else {
+        // The user clicked "Cancel" or closed the dialog, do nothing
+        console.log('Event cancellation canceled');
+    }
+}

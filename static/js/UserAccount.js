@@ -188,11 +188,15 @@ function displayTransactionHistory(transactions) {
                 '<h5 class="mb-3">Transaction History</h5>';
 
         transactions.forEach(transaction => {
+            var rescheduleInfo = transaction.reschedule ? '<span class="text-danger">Rescheduled</span> ' : '';
+
+            var cancelInfo = transaction.cancel ? '<span class="text-danger">Canceled</span> ' : '';
+
             transactionHistoryHTML +=
                 '<div class="card mb-3">' +
                     '<div class="card-body">' +
                         '<p><strong>Event Name:</strong> ' + transaction.eventname + '</p>' +
-                        '<p><strong>Date:</strong> ' + transaction.date + '</p>' +
+                        '<p><strong>Date:</strong> ' + rescheduleInfo + cancelInfo + transaction.date + '</p>' +
                         '<p><strong>Price:</strong> ' + transaction.price + '</p>' +
                         '<p><strong>Seats:</strong> ' + transaction.seat + '</p>' +
                     '</div>' +

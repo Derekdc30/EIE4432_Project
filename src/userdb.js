@@ -285,5 +285,5 @@ export {
   gridFSBucket,
   update_transaction,
   fetch_transaction,
-  all_transaction
+  all_transaction,
 };

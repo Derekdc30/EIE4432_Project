@@ -59,9 +59,9 @@
 - [ ] User Account Management<br />
       - View other user account information (Admin only)<br />
       - Track and log user account activities, such as login attempts, profile edits, and password changes (Both admin and user)<br />
-- [ ] Seat Management Page (Admin only)<br />
+- [x] Seat Management Page (Admin only)<br />
       - Interactive SVG-based seat map (show the associated user who bought the seat when clicking/hovering the seat)<br />
-- [ ] Event Management Page (Admin only)<br />
+- [X] Event Management Page (Admin only)<br />
       - Support cancelling or rescheduling of events (need to notify the ticket holder via user dashboard)<br />
 
 

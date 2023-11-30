@@ -1,26 +1,13 @@
 [
   {
-    "eventname": "event1",
-    "type":"Concert",
-    "price": "$399 $599 $1099",
-    "image": "#",
-    "seatnumber": 60,
-    "date": "16/11",
-    "time":"20:00",
-    "venue": "AsiaWorld-Expo",
-    "description":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    "BookedSeat":"1,4,7,8,5,22,33"
-  },
-  {
-    "eventname": "event2",
-    "type":"Concert",
-    "price": "$599 $899 $1299",
-    "image": "#",
-    "seatnumber": 80,
-    "date": "16/11",
-    "time":"20:00",
-    "venue": "AsiaWorld-Expo",
-    "description":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    "BookedSeat":"10,11,12,44,56,66,67"
+    "eventname":"Electric Harmony Festival",
+    "date":"2023-12-09",
+    "description":"Immerse yourself in a dazzling display of electronic beats and futuristic sounds at the Electric Harmony Festival! This high-energy event promises to be a visual and auditory feast, featuring cutting-edge artists and mind-blowing light displays. Join us for a night of electrifying music and an unforgettable experience.\r\nConcert 2: Jazz Fusion Spectacular",
+    "price":"$699 $899 $1099",
+    "seatnumber":120,
+    "time":"20:00","type":"Concert",
+    "uid":"9fci2W29okj2zbc9",
+    "venue":"HKCEC",
+    "profileImageId":""
   }
 ]

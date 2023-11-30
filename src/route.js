@@ -16,13 +16,15 @@ import {
   update_transaction,
   fetch_transaction,
   all_transaction,
-  transaction
+  transaction,
+  event
 } from './userdb.js';
 import { 
   insertEvent,
   event_exist,
   fetch_event,
-  getAllEvents
+  getAllEvents,
+  delete_event
 } from "./eventdb.js";
 
 const route = express.Router();
@@ -248,7 +250,7 @@ route.post('/newevents', form.single('eventImage'), async (req, res) => {
       message:'Event exist',
     });
   }
-  if(await insertEvent(req.body.eventname, req.body.eventType, req.body.price, req.file, parseInt(req.body.eventSeatNumber,10), req.body.eventDate, req.body.eventTime, req.body.eventVenue, req.body.eventDescription, req.body.BookedSeat,generateuid())){
+  if(await insertEvent(req.body.eventname, req.body.eventType, req.body.price, req.file, parseInt(req.body.eventSeatNumber,10), req.body.eventDate, req.body.eventTime, req.body.eventVenue, req.body.eventDescription,generateuid())){
     return res.status(400).json({
       status:'success',
       event:{
@@ -379,42 +381,58 @@ route.get('/api/events', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-route.get('/api/eventimage/:eventId',async (req, res)=>{
-   const eventId = req.params.eventId;
-  const event = await fetch_event(eventId);
-  if (event.profileImageId) {
-        try {
-          // Retrieve the image from GridFS using the profileImageId
-          const imageStream = gridFSBucket.openDownloadStream(new ObjectId(event.profileImageId));
-          const chunks = [];
-          
-          imageStream.on('data', (chunk) => {
-            chunks.push(chunk);
-          });
+route.get('/api/eventimage/:eventId', async (req, res) => {
+  try {
+    const eventId = req.params.eventId;
+    const event = await fetch_event(eventId);
 
-          imageStream.on('end', () => {
-            // Concatenate the chunks into a Buffer
-            const buffer = Buffer.concat(chunks);
-            // Convert the Buffer to base64
-            const base64Image = buffer.toString('base64');
+    // Check if event is not null and has a profileImageId
+    if (event && event.profileImageId !== null && event.profileImageId !== undefined) {
+      try {
+        // Retrieve the image from GridFS using the profileImageId
+        const imageStream = gridFSBucket.openDownloadStream(new ObjectId(event.profileImageId));
+        const chunks = [];
 
-            // Add the base64Image to the user object
-            event.profileImage = base64Image;
+        imageStream.on('data', (chunk) => {
+          chunks.push(chunk);
+        });
 
-            // Send the user data with the profileImage field to the client
-            res.json({
-              status: 'success',
-              event,
-            });
+        imageStream.on('end', () => {
+          // Concatenate the chunks into a Buffer
+          const buffer = Buffer.concat(chunks);
+          // Convert the Buffer to base64
+          const base64Image = buffer.toString('base64');
+
+          // Add the base64Image to the event object
+          event.profileImage = base64Image;
+
+          // Send the event data with the profileImage field to the client
+          res.json({
+            status: 'success',
+            event,
           });
-        } catch (error) {
-          console.error('Error fetching image from GridFS:', error);
-          res.status(500).json({
-            status: 'failed',
-            message: 'Error fetching image from GridFS',
-          });
-        }
+        });
+      } catch (error) {
+        console.error('Error fetching image from GridFS:', error);
+        res.status(500).json({
+          status: 'failed',
+          message: 'Error fetching image from GridFS',
+        });
       }
+    } else {
+      // If event is null or does not have a profileImageId, send an error response
+      res.status(404).json({
+        status: 'failed',
+        message: 'Event not found or does not have a profileImageId',
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching event:', error);
+    res.status(500).json({
+      status: 'failed',
+      message: 'Error fetching event from the database',
+    });
+  }
 });
 route.post('/api/updateevent/:eventId', form.single('eventImage'), async (req, res) => {
   const eventId = req.params.eventId;
@@ -439,9 +457,9 @@ route.post('/api/updateevent/:eventId', form.single('eventImage'), async (req, r
     eventDescription: req.body.eventDescription,
     bookedSeat: existingEvent.BookedSeat,
   };
-  console.log("form: "+ updatedEventData);
+  console.log("booked: " +updatedEventData.bookedSeat);
   // Update the event details in the database
-  const updateResult = await insertEvent(req.body.eventname, updatedEventData.eventType,updatedEventData.price,req.file,updatedEventData.seat,updatedEventData.eventDate,updatedEventData.eventTime,updatedEventData.eventVenue,updatedEventData.eventDescription,existingEvent.bookedSeat,existingEvent.uid);
+  const updateResult = await insertEvent(req.body.eventname, updatedEventData.eventType,updatedEventData.price,req.file,updatedEventData.seat,updatedEventData.eventDate,updatedEventData.eventTime,updatedEventData.eventVenue,updatedEventData.eventDescription,existingEvent.uid);
 
   if (updateResult) {
     return res.status(200).json({
@@ -484,42 +502,81 @@ route.get('/api/userbookedseat/:eventId',form.none(), async(req,res) =>{
     return null;
   }
 });
-route.get('/api/allAccount', form.none(),async(req,res)=>{
-  const accounts = await users.find({}).toArray();
-  accounts.forEach(user => {
-    if (user.profileImageId) {
-        try {
-          // Retrieve the image from GridFS using the profileImageId
-          const imageStream = gridFSBucket.openDownloadStream(new ObjectId(user.profileImageId)); // Fix: use 'new'
-          const chunks = [];
-          
-          imageStream.on('data', (chunk) => {
-            chunks.push(chunk);
-          });
+route.get('/api/allAccount', form.none(), async (req, res) => {
+  try {
+    const accounts = await users.find({}).toArray();
 
-          imageStream.on('end', () => {
+    // Use Promise.all to wait for all image processing to complete
+    const accountsWithImages = await Promise.all(
+      accounts.map(async (user) => {
+        if (user.profileImageId) {
+          try {
+            // Retrieve the image from GridFS using the profileImageId
+            const imageStream = gridFSBucket.openDownloadStream(new ObjectId(user.profileImageId));
+            const chunks = [];
+
+            // Use a promise to wait for the stream to end
+            await new Promise((resolve, reject) => {
+              imageStream.on('data', (chunk) => {
+                chunks.push(chunk);
+              });
+
+              imageStream.on('end', () => {
+                resolve();
+              });
+
+              imageStream.on('error', (error) => {
+                reject(error);
+              });
+            });
+
             // Concatenate the chunks into a Buffer
             const buffer = Buffer.concat(chunks);
             // Convert the Buffer to base64
             const base64Image = buffer.toString('base64');
 
             // Add the base64Image to the user object
-            accounts.user.profileImage = base64Image;
+            user.profileImage = base64Image;
 
-            // Send the user data with the profileImage field to the client
-          });
-        } catch (error) {
-          console.error('Error fetching image from GridFS:', error);
-          res.status(500).json({
-            status: 'failed',
-            message: 'Error fetching image from GridFS',
-          });
+            // Return the user with the profileImage field
+            return user;
+          } catch (error) {
+            console.error('Error fetching image from GridFS:', error);
+            throw new Error('Error fetching image from GridFS');
+          }
+        } else {
+          // If the user does not have a profile image, return the user without the image
+          return user;
         }
-      } 
-  });
+      })
+    );
+
     return res.json({
-    status: 'success',
-    accounts,
-  });
+      status: 'success',
+      accounts: accountsWithImages,
+    });
+  } catch (error) {
+    console.error('Error fetching accounts:', error);
+    res.status(500).json({
+      status: 'failed',
+      message: 'Error fetching accounts from the database',
+    });
+  }
+});
+route.post('/api/cancelEvent/:eventId',form.none(), async(req,res)=>{
+  const eventId = req.params.eventId;
+  try {
+    const event = await fetch_event(eventId);
+    const deleteevent = await delete_event(eventId);
+    if(deleteevent){
+      await transaction.updateMany({eventname:event.eventname},{$set:{cancel:true}});
+      return res.json({
+      status: 'success',
+    });
+    }
+  } catch (err) {
+    console.error('Unable to fetch transactions from the database:', err);
+    return null;
+  }
 });
 export default route;

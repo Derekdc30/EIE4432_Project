@@ -1,12 +1,12 @@
 //<!--20060616d Choy Wing Ho-->
 //<!--22019343 Siu Ching Him-->
-$(document).ready(function () {
+$(document).ready(async function () {
   checkUserStatus()
     $('.nav-pills a').on('click', function(e) {
         e.preventDefault();
         $(this).tab('show');
       });
-    fetch('/auth/api/events')
+    await fetch('/auth/api/events',{method:'GET'})
         .then(response => response.json())
         .then(data => {
             renderEvents(data); // Render events on page load
@@ -26,9 +26,6 @@ $(document).ready(function () {
                 });
 
                 renderEvents(filteredEvents);
-                // Update suggestion list based on the filtered events
-                //const filteredEventNames = filteredEvents.map(event => event.eventname);
-                //updateEventSuggestions(filteredEventNames);
             });
         })
         .catch(error => {
