@@ -99,30 +99,30 @@
             <button class="btn btn-primary px-2 mx-2" type="button" data-bs-toggle="collapse" data-bs-target="#filterMenu" aria-expanded="false" aria-controls="filterMenu">Filter</button>
 
             <!-- Add a collapsed dropdown menu for the filter options -->
-            <div class="collapse" id="filterMenu" style="size: 50%;">
-                <form class="row">
-                    <div class="col-md-3">
+            <div class="collapse " id="filterMenu">
+                <form class="row d-flex align-items-center">
+                    <div class="col-2">
                         <label for="filterDate" class="form-label">Filter Date</label>
-                        <input type="date" class="form-control custom-input" id="filterDate">
+                        <input type="date" class="form-control custom-input-sm" id="filterDate">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-2">
                         <label for="filterTime" class="form-label">Filter Time</label>
-                        <input type="time" class="form-control custom-input" id="filterTime">
+                        <input type="time" class="form-control custom-input-sm" id="filterTime">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-2">
                         <label for="filterTitle" class="form-label">Filter by Title</label>
-                        <input type="text" class="form-control custom-input" id="filterTitle" placeholder="Filter by Title">
+                        <input type="text" class="form-control custom-input-sm" id="filterTitle" placeholder="Filter by Title">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-3">
                         <label for="filterVenue" class="form-label">Filter by Venue</label>
-                        <input type="text" class="form-control custom-input" id="filterVenue" placeholder="Filter by Venue">
+                        <input type="text" class="form-control custom-input-sm" id="filterVenue" placeholder="Filter by Venue">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-3">
                         <label for="filterDescription" class="form-label">Filter by Description</label>
-                        <input type="text" class="form-control custom-input" id="filterDescription" placeholder="Filter by Description">
+                        <input type="text" class="form-control custom-input-sm" id="filterDescription" placeholder="Filter by Description">
                     </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-primary" id="filterEvents">Find</button>
+                    <div class="col-3">
+                        <button type="button" class="btn btn-primary btn-sm" id="filterEvents">Find</button>
                     </div>
                 </form>
             </div>
