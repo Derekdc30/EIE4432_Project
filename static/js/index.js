@@ -156,72 +156,69 @@ $(document).ready(async function () {
         alert("Error: ",error);
       })
     }
-  });
-
-  $('#logoutButton').click(function() {
-      const response = confirm("Confirm to logout");
-      if(response){
-        fetch('/auth/logout',{method: 'POST'}).then(data=>{
-          $("#login_register").removeClass('d-none').addClass('show');
-          $("#logout_info").removeClass('show').addClass('d-none');
-        })
-      }
     });
-
-  $('#forgotpasswordbtn').click(function() {
-      $(".registrationTab").removeClass('show').addClass('hide');
-      $(".forgotTab").removeClass('d-none').addClass('show');
-    });
-  $('#reset_password').click(function() {
-      var userID = $("#forgot_user_ID").val();
-      var nickname = $("#forgot_user_nickname").val();
-      var birthday = $("#forgot_birthday").val();
-      var newPassword = $("#new_password").val();
-      var confirmNewPassword = $("#confirm_new_password").val();
-      var formdata = new FormData();
-      formdata.append('userID',userID);
-      formdata.append('nickname',nickname);
-      formdata.append('birthday',birthday);
-      formdata.append('newPassword',newPassword);
-      formdata.append('confirmNewPassword', confirmNewPassword);
-      if(!userID || !nickname || !birthday || !newPassword || !confirmNewPassword){
-        alert("Field cannot be empty");
-        return
-      }
-      fetch('/auth/forgot',{
-        method:'POST',
-        body:formdata
-      })
-      .then(response => response.json())
-      .then(data =>{
-       if(data.status == 'success'){
-                //signin success action
-                alert(data.message);
-                $(".registrationTab").removeClass('show').addClass('hide');
-                $(".forgotTab").removeClass('d-none').addClass('show');
-            }
-            else if(data.status == 'failed'){
-                alert(data.message);
-            }
-            else{
-                alert('unknown error');
-            }
-        }).catch(error =>{
-            console.error("Error: ",error);
-        })
-    });
-
-  $("#filterEvents").click(function () {
-      fetch('/auth/api/events')
-          .then(response => response.json())
-          .then(data => {
-              const filteredEvents = filterEvents(data);
-              renderEvents(filteredEvents);
+    $('#logoutButton').click(function() {
+        const response = confirm("Confirm to logout");
+        if(response){
+          fetch('/auth/logout',{method: 'POST'}).then(data=>{
+            $("#login_register").removeClass('d-none').addClass('show');
+            $("#logout_info").removeClass('show').addClass('d-none');
           })
-          .catch(error => {
-              console.error('Error fetching events:', error);
-          });
-  });
+        }
+    });
+    $('#forgotpasswordbtn').click(function() {
+        $(".registrationTab").removeClass('show').addClass('hide');
+        $(".forgotTab").removeClass('d-none').addClass('show');
+    });
+    $('#reset_password').click(function() {
+        var userID = $("#forgot_user_ID").val();
+        var nickname = $("#forgot_user_nickname").val();
+        var birthday = $("#forgot_birthday").val();
+        var newPassword = $("#new_password").val();
+        var confirmNewPassword = $("#confirm_new_password").val();
+        var formdata = new FormData();
+        formdata.append('userID',userID);
+        formdata.append('nickname',nickname);
+        formdata.append('birthday',birthday);
+        formdata.append('newPassword',newPassword);
+        formdata.append('confirmNewPassword', confirmNewPassword);
+        if(!userID || !nickname || !birthday || !newPassword || !confirmNewPassword){
+          alert("Field cannot be empty");
+          return
+        }
+        fetch('/auth/forgot',{
+          method:'POST',
+          body:formdata
+        })
+        .then(response => response.json())
+        .then(data =>{
+        if(data.status == 'success'){
+                  //signin success action
+                  alert(data.message);
+                  $(".registrationTab").removeClass('show').addClass('hide');
+                  $(".forgotTab").removeClass('d-none').addClass('show');
+              }
+              else if(data.status == 'failed'){
+                  alert(data.message);
+              }
+              else{
+                  alert('unknown error');
+              }
+          }).catch(error =>{
+              console.error("Error: ",error);
+          })
+    });
+    $("#filterEvents").click(function () {
+        fetch('/auth/api/events')
+            .then(response => response.json())
+            .then(data => {
+                const filteredEvents = filterEvents(data);
+                renderEvents(filteredEvents);
+            })
+            .catch(error => {
+                console.error('Error fetching events:', error);
+            });
+    });
 
   document.getElementById("eventSearch").addEventListener("input", function () {
     const searchTerm = this.value.toLowerCase();
@@ -241,7 +238,7 @@ $(document).ready(async function () {
         .catch(error => {
             console.error('Error fetching events:', error);
         });
-});
+  });
 });
 function checkUserStatus() {
   fetch('/auth/me')
@@ -282,7 +279,7 @@ function checkUserRole() {
                 alert('An error occurred');
                 window.open('/login.html', '_self');
             });
-    }
+}
 function getCookie(name) {
     const cookieValue = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (cookieValue) {
@@ -290,8 +287,7 @@ function getCookie(name) {
     return value;
     }
     return '';
-  }
-
+}
 function renderEvents(events) {
     // Clear previous events
     document.getElementById("Event-Dashboard").innerHTML = "";
@@ -339,7 +335,6 @@ function renderEvents(events) {
 
     document.getElementById("Event-Dashboard").append(divcontainer);
 }
-
 function updateEventSuggestions(suggestions) {
     const datalist = document.getElementById("eventSuggestions");
     // Clear previous suggestions
@@ -352,7 +347,6 @@ function updateEventSuggestions(suggestions) {
         datalist.appendChild(option);
     });
 }
-
 function filterEvents(events) {
     const filterDate = $("#filterDate").val();
     const filterTime = $('#filterTime').val();

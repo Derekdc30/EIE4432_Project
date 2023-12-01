@@ -78,7 +78,6 @@ async function insertEvent(eventname, type, price, image, seatnumber, date, time
     return false;
   }
 }
-
 async function event_exist(eventname) { // this function is to check event exist or not
   try {
     const user = await event.findOne({ eventname:eventname });

@@ -271,8 +271,7 @@ function generateEventTabs(events) {
                                 </div>`);
         tabList.append(createEventTab);
         tabContent.append(createEventTabPane);
-    }
-
+}
 function displaySeatMap(svgId, seatnum, booked, transaction) {
     var svgCircle = document.getElementById(svgId);
     let y = 0;
@@ -329,7 +328,6 @@ function displaySeatMap(svgId, seatnum, booked, transaction) {
         alert(seatNumber);
     }
 }
-
 async function editevent(eventid){
         console.log('Event ID:', eventid);
         var eventname = $(`#eventTitle_${eventid}`).val();
@@ -398,7 +396,6 @@ async function editevent(eventid){
             });
         }
 }
-
 function generateTransactionTab(transactions) {
     const tabList = $('#myTab');
     const tabContent = $('#myTabContent');
@@ -424,7 +421,6 @@ function generateTransactionTab(transactions) {
     tabList.append(transactionTab);
     tabContent.append(transactionTabPane);
 }
-
 function generateAccountTab(account) {
     const tabList = $('#myTab');
     const tabContent = $('#myTabContent');
@@ -487,7 +483,6 @@ function generateAccountTab(account) {
     tabList.append(accountTab);
     tabContent.append(accountTabPane);
 }
-
 function filterEvents() {
     const searchTitle = $('#searchTitle').val().toLowerCase();
     const searchDate = $('#searchDate').val();
@@ -507,7 +502,6 @@ function filterEvents() {
 
     generateEventTabs(filteredEvents);
 }
-
 async function cancelEvent(eventID){
     const isConfirmed = window.confirm('Are you sure you want to cancel this event?');
 

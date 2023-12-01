@@ -7,7 +7,6 @@ $(document).ready(function () {
     getUserDataAndImage();
     getUserTransactionHistory();
 });
-
 // Function to get user data from the server
 function getUserDataAndImage() {
     // Make a fetch request to your /me route to get the user data
@@ -31,7 +30,6 @@ function getUserDataAndImage() {
             console.error('Error fetching user data:', error);
         });
 }
-
 // Function to display user information
 function displayUserInfo(user) {
     // Construct the HTML content with user information
@@ -64,7 +62,6 @@ function displayUserInfo(user) {
 
     $('#Account_info').html(userInfoHTML);
 }
-
 // Function to display the user's profile image
 function displayProfileImage(base64Image) {
     const imageElement = document.getElementById('userImage'); // Assuming you have an <img> element with id="profileImage"
@@ -72,7 +69,6 @@ function displayProfileImage(base64Image) {
     // Set the src attribute of the img element to the base64-encoded image
     imageElement.src = 'data:image/jpeg;base64,' + base64Image;
 }
-
 // Function to replace user information with a form for modification
 function replaceWithEditForm() {
    if (isUpdateInProgress) {
@@ -118,7 +114,6 @@ function replaceWithEditForm() {
     // Add a click event to the "Save Changes" button
     $('#saveChangesBtn').click(saveChanges);
 }
-
 // Function to save changes and revert to displaying user information
 function saveChanges() {
    if (isUpdateInProgress) {
@@ -161,7 +156,6 @@ function saveChanges() {
           alert("Error: ",error);
       })
 }
-
 // Function to get and display user transaction history
 function getUserTransactionHistory() {
     // Make a fetch request to your '/transactionHistory' route
@@ -179,7 +173,6 @@ function getUserTransactionHistory() {
             console.error('Error fetching transaction history:', error);
         });
 }
-
 // Function to display user transaction history
 function displayTransactionHistory(transactions) {
     // Check if there are transactions to display
