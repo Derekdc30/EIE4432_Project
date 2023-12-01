@@ -1,3 +1,5 @@
+//<!--20060616d Choy Wing Ho-->
+//<!--22019343d Siu Ching Him-->
 const eventData = []
 $(document).ready(async function () {
   await fetch('/auth/api/events')  // Assuming this endpoint provides a list of events

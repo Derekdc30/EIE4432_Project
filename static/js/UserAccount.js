@@ -1,3 +1,5 @@
+//<!--20060616d Choy Wing Ho-->
+//<!--22019343d Siu Ching Him-->
 // Call the function when the page is ready
 var user;
 var isUpdateInProgress = false;

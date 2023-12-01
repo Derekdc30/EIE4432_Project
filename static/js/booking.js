@@ -1,5 +1,5 @@
 //<!--20060616d Choy Wing Ho-->
-//<!--22019343 Siu Ching Him-->
+//<!--22019343d Siu Ching Him-->
 var seatarr = [];
 var seatnum = 0;
 var selected=[];
