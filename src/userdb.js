@@ -64,15 +64,14 @@ async function validate_user(username, password) {
 }
 async function update_user(username, password, nickname, gender, birthday, profileImage) {
   const user = await users.findOne({ username : username })
-  var temp;
+  var temp = password;
   if(user){
     const currentDate = new Date();
     await users.updateOne({username:username},{$set:{change:currentDate}});
-    await sha256(password).then(hash => {
-        temp = hash;
-      });
     if(user.password != temp){
-      password = temp;
+      await sha256(temp).then(hash => {
+        password = hash;
+      });
     }
     else{
       password = user.password;
@@ -87,7 +86,7 @@ async function update_user(username, password, nickname, gender, birthday, profi
   try {
     const result = await users.updateOne(
       { username },
-      { $set: { password, nickname, gender, birthday } },
+      { $set: { password:password, nickname: nickname, gender: gender, birthday: birthday } },
       { upsert: true }
     );
 
