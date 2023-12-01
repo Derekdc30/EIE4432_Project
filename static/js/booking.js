@@ -20,6 +20,8 @@ $(document).ready(async function () {
         $("#Seat_Reset").addClass("d-none");
         $(".booking-form").addClass("d-none");
         $(".info").removeClass("d-none");
+        selected=[];
+        totalprice=0;
     });
     $("#Payment_Proceed").click(function(){
         var option = document.getElementsByName("Payment_Method");
