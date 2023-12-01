@@ -3,9 +3,8 @@ import session from "express-session";
 import login from "./route.js";
 import mongostore from 'connect-mongo';
 import client from "./dbclient.js";'/dbclient.js';
+import path from 'path';
 
-import{ gridFSBucket } from './userdb.js';
-import { ObjectId } from 'mongodb';
 const app = express();
 app.use(
  session({
@@ -25,7 +24,7 @@ app.use(
 app.use('/auth', login);
 app.use(express.static('static'));
 app.use(express.static('assets'));
-
+app.use('/', express.static(path.join(process.cwd(), '/static')));
 
 
 
