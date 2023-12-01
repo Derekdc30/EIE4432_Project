@@ -96,49 +96,51 @@
                 </ul>
             </div>
             <!--Search bar at Nav-bar-->
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#filterMenu" aria-expanded="false" aria-controls="filterMenu">Filter</button>
+            <button class="btn btn-primary px-2 mx-2" type="button" data-bs-toggle="collapse" data-bs-target="#filterMenu" aria-expanded="false" aria-controls="filterMenu">Filter</button>
 
             <!-- Add a collapsed dropdown menu for the filter options -->
-            <div class="collapse" id="filterMenu">
-                <form class="d-flex">
-                        <div class="col-md-3">
+            <div class="collapse" id="filterMenu" style="size: 50%;">
+                <form class="row">
+                    <div class="col-md-3">
                         <label for="filterDate" class="form-label">Filter Date</label>
-                        <input type="date" class="form-control" id="filterDate">
+                        <input type="date" class="form-control custom-input" id="filterDate">
                     </div>
                     <div class="col-md-3">
                         <label for="filterTime" class="form-label">Filter Time</label>
-                        <input type="time" class="form-control" id="filterTime">
+                        <input type="time" class="form-control custom-input" id="filterTime">
                     </div>
-                    <div class="input-group">
-                        <label for="filterTitle" class="visually-hidden">Filter by Title</label>
-                        <input type="text" class="form-control" id="filterTitle" placeholder="Filter by Title">
+                    <div class="col-md-3">
+                        <label for="filterTitle" class="form-label">Filter by Title</label>
+                        <input type="text" class="form-control custom-input" id="filterTitle" placeholder="Filter by Title">
                     </div>
-                    <div class="input-group">
-                        <label for="filterVenue" class="visually-hidden">Filter by Venue</label>
-                        <input type="text" class="form-control" id="filterVenue" placeholder="Filter by Venue">
+                    <div class="col-md-3">
+                        <label for="filterVenue" class="form-label">Filter by Venue</label>
+                        <input type="text" class="form-control custom-input" id="filterVenue" placeholder="Filter by Venue">
                     </div>
-                    <div class="input-group">
-                        <label for="filterDescription" class="visually-hidden">Filter by Description</label>
-                        <input type="text" class="form-control" id="filterDescription" placeholder="Filter by Description">
+                    <div class="col-md-3">
+                        <label for="filterDescription" class="form-label">Filter by Description</label>
+                        <input type="text" class="form-control custom-input" id="filterDescription" placeholder="Filter by Description">
                     </div>
-                    <button type="button" class="btn btn-primary" id="filterEvents">Find</button>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" id="filterEvents">Find</button>
+                    </div>
                 </form>
             </div>
-            <div class="search-container text-center search-bar">
+            <div class="search-container text-center search-bar mx-2">
                 <form>
                     <input type="text" id="eventSearch" placeholder="Search Concert" list="eventSuggestions" autocomplete="off">
                     <datalist id="eventSuggestions"></datalist>
                 </form>
             </div>
             <!--Login/ register button at Nav-bar-->
-            <div class="" id= "login_register" style="margin-left: auto;">
+            <div class="d-flex align-items-center" id= "login_register" style="margin-left: auto;">
                 <ul class="navbar-nav text-light px-4">
                     <li class="nav-item active">
                         <a class="" id="registrationButton" href="#">login/register</a>
                     </li>
                 </ul>
             </div>
-            <div class="d-none d-flex d-inline" id="logout_info">
+            <div class="d-none d-flex d-inline align-items-center" id="logout_info">
                 <a class="" id="UserInfoPage" href="#" onclick="checkUserRole()">placeholder</a>
                 <ul class="navbar-nav text-light px-4">
                     <li class="nav-item active">

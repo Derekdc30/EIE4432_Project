@@ -240,17 +240,20 @@ function handleClick(event) {
             if(data.status == 'success'){
                 username= data.user.username;
                 var rectID = event.target.getAttribute("id");
-                selected.push(rectID);
-                $("#Seat_Reset").removeClass("d-none");
-                $(".booking-form").removeClass("d-none");
-                $(".info").addClass("d-none");
-                $(".Paypal-Payment").addClass("d-none");
-                $(".Master-Visa-Payment").addClass("d-none");
-                $(".AE-Payment").addClass("d-none");
-                $(".Purchase-success").addClass("d-none");
-                document.getElementById('SelectedSeat').textContent = `You have selected ${selected}`;
-                totalprice += parseInt(event.target.getAttribute("value"), 10);
-                document.getElementById('TotalPrice').textContent = `Total price is $${totalprice}`;
+                if(!selected.includes(rectID))
+                {
+                    selected.push(rectID);
+                    $("#Seat_Reset").removeClass("d-none");
+                    $(".booking-form").removeClass("d-none");
+                    $(".info").addClass("d-none");
+                    $(".Paypal-Payment").addClass("d-none");
+                    $(".Master-Visa-Payment").addClass("d-none");
+                    $(".AE-Payment").addClass("d-none");
+                    $(".Purchase-success").addClass("d-none");
+                    document.getElementById('SelectedSeat').textContent = `You have selected ${selected}`;
+                    totalprice += parseInt(event.target.getAttribute("value"), 10);
+                    document.getElementById('TotalPrice').textContent = `Total price is $${totalprice}`;
+                }
             }
             else if(data.status == 'failed'){
                 alert("Please login first");
@@ -302,7 +305,6 @@ function generateReceipt(concertDetails) {
             <p>Venue: ${concertDetails.venue}</p>
             <p>Seats: ${selected.join(", ")}</p>
             <p>Total Price: $${totalprice}</p>
-            <img src="barcode.png" alt="Barcode" width="150px" height="150px">
             <p class="disclaimer">This is your electronic ticket. Please present it at the entrance for admission.</p>
         `;
 

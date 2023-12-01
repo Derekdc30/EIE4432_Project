@@ -348,6 +348,9 @@ async function editevent(eventid){
         else if(!eventType){
             alert("Event type cannot be empty");
         }
+        else if(!eventImage){
+            alert("Event Image cannot be empty");
+        }
         else if(!eventPriceHigh || !eventPriceMiddle || !eventPriceLow){
             alert("Price cannot be empty");
         }
