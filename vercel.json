@@ -10,13 +10,7 @@
     }
     ],
   "routes": [
-    { "src": "/auth/login", "dest": "/api/route.js" },
-    { "src": "/auth/logout", "dest": "/api/route.js" },
-    { "src": "/auth/me", "dest": "/api/route.js" },
-    { "src": "/auth/register", "dest": "/api/route.js" },
-    { "src": "/auth/pay/visa", "dest": "/api/route.js" },
-    { "src": "/auth/pay/paypal", "dest": "/api/route.js" },
-    { "src": "/auth/pay/AE", "dest": "/api/route.js" },
+    { "src": "/auth/(.*)", "dest": "/api/route.js" },
     { "src": "/(.*)", "dest": "/api/index.js" }
   ]
 }
