@@ -57,6 +57,15 @@ function displayUserInfo(user) {
               '<div class="col">********</div>' +
           '</div>' +
           '<div class="row mb-3">' +
+              '<div class="col"><p>Last login attempt</p></div>' +
+              '<div class="col">'+user.loginattempt.split('T')[0]+" "+user.loginattempt.split('T')[1].split("Z")[0]+" GMT+8"+'</div>' +
+          '</div>' +
+          '<div class="row mb-3">' +
+              '<div class="col"><p>Last edit profile or password</p></div>' +
+              '<div class="col">'+user.change.split('T')[0]+" "+user.change.split('T')[1].split("Z")[0]+" GMT+8"+'</div>' +
+          '</div>' +
+          
+          '<div class="row mb-3">' +
               '<div class="col"><button id="modifyUserInfoBtn" class="btn btn-primary" onClick="replaceWithEditForm()">Edit</button></div>' +
           '</div>' +
         '</div>';
