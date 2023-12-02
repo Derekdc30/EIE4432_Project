@@ -313,7 +313,6 @@ function renderEvents(events) {
         } catch (error) {
             console.error('Error fetching events:', error);
         }
-
         const card = `
             <div class="col card m-2 justify-content-center" id="${obj.eventname}">
                 <a href="/booking.html?eventId=${obj.uid}">
