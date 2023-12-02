@@ -6,7 +6,6 @@ import login from "./route.js";
 import mongostore from 'connect-mongo';
 import client from "./dbclient.js";'/dbclient.js';
 import path from 'path';
-export const runtime = 'experimental-edge'
 
 const app = express();
 app.use(
