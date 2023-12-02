@@ -63,7 +63,7 @@ $(document).ready(async function () {
             alert("Price cannot be empty");
         }
         else if(!eventImage){
-            alert("Event Image link cannot be empty");
+            alert("Event Image cannot be empty");
         }
         else if (!eventSeatNumber){
             alert("Seat number cannot be empty");
