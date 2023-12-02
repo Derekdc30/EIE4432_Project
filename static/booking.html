@@ -55,15 +55,15 @@
                 float: bottom;
             }
             .svg-seatmap{
-                width:25%;
+                width:100%;
                 float:top;
             }
         }
 
         @media (min-width: 768px) {
             .booking-info {
-                width: 50%;
-                float: left;
+                width: 100%;
+                float: bottom;
             }
         }
         </style>
@@ -79,21 +79,26 @@
                 </ul>
             </div>
         </nav>
-        <div class="wrapper" style="width: 100%; display: flex; flex-wrap: wrap;">
-            <div class="container svg-seatmap " style="text-align: center; width: 50%; float: left; flex-grow: 1" id="svg-div">
-                <div class="d-flex d-inline">
+        <div class="wrapper" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
+            <div class="container svg-seatmap" style="text-align: center; max-width: 100%;">
+                <div class="d-flex d-inline justify-content-center" style="">
                         <p class="px-3 mx-5" style="background-color: #ffffff;">Highest Price</p>
                         <p class="px-3 mx-5" style="background-color: #caca21;">Middle Price</p>
                         <p class="px-3 mx-5" style="background-color: #279e27;">Lowest Price</p>
                         <p class="px-3 mx-5" style="background-color: #d33157;">Not available</p>
                 </div>
-                <svg id="svg-text" width="500" height="70">
-                    <rect width="200" height="60" style="fill:rgb(149, 149, 196);stroke-width:3;stroke:rgb(0,0,0)" />
-                    <text x="60" y="40" class="h3">Stage</text>
-                </svg>
-                <svg id="svg" width="1000" height="300" xmlns="http://www.w3.org/2000/svg">
+                <div style="display: flex; margin:auto;">
+                    <svg id="svg-text" width="200" height="60">
+                        <rect width="200" height="60" style="fill:rgb(149, 149, 196);stroke-width:3;stroke:rgb(0,0,0)" />
+                        <text x="60" y="40" class="h3">Stage</text>
+                    </svg>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <svg id="svg" width="500" height="300" xmlns="http://www.w3.org/2000/svg">
                     
-                </svg>
+                    </svg>
+                </div>
+                
                 <div>
                     <button type="button" class="btn btn btn-success d-none" id="Seat_Reset">Reset</button>
                 </div>
