@@ -12,7 +12,7 @@
         <script src="/js/activityDetection.js" defer></script>
         <style>
             body{
-                background-image: url(background.jpg);
+                background-image: url(assets/background.jpg);
             }
             #svg-div{
                 justify-content: center;
@@ -109,19 +109,19 @@
                                         <input class="form-check-input" type="radio" name="Payment_Method" id="Master_Visa" value="Master_Visa">
                                         <label class="form-check-label" for="Master_Visa">Mastercard / Visa</label>
                                         <div class="d-inline">
-                                            <img src="Mastercard.png" alt="Mastercard" style="width: 7%; height:7%;">
-                                            <img src="Visa.png" alt="Visa" style="width: 7%; height:7%;">
+                                            <img src="assets/Mastercard.png" alt="Mastercard" style="width: 7%; height:7%;">
+                                            <img src="assets/Visa.png" alt="Visa" style="width: 7%; height:7%;">
                                         </div>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="Payment_Method" id="Paypal" value="Paypal">
                                         <label class="form-check-label" for="Paypal">Paypal</label>
-                                        <img src="paypal.png" alt="Paypal" style="width: 5%; height:5%;">
+                                        <img src="assets/paypal.png" alt="Paypal" style="width: 5%; height:5%;">
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="Payment_Method" id="AE" value="AE">
                                         <label class="form-check-label" for="AE">American Express</label>
-                                        <img src="American_Express.png" alt="American Express" style="width: 10%; height:10%;">
+                                        <img src="assets/American_Express.png" alt="American Express" style="width: 10%; height:10%;">
                                     </div>
                                 </div>
                                 <div>
@@ -132,8 +132,8 @@
                         <div class="Master-Visa-Payment d-none">
                             <form action="/pay/visa" method="post" id="payment_form_visa">
                                 <div>
-                                    <img src="Mastercard.png" alt="Mastercard" style="width: 7%; height:7%;">
-                                    <img src="Visa.png" alt="Visa" style="width: 7%; height:7%;">
+                                    <img src="assets/Mastercard.png" alt="Mastercard" style="width: 7%; height:7%;">
+                                    <img src="assets/Visa.png" alt="Visa" style="width: 7%; height:7%;">
                                 </div>
                                 <div>
                                     <label for="Master_Card_No" class="form-label">Card Number:</label>
@@ -181,7 +181,7 @@
                         </div>
                         <div class="Paypal-Payment d-none">
                             <form action="/pay/paypal" method="post" id="payment_form_paypal">
-                                <img src="paypal.png" alt="Paypal" style="width: 5%; height:5%;">
+                                <img src="assets/paypal.png" alt="Paypal" style="width: 5%; height:5%;">
                                 <p class="h4">using Paypal to pay</p>
                                 <p class="h4">login in to paypal using email or phone number</p>
                                 <div class="py-3">
@@ -199,7 +199,7 @@
                         <div class="AE-Payment d-none">
                             <form action="/pay/AE" method="post" id="payment_form_AE">
                                 <p class="h3">Payment Details</p>
-                                <img src="American_Express.png" alt="American Express" style="width: 10%; height:10%;">
+                                <img src="assets/American_Express.png" alt="American Express" style="width: 10%; height:10%;">
                                 <div>
                                     <label for="AE_Cardholder" class="form-label">Cardholder name:</label>
                                     <input type="text" class="form-control" id="AE_Cardholder" autocomplete="=false">
