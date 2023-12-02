@@ -184,7 +184,7 @@ route.post('/register', form.single('profileImage'), async (req, res) => {
   }
 });
 route.post('/pay/visa', form.none(),async (req, res) => {
-  if (!req.body.Master_Card_No || !req.body.Month || !req.body.Year || !req.body.Master_Cardholder || !req.body.Master_Security) {
+  if (!req.body.Master_Card_No || !(req.body.Month == "MM") || !(req.body.Year == "YY") || !req.body.Master_Cardholder || !req.body.Master_Security) {
     return res.status(500).json({
       status: 'failed',
       message: 'Missing fields',
