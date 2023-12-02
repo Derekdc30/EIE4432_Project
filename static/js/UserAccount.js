@@ -58,11 +58,11 @@ function displayUserInfo(user) {
           '</div>' +
           '<div class="row mb-3">' +
               '<div class="col"><p>Last login attempt</p></div>' +
-              '<div class="col">'+user.loginattempt.split('T')[0]+" "+user.loginattempt.split('T')[1].split("Z")[0]+" GMT+8"+'</div>' +
+              '<div class="col">'+user.loginattempt.split('T')[0]+" "+user.loginattempt.split('T')[1].split("Z")[0]+" GMT+0"+'</div>' +
           '</div>' +
           '<div class="row mb-3">' +
               '<div class="col"><p>Last edit profile or password</p></div>' +
-              '<div class="col">'+user.change.split('T')[0]+" "+user.change.split('T')[1].split("Z")[0]+" GMT+8"+'</div>' +
+              '<div class="col">'+user.change.split('T')[0]+" "+user.change.split('T')[1].split("Z")[0]+" GMT+0"+'</div>' +
           '</div>' +
           
           '<div class="row mb-3">' +
@@ -179,6 +179,7 @@ function getUserTransactionHistory() {
     fetch('/auth/transactionHistory')
         .then(response => response.json())
         .then(data => {
+            alert(data);
             if (data.status === 'success') {
                 // Display the transaction history
                 displayTransactionHistory(data.transactions);
