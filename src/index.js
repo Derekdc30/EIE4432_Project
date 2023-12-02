@@ -24,7 +24,7 @@ app.use(
 
 
 app.use('/auth', login);
-app.use(express.static('static'));
+//app.use(express.static('static'));
 app.use(express.static('assets'));
 app.use('/', express.static(path.join(process.cwd(), '/static')));
 
