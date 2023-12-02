@@ -9,15 +9,15 @@ $(document).ready(function () {
     getUserTransactionHistory();
 });
 // Function to get user data from the server
-function getUserDataAndImage() {
+async function getUserDataAndImage() {
     // Make a fetch request to your /me route to get the user data
-    fetch('/auth/me')
+    await fetch('/auth/me')
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 // Display user information
-                displayUserInfo(data.user);
                 user = data.user;
+                displayUserInfo(user);
                 // Check if the user has a profileImage field
                 if (data.user.profileImage) {
                     // Display the profile image
@@ -58,11 +58,11 @@ function displayUserInfo(user) {
           '</div>' +
           '<div class="row mb-3">' +
               '<div class="col"><p>Last login attempt</p></div>' +
-              '<div class="col">'+user.loginattempt.split('T')[0]+" "+user.loginattempt.split('T')[1].split("Z")[0]+" GMT+0"+'</div>' +
+              '<div class="col">'+this.user.loginattempt.split('T')[0]+" "+this.user.loginattempt.split('T')[1].split("Z")[0]+" GMT+0"+'</div>' +
           '</div>' +
           '<div class="row mb-3">' +
               '<div class="col"><p>Last edit profile or password</p></div>' +
-              '<div class="col">'+user.change.split('T')[0]+" "+user.change.split('T')[1].split("Z")[0]+" GMT+0"+'</div>' +
+              '<div class="col">'+this.user.change.split('T')[0]+" "+this.user.change.split('T')[1].split("Z")[0]+" GMT+0"+'</div>' +
           '</div>' +
           
           '<div class="row mb-3">' +
@@ -153,7 +153,7 @@ async function saveChanges() {
       formdata.append('nickname', $('input[name="nickname"]').val());
       formdata.append('password', $('input[name="password"]').val());
       formdata.append('profileImage', document.querySelector('input[name="profileImage"]').files[0]);
-      fetch('/auth/updateinfo',{
+      await fetch('/auth/updateinfo',{
         method:'POST',
         body:formdata
       }).then(response=>response.json())
@@ -174,12 +174,11 @@ async function saveChanges() {
       })
 }
 // Function to get and display user transaction history
-function getUserTransactionHistory() {
+async function getUserTransactionHistory() {
     // Make a fetch request to your '/transactionHistory' route
-    fetch('/auth/transactionHistory')
+    await fetch('/auth/transactionHistory')
         .then(response => response.json())
         .then(data => {
-            alert(data);
             if (data.status === 'success') {
                 // Display the transaction history
                 displayTransactionHistory(data.transactions);
