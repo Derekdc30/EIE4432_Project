@@ -21,13 +21,6 @@ app.use(
  }),
  })
 );
-
-
-app.use('/auth', login);
-//app.use(express.static('static'));
-app.use(express.static('assets'));
-app.use('/', express.static(path.join(process.cwd(), '/static')));
-
 const PREAUTH_KEY = '<EIE4432>';
 app.use((req, res, next) => {
     if (!req.session?.allow_access) {
@@ -42,6 +35,13 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+
+app.use('/auth', login);
+//app.use(express.static('static'));
+app.use(express.static('assets'));
+app.use('/', express.static(path.join(process.cwd(), '/static')));
+
 
 app.listen(8080, () => {
   console.log('Server is running on port 8080');
