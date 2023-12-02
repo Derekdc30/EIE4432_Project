@@ -323,7 +323,10 @@ route.post('/forgot',form.none(), async (req, res)=>{
   }
 });
 route.post('/updateinfo',form.single('profileImage'), async (req, res)=>{
+  console.log("uid: "+req.body.uid);
   if(await modify_user(req.body.username,req.body.password,req.body.nickname, req.body.gender, req.body.birthday,req.file,req.body.uid)){
+    req.session.logged = true;
+    req.session.username = req.body.username;
     return res.status(400).json({
       status:'success',
       user:{

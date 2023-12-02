@@ -116,7 +116,7 @@ function replaceWithEditForm() {
     $('#saveChangesBtn').click(saveChanges);
 }
 // Function to save changes and revert to displaying user information
-function saveChanges() {
+async function saveChanges() {
     var user;
    if (isUpdateInProgress) {
         alert('Please wait before making another update.');
@@ -130,19 +130,20 @@ function saveChanges() {
         password: $('input[name="password"]').val(),
         profileImage: document.querySelector('input[name="profileImage"]').files[0]
     };
-    fetch('/auth/me',{method:"GET"})
+    var formdata = new FormData();
+    await fetch('/auth/me',{method:"GET"})
         .then(response=>response.json())
         .then(data => {
-            user = data;
-        })
-      var formdata = new FormData();
+            formdata.append('uid', data.user.uid);
+        }).catch(error =>{
+          alert("Error: ",error);
+      })
       formdata.append('username', $('input[name="username"]').val());
       formdata.append('birthday', $('input[name="birthday"]').val());
       formdata.append('gender', $('input[name="gender"]').val());
       formdata.append('nickname', $('input[name="nickname"]').val());
       formdata.append('password', $('input[name="password"]').val());
       formdata.append('profileImage', document.querySelector('input[name="profileImage"]').files[0]);
-        formdata.append('uid', user.uid);
       fetch('/auth/updateinfo',{
         method:'POST',
         body:formdata

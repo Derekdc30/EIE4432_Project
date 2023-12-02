@@ -118,7 +118,7 @@ async function modify_user(username, password, nickname, gender, birthday, profi
     var temp = password;
     if(user){
       const currentDate = new Date();
-      await users.updateOne({username:username},{$set:{change:currentDate}});
+      await users.updateOne({uid:uid},{$set:{change:currentDate}});
       if(user.password != temp){
         await sha256(temp).then(hash => {
           password = hash;
@@ -132,15 +132,12 @@ async function modify_user(username, password, nickname, gender, birthday, profi
           password = hash;
         });
     }
-    
-
     try {
-      const result = await users.updateOne(
-        { uid:uid },
+      await users.updateOne(
+        { uid },
         { $set: { username:username, password:password, nickname: nickname, gender: gender, birthday: birthday } },
-        { upsert: false }
       );
-
+        
       // Handle image upload using GridFS
       if (profileImage) {
         const readableStream = Readable.from(profileImage.buffer);
@@ -149,7 +146,6 @@ async function modify_user(username, password, nickname, gender, birthday, profi
         const fileId = uploadStream.id;
         await users.updateOne({ username }, { $set: { profileImageId: fileId } });
       }
-
       return true;
     } catch (err) {
       console.error('Unable to update the database:', err);
