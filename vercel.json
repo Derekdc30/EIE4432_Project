@@ -1,22 +1,23 @@
 {
- "builds": [
- {
- "src": "src/index.js",
- "use": "@vercel/node"
- },
- {
- "src": "static/**",
- "use": "@vercel/static"
- }
- ],
- "routes": [
- {
- "src": "/(.*)",
- "dest": "src/index.js"
- },
- {
-  "src": "/(.*)",
- "dest": "src/route.js"
- }
- ]
+  "functions": {
+    "api/index.js": {
+      "runtime": "nodejs16"
+    },
+    "api/route.js": {
+      "runtime": "nodejs16"
+    }
+  },
+  "routes": [
+    { "src": "/auth/login", "dest": "/api/route.js" },
+    { "src": "/auth/logout", "dest": "/api/route.js" },
+    { "src": "/auth/me", "dest": "/api/route.js" },
+    { "src": "/auth/register", "dest": "/api/route.js" },
+    { "src": "/auth/pay/visa", "dest": "/api/route.js" },
+    { "src": "/auth/pay/paypal", "dest": "/api/route.js" },
+    { "src": "/auth/pay/AE", "dest": "/api/route.js" },
+    { "src": "/(.*)", "dest": "/api/index.js" }
+  ],
+  "builds": [
+    { "src": "/static/**", "use": "@vercel/static" }
+  ]
 }
