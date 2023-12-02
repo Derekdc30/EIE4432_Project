@@ -37,12 +37,10 @@ app.use((req, res, next) => {
     next();
 });*/
 
-
 app.use('/auth', login);
 //app.use(express.static('static'));
-app.use(express.static('assets'));
-app.use('/', express.static(path.join(process.cwd(), '/static')));
-
+//app.use(express.static('assets'));
+//app.use('/', express.static(path.join(process.cwd(), '/static')));
 
 app.listen(8080, () => {
   console.log('Server is running on port 8080');
