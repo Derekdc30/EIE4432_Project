@@ -229,7 +229,7 @@ route.post('/pay/paypal',form.none(), async (req, res)=>{
   });
 });
 route.post('/pay/AE',form.none(), async (req, res)=>{
-  if (!req.body.AE_Cardholder || !req.body.Month || !req.body.Year || !req.body.AE_Card_No || !req.body.AE_Security) {
+  if (!req.body.AE_Cardholder || (req.body.Month == "MM") || (req.body.Year == "YY") || !req.body.AE_Card_No || !req.body.AE_Security) {
     return res.status(500).json({
       status: 'failed',
       message: 'Missing fields',
