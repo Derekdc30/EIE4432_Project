@@ -5,13 +5,13 @@
  "use": "@vercel/node"
  },
  {
- "src": "static/**",
+ "src": "static/js/**",
  "use": "@vercel/static"
  }
  ],
  "routes": [
  {
- "src": "/(.*)",
+ "src": "src/route",
  "dest": "src/index.js"
  }
  ]
