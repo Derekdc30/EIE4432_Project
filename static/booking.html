@@ -49,23 +49,6 @@
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
             
-        @media (max-width: 767px) {
-             .booking-info{
-                width: 100%;
-                float: bottom;
-            }
-            .svg-seatmap{
-                width:100%;
-                float:top;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .booking-info {
-                width: 100%;
-                float: bottom;
-            }
-        }
         </style>
     </head>
     <body>
@@ -80,25 +63,22 @@
             </div>
         </nav>
         <div class="wrapper" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
-            <div class="container svg-seatmap" style="text-align: center; max-width: 100%;">
-                <div class="d-flex d-inline justify-content-center" style="">
-                        <p class="px-3 mx-5" style="background-color: #ffffff;">Highest Price</p>
-                        <p class="px-3 mx-5" style="background-color: #caca21;">Middle Price</p>
-                        <p class="px-3 mx-5" style="background-color: #279e27;">Lowest Price</p>
-                        <p class="px-3 mx-5" style="background-color: #d33157;">Not available</p>
+            <div class="container svg-seatmap" style="text-align: center; max-width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <div class="d-flex d-inline justify-content-center">
+                    <p class="px-3 mx-5" style="background-color: #ffffff;">Highest Price</p>
+                    <p class="px-3 mx-5" style="background-color: #caca21;">Middle Price</p>
+                    <p class="px-3 mx-5" style="background-color: #279e27;">Lowest Price</p>
+                    <p class="px-3 mx-5" style="background-color: #d33157;">Not available</p>
                 </div>
-                <div class="container" style="text-align: center; max-width: 100%;">
-                    <svg id="svg-text" width="200" height="60">
+                <div class="d-flex justify-content-center align-items-center">
+                    <svg id="svg-text" width="250" height="60">
                         <rect width="200" height="60" style="fill:rgb(149, 149, 196);stroke-width:3;stroke:rgb(0,0,0)" />
                         <text x="60" y="40" class="h3">Stage</text>
                     </svg>
                 </div>
-                <div style="display: block; justify-content: center; margin:auto;">
-                    <svg id="svg" width="500" height="300" xmlns="http://www.w3.org/2000/svg">
-                    
-                    </svg>
+                <div style="align-items: center; display:inline-flex; max-width: 100%;">
+                    <svg id="svg" width="600" height="300" xmlns="http://www.w3.org/2000/svg"></svg>
                 </div>
-                
                 <div>
                     <button type="button" class="btn btn btn-success d-none" id="Seat_Reset">Reset</button>
                 </div>

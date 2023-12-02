@@ -317,7 +317,7 @@ route.post('/forgot',form.none(), async (req, res)=>{
   }
   else{
     res.status(401).json({
-        status: 'success',
+        status: 'failed',
         message: 'error at resetting password',
       });
   }

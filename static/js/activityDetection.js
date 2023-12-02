@@ -14,7 +14,7 @@ $(document).ready(function () {
         $("#login_register").removeClass('d-none').addClass('show');
         $("#logout_info").removeClass('show').addClass('d-none');
       })
-    }, 600000); // 10 seconds
+    }, 600000); // 10mins
   };
 
   document.addEventListener('mousemove', resetActivityTimer);

@@ -434,7 +434,7 @@ function generateAccountTab(account) {
     // Populate Transaction History Tab Content
     account.forEach((account, index) => {
         const imgTag = account.profileImage
-      ? `<img id="userImage" src="${'data:image/jpeg;base64,' + account.profileImage}" alt="User Image" style="max-width: 25%;">`
+      ? `<img id="userImage" src="${'data:image/jpeg;base64,' + account.profileImage}" alt="User Image" style="max-width: 10%;">`
       : '';
      const loginAttemptDate = new Date(account.loginattempt);
 
