@@ -4,6 +4,7 @@ import fs from 'fs/promises';
 import client from './dbclient.js';
 import { GridFSBucket, ObjectId } from 'mongodb';
 import { Readable } from 'stream';
+import crypto from 'crypto';
 
 const users = client.db('lab5db').collection('user');
 const event = client.db('lab5db').collection('event');
