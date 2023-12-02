@@ -352,7 +352,7 @@ route.get('/transactionHistory', form.none(), async (req, res) => {
         });
       } else {
         res.json({
-          status: 'success',
+          status: 'failed',
           message: 'No transactions found for the user.',
         });
       }
