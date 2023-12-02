@@ -10,7 +10,7 @@
     }
     ],
   "routes": [
-    { "src": "/auth/(.*)", "dest": "/route.js" },
-    { "src": "/(.*)", "dest": "/index.js" }
+    { "src": "/auth/(.*)", "dest": "src/route.js" },
+    { "src": "/(.*)", "dest": "src/index.js" }
   ]
 }
