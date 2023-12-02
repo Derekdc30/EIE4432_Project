@@ -64,7 +64,7 @@ async function validate_user(username, password) {
     return false;
   }
 }
-async function update_user(username, password, nickname, gender, birthday, profileImage) {
+async function update_user(username, password, nickname, gender, birthday, profileImage,uid) {
   const user = await users.findOne({ username : username })
   var temp = password;
   if(user){
@@ -88,7 +88,7 @@ async function update_user(username, password, nickname, gender, birthday, profi
   try {
     const result = await users.updateOne(
       { username },
-      { $set: { password:password, nickname: nickname, gender: gender, birthday: birthday } },
+      { $set: { password:password, nickname: nickname, gender: gender, birthday: birthday, uid:uid } },
       { upsert: true }
     );
 
@@ -112,6 +112,49 @@ async function update_user(username, password, nickname, gender, birthday, profi
     console.error('Unable to update the database:', err);
     return false;
   }
+}
+async function modify_user(username, password, nickname, gender, birthday, profileImage, uid){
+  const user = await users.findOne({ uid : uid })
+    var temp = password;
+    if(user){
+      const currentDate = new Date();
+      await users.updateOne({username:username},{$set:{change:currentDate}});
+      if(user.password != temp){
+        await sha256(temp).then(hash => {
+          password = hash;
+        });
+      }
+      else{
+        password = user.password;
+      }
+    }else{
+      await sha256(password).then(hash => {
+          password = hash;
+        });
+    }
+    
+
+    try {
+      const result = await users.updateOne(
+        { uid:uid },
+        { $set: { username:username, password:password, nickname: nickname, gender: gender, birthday: birthday } },
+        { upsert: false }
+      );
+
+      // Handle image upload using GridFS
+      if (profileImage) {
+        const readableStream = Readable.from(profileImage.buffer);
+        const uploadStream = gridFSBucket.openUploadStream(username);
+        readableStream.pipe(uploadStream);
+        const fileId = uploadStream.id;
+        await users.updateOne({ username }, { $set: { profileImageId: fileId } });
+      }
+
+      return true;
+    } catch (err) {
+      console.error('Unable to update the database:', err);
+      return false;
+    }
 }
 async function fetch_user(username) {
   try {
@@ -280,6 +323,7 @@ export {
   tokens,
   transaction,
   validate_user,
+  modify_user,
   update_user,
   fetch_user,
   username_exist,

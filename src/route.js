@@ -18,6 +18,7 @@ import {
   fetch_transaction,
   all_transaction,
   transaction,
+  modify_user,
   event
 } from './userdb.js';
 import { 
@@ -167,7 +168,7 @@ route.post('/register', form.single('profileImage'), async (req, res) => {
     });
   }
 
-  if(await update_user(req.body.username,req.body.password,req.body.nickname, req.body.gender, req.body.birthday,req.file)){
+  if(await update_user(req.body.username,req.body.password,req.body.nickname, req.body.gender, req.body.birthday,req.file,generateuid())){
     return res.status(400).json({
       status:'success',
       user:{
@@ -322,7 +323,7 @@ route.post('/forgot',form.none(), async (req, res)=>{
   }
 });
 route.post('/updateinfo',form.single('profileImage'), async (req, res)=>{
-  if(await update_user(req.body.username,req.body.password,req.body.nickname, req.body.gender, req.body.birthday,req.file)){
+  if(await modify_user(req.body.username,req.body.password,req.body.nickname, req.body.gender, req.body.birthday,req.file,req.body.uid)){
     return res.status(400).json({
       status:'success',
       user:{

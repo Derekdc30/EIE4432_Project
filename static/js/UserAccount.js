@@ -1,5 +1,6 @@
 //<!--20060616d Choy Wing Ho-->
 //<!--22019343d Siu Ching Him-->
+
 // Call the function when the page is ready
 var user;
 var isUpdateInProgress = false;
@@ -116,6 +117,7 @@ function replaceWithEditForm() {
 }
 // Function to save changes and revert to displaying user information
 function saveChanges() {
+    var user;
    if (isUpdateInProgress) {
         alert('Please wait before making another update.');
         return;
@@ -128,6 +130,11 @@ function saveChanges() {
         password: $('input[name="password"]').val(),
         profileImage: document.querySelector('input[name="profileImage"]').files[0]
     };
+    fetch('/auth/me',{method:"GET"})
+        .then(response=>response.json())
+        .then(data => {
+            user = data;
+        })
       var formdata = new FormData();
       formdata.append('username', $('input[name="username"]').val());
       formdata.append('birthday', $('input[name="birthday"]').val());
@@ -135,7 +142,7 @@ function saveChanges() {
       formdata.append('nickname', $('input[name="nickname"]').val());
       formdata.append('password', $('input[name="password"]').val());
       formdata.append('profileImage', document.querySelector('input[name="profileImage"]').files[0]);
-
+        formdata.append('uid', user.uid);
       fetch('/auth/updateinfo',{
         method:'POST',
         body:formdata
