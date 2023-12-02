@@ -6,6 +6,7 @@ import login from "./route.js";
 import mongostore from 'connect-mongo';
 import client from "./dbclient.js";'/dbclient.js';
 import path from 'path';
+export const runtime = 'experimental-edge'
 
 const app = express();
 app.use(
@@ -21,7 +22,7 @@ app.use(
  }),
  })
 );
-const PREAUTH_KEY = '<EIE4432>';
+/*const PREAUTH_KEY = '<EIE4432>';
 app.use((req, res, next) => {
     if (!req.session?.allow_access) {
         if (req.query?.authkey === PREAUTH_KEY) {
@@ -34,7 +35,7 @@ app.use((req, res, next) => {
         }
     }
     next();
-});
+});*/
 
 
 app.use('/auth', login);

@@ -10,6 +10,7 @@
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="/js/booking.js"></script>
         <script src="/js/activityDetection.js" defer></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <style>
             body{
                 background-image: url(assets/background.jpg);
@@ -47,6 +48,24 @@
                 border-radius: 8px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
+            
+        @media (max-width: 767px) {
+             .booking-info{
+                width: 100%;
+                float: bottom;
+            }
+            .svg-seatmap{
+                width:25%;
+                float:top;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .booking-info {
+                width: 50%;
+                float: left;
+            }
+        }
         </style>
     </head>
     <body>
@@ -60,14 +79,14 @@
                 </ul>
             </div>
         </nav>
-        <div class="justify-content-center wrapper" style="width: 100%;">
-            <div class="container " style="text-align: center; width: 50%; float: left;" id="svg-div">
-            <div class="d-flex d-inline">
-                    <p class="px-3 mx-5" style="background-color: #ffffff;">Highest Price</p>
-                    <p class="px-3 mx-5" style="background-color: #caca21;">Middle Price</p>
-                    <p class="px-3 mx-5" style="background-color: #279e27;">Lowest Price</p>
-                    <p class="px-3 mx-5" style="background-color: #d33157;">Not available</p>
-            </div>
+        <div class="wrapper" style="width: 100%; display: flex; flex-wrap: wrap;">
+            <div class="container svg-seatmap " style="text-align: center; width: 50%; float: left; flex-grow: 1" id="svg-div">
+                <div class="d-flex d-inline">
+                        <p class="px-3 mx-5" style="background-color: #ffffff;">Highest Price</p>
+                        <p class="px-3 mx-5" style="background-color: #caca21;">Middle Price</p>
+                        <p class="px-3 mx-5" style="background-color: #279e27;">Lowest Price</p>
+                        <p class="px-3 mx-5" style="background-color: #d33157;">Not available</p>
+                </div>
                 <svg id="svg-text" width="500" height="70">
                     <rect width="200" height="60" style="fill:rgb(149, 149, 196);stroke-width:3;stroke:rgb(0,0,0)" />
                     <text x="60" y="40" class="h3">Stage</text>
@@ -79,7 +98,7 @@
                     <button type="button" class="btn btn btn-success d-none" id="Seat_Reset">Reset</button>
                 </div>
             </div>
-            <div class="booking-info column" style="justify-content: flex-end; margin-left: 50%; height:fit-content;">
+            <div class="booking-info column" style="flex-grow: 1; margin-left: 0; max-width: 100%;">
                 <div class="card mx-auto shadow-5-strong" style=" width:100%; background: hsla(0, 0%, 100%, 0.8);backdrop-filter: blur(30px);">
                     <div class="card-body px-5">
                         <div class="info">
