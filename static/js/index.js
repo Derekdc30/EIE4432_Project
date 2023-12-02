@@ -74,6 +74,7 @@ $(document).ready(async function () {
         $(".forgotTab").removeClass('show').addClass('hide');
     });
     $('#login').click(function(){
+        alert("prelogin");
         var username = $('#login_Name').val();
         var password = $('#login_Password').val();
         var rememberMe = document.getElementById('login_Check').checked;
@@ -105,6 +106,7 @@ $(document).ready(async function () {
         }).catch(error =>{
             console.error("Error: ",error);
         })
+        alert("post login");
     });
     $('#register').click(function() {
     var username = $('#register_user_ID').val();
