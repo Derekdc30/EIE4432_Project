@@ -21,6 +21,7 @@ app.use(
  }),
  })
 );
+app.use(express.json());
 /*const PREAUTH_KEY = '<EIE4432>';
 app.use((req, res, next) => {
     if (!req.session?.allow_access) {
