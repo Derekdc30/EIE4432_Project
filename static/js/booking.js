@@ -14,7 +14,6 @@ var username="";
 $(document).ready(async function () {
     const urlParams = new URLSearchParams(window.location.search);
     const eventId = urlParams.get('eventId');
-
     getdb(eventId);
     $("#Seat_Reset").click(function(){
         $("#Seat_Reset").addClass("d-none");

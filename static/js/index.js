@@ -383,19 +383,7 @@ function filterEvents(events) {
         if (filterDescription && !eventDescription.includes(filterDescription)) {
             return false;
         }
-
-        // Filter by type
-        const eventType = event.type.toLowerCase();
-        if (filterDescription && !eventType.includes(filterDescription)) {
-            return false;
-        }
-
-        // Filter by price
-        const eventPrice = event.price.toLowerCase();
-        if (filterDescription && !eventPrice.includes(filterDescription)) {
-            return false;
-        }
-
+        
         return true;
     });
 }
