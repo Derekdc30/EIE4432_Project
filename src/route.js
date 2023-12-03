@@ -458,7 +458,6 @@ route.post('/api/updateevent/:eventId', form.single('eventImage'), async (req, r
     eventDescription: req.body.eventDescription,
     bookedSeat: existingEvent.BookedSeat,
   };
-  console.log("booked: " +updatedEventData.bookedSeat);
   // Update the event details in the database
   const updateResult = await insertEvent(req.body.eventname, updatedEventData.eventType,updatedEventData.price,req.file,updatedEventData.seat,updatedEventData.eventDate,updatedEventData.eventTime,updatedEventData.eventVenue,updatedEventData.eventDescription,existingEvent.uid);
 

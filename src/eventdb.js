@@ -27,18 +27,14 @@ async function insertEvent(eventname, type, price, image, seatnumber, date, time
     const existingEvent = await fetch_event(uid);
     var reschedule = false;
     var cancel = false;
-    if (existingEvent) {
-      // If the event exists, remove the older event
-      await event.deleteOne({ eventname: eventname });
-      console.log('Removed older event:', existingEvent.eventname);
-    }
     if(existingEvent &&(existingEvent.date !== date || existingEvent.time !== time)){
       reschedule = true
     }
     const result = await event.updateOne(
-      { eventname: eventname },
+      { uid: uid },
       {
         $set: {
+          eventname: eventname,
           type: type,
           price: price,
           seatnumber: seatnumber,
@@ -46,7 +42,6 @@ async function insertEvent(eventname, type, price, image, seatnumber, date, time
           time: time,
           venue: venue,
           description: description,
-          uid: uid,
         },
       },
       { upsert: true }
