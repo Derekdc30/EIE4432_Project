@@ -161,7 +161,6 @@ function replaceWithEditForm() {
 }
 // Function to save changes and revert to displaying user information
 async function saveChanges() {
-    var user;
    if (isUpdateInProgress) {
         alert('Please wait before making another update.');
         return;
@@ -173,6 +172,8 @@ async function saveChanges() {
         nickname: $('input[name="nickname"]').val(),
         password: $('input[name="password"]').val(),
         email: $('input[name="email"]').val(),
+        loginattempt:this.user.loginattempt,
+        change:this.user.change,
         profileImage: document.querySelector('input[name="profileImage"]').files[0]
     };
     var formdata = new FormData();
