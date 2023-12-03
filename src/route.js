@@ -168,7 +168,7 @@ route.post('/register', form.single('profileImage'), async (req, res) => {
     });
   }
 
-  if(await update_user(req.body.username,req.body.password,req.body.nickname, req.body.gender, req.body.birthday,req.file,generateuid())){
+  if(await update_user(req.body.username,req.body.password,req.body.nickname, req.body.gender, req.body.birthday,req.file,generateuid(), req.body.email)){
     return res.status(400).json({
       status:'success',
       user:{

@@ -65,7 +65,7 @@ async function validate_user(username, password) {
     return false;
   }
 }
-async function update_user(username, password, nickname, gender, birthday, profileImage,uid) {
+async function update_user(username, password, nickname, gender, birthday, profileImage,uid,email) {
   const user = await users.findOne({ username : username })
   var temp = password;
   if(user){
@@ -89,7 +89,7 @@ async function update_user(username, password, nickname, gender, birthday, profi
   try {
     const result = await users.updateOne(
       { username },
-      { $set: { password:password, nickname: nickname, gender: gender, birthday: birthday, uid:uid } },
+      { $set: { password:password, nickname: nickname, gender: gender, birthday: birthday, uid:uid, email:email } },
       { upsert: true }
     );
 
@@ -114,7 +114,7 @@ async function update_user(username, password, nickname, gender, birthday, profi
     return false;
   }
 }
-async function modify_user(username, password, nickname, gender, birthday, profileImage, uid){
+async function modify_user(username, password, nickname, gender, birthday, profileImage, uid,email){
   const user = await users.findOne({ uid : uid })
     var temp = password;
     if(user){
@@ -136,7 +136,7 @@ async function modify_user(username, password, nickname, gender, birthday, profi
     try {
       await users.updateOne(
         { uid },
-        { $set: { username:username, password:password, nickname: nickname, gender: gender, birthday: birthday } },
+        { $set: { username:username, password:password, nickname: nickname, gender: gender, birthday: birthday, email:email} },
       );
         
       // Handle image upload using GridFS

@@ -107,6 +107,7 @@ $(document).ready(async function () {
         })
     });
     $('#register').click(function() {
+    var email = $('#register_user_email').val();
     var username = $('#register_user_ID').val();
     var password = $('#register_user_password').val();
     var re_passowrd = $('#confirm_register_user_password').val();
@@ -118,6 +119,9 @@ $(document).ready(async function () {
     }
     else if(password!=re_passowrd){
       alert('Password mismatch');
+    }
+    else if(!email){
+      alert('Email cannot be empty');
     }
     else if(!nickname){
       alert("Please select your nickname");
@@ -135,6 +139,7 @@ $(document).ready(async function () {
       formdata.append('nickname', nickname);
       formdata.append('gender', gender);
       formdata.append('birthday', birthday);
+      formdata.append('email', email);
       var profileImageInput = document.querySelector('input[name="profileImage"]');
       if (profileImageInput.files.length > 0) {
         formdata.append('profileImage', profileImageInput.files[0]);

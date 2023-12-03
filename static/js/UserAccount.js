@@ -80,6 +80,10 @@ function displayUserInfo(user) {
               '<div class="col">' + user.nickname + '</div>' +
           '</div>' +
           '<div class="row mb-3">' +
+              '<div class="col"><p>Email:</p></div>' +
+              '<div class="col">' + user.email + '</div>' +
+          '</div>' +
+          '<div class="row mb-3">' +
               '<div class="col"><p>Password:</p></div>' +
               '<div class="col">********</div>' +
           '</div>' +
@@ -132,6 +136,10 @@ function replaceWithEditForm() {
                 '<div class="col"><input type="text" class="form-control" name="nickname" value="' + user.nickname + '"></div>' +
             '</div>' +
             '<div class="row mb-3">' +
+                '<div class="col"><label for="email" class="form-label">Email:</label></div>' +
+                '<div class="col"><input type="text" class="form-control" name="email" value="' + user.email + '"></div>' +
+            '</div>' +
+            '<div class="row mb-3">' +
                 '<div class="col"><label for="password" class="form-label">Password:</label></div>' +
                 '<div class="col"><input type="password" class="form-control" name="password" value="' + user.password + '"></div>' +
             '</div>' +
@@ -164,6 +172,7 @@ async function saveChanges() {
         gender: $('input[name="gender"]').val(),
         nickname: $('input[name="nickname"]').val(),
         password: $('input[name="password"]').val(),
+        email: $('input[name="email"]').val(),
         profileImage: document.querySelector('input[name="profileImage"]').files[0]
     };
     var formdata = new FormData();
@@ -179,6 +188,7 @@ async function saveChanges() {
       formdata.append('gender', $('input[name="gender"]').val());
       formdata.append('nickname', $('input[name="nickname"]').val());
       formdata.append('password', $('input[name="password"]').val());
+      formdata.append('email', $('input[name="email"]').val());
       formdata.append('profileImage', document.querySelector('input[name="profileImage"]').files[0]);
       await fetch('/auth/updateinfo',{
         method:'POST',
