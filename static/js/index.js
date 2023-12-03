@@ -258,7 +258,6 @@ function checkUserStatus() {
       }
     })
     .catch(error => {
-      alert('An error occurred');
       window.open('/login.html', '_self');
     });
 }
