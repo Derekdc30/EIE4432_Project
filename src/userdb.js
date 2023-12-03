@@ -2,7 +2,7 @@
 //<!--22019343d Siu Ching Him-->
 import fs from 'fs/promises';
 import client from './dbclient.js';
-import { GridFSBucket, ObjectId } from 'mongodb';
+import { GridFSBucket} from 'mongodb';
 import { Readable } from 'stream';
 import crypto from 'crypto';
 
