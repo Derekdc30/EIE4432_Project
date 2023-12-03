@@ -240,24 +240,12 @@ function displayTransactionHistory(transactions) {
             var rescheduleInfo = transaction.reschedule ? '<span class="text-danger">Rescheduled</span> ' : '';
 
             var cancelInfo = transaction.cancel ? '<span class="text-danger">Canceled</span> ' : '';
-            const transactionDate = new Date(transactions.date);
 
-            // Format the date for display
-            const formattedDate = transactionDate.toLocaleString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-            timeZoneName: 'short',
-            });
             transactionHistoryHTML +=
                 '<div class="card mb-3">' +
                     '<div class="card-body">' +
                         '<p><strong>Event Name:</strong> ' + transaction.eventname + '</p>' +
-                        '<p><strong>Date:</strong> ' + rescheduleInfo + cancelInfo + formattedDate + '</p>' +
+                        '<p><strong>Date:</strong> ' + rescheduleInfo + cancelInfo + transaction.date + '</p>' +
                         '<p><strong>Price:</strong> ' + transaction.price + '</p>' +
                         '<p><strong>Seats:</strong> ' + transaction.seat + '</p>' +
                     '</div>' +

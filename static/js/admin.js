@@ -469,7 +469,7 @@ function generateAccountTab(account) {
                                     <p>Birthday: ${account.birthday}</p>
                                     <p>Gender: ${account.gender}</p>
                                     <p>Nickname: ${account.nickname}</p>
-                                    <p>Nickname: ${account.email}</p>
+                                    <p>Email: ${account.email}</p>
                                     <p>Last login attempt: ${formattedDate}</p>
                                     <p>Last profile/ password change: ${formattedDatechange}</p>
                                 </div>
