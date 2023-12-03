@@ -63,6 +63,7 @@ $(document).ready(async function () {
         formdata.append('eventname', eventname);
         formdata.append('price', totalprice);
         formdata.append('username', username);
+        formdata.append('eventdate', date+" "+time);
         fetch('/auth/pay/visa',{
             method: 'POST',
             body: formdata
@@ -101,6 +102,7 @@ $(document).ready(async function () {
         formdata.append('eventname', eventname);
         formdata.append('price', totalprice);
         formdata.append('username', username);
+        formdata.append('eventdate', date+" "+time);
         fetch('/auth/pay/paypal',{
             method: 'POST',
             body: formdata
@@ -147,6 +149,7 @@ $(document).ready(async function () {
         formdata.append('eventname', eventname);
         formdata.append('price', totalprice);
         formdata.append('username', username);
+        formdata.append('eventdate', date+" "+time);
         fetch('/auth/pay/AE',{
             method: 'POST',
             body: formdata

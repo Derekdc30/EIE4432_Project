@@ -408,9 +408,37 @@ function generateTransactionTab(transactions) {
 
     // Populate Transaction History Tab Content
     transactions.forEach((transaction, index) => {
+        const EventDate = new Date(transaction.eventdate);
+
+            // Format the date for display
+            const formattedDate = EventDate.toLocaleString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            timeZoneName: 'short',
+            });
+
+            const PurchaseDate = new Date(transaction.date);
+
+            // Format the date for display
+            const formattedPurchaseDate = PurchaseDate.toLocaleString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            timeZoneName: 'short',
+            });
         const transactionDetails = `<p>Transaction ID: ${transaction.username}</p>
                                     <p>Event: ${transaction.eventname}</p>
-                                    <p>Date: ${transaction.date}</p>
+                                    <p>Event Date: ${formattedDate}</p>
+                                    <p>Puchase Date: ${formattedPurchaseDate}</p>
                                     <p>Price: ${transaction.price}</p>
                                     <hr>`;
 

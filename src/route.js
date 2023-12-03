@@ -192,7 +192,7 @@ route.post('/pay/visa', form.none(),async (req, res) => {
   }
   await update_event(req.body.eventname,req.body.seatarr);
   var currentDate = new Date();
-  await update_transaction(req.body.username,currentDate,req.body.eventname,req.body.price,req.body.booked);
+  await update_transaction(req.body.username,currentDate,req.body.eventname,req.body.price,req.body.booked,req.body.eventdate);
   return res.status(400).json({
     status: 'success',
     message: 'Payment successful',

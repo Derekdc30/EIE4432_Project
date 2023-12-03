@@ -272,7 +272,7 @@ async function forgotPassword(username, birthday, nickname, newPassword) {
     return { status: 'error', message: 'An error occurred during password reset' };
   }
 }
-async function update_transaction(username,date,eventname,price,seat){
+async function update_transaction(username,date,eventname,price,seat,eventdate){
   try {
     const result = await transaction.insertOne({
       username,
@@ -280,6 +280,7 @@ async function update_transaction(username,date,eventname,price,seat){
       date,
       price,
       seat,
+      eventdate
     });
 
     if (result.insertedCount === 1) {
