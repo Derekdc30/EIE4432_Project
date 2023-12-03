@@ -33,6 +33,33 @@ async function getUserDataAndImage() {
 }
 // Function to display user information
 function displayUserInfo(user) {
+     const loginAttemptDate = new Date(user.loginattempt);
+
+    // Format the date for display
+    const formattedDate = loginAttemptDate.toLocaleString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZoneName: 'short',
+    });
+
+    const changeAttemptDate = new Date(user.change);
+
+    // Format the date for display
+    const formattedDatechange = changeAttemptDate.toLocaleString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZoneName: 'short',
+    });
     // Construct the HTML content with user information
     var userInfoHTML =
         '<div class="m-3 h5">' +
@@ -58,11 +85,11 @@ function displayUserInfo(user) {
           '</div>' +
           '<div class="row mb-3">' +
               '<div class="col"><p>Last login attempt</p></div>' +
-              '<div class="col">'+this.user.loginattempt.split('T')[0]+" "+this.user.loginattempt.split('T')[1].split("Z")[0]+" GMT+0"+'</div>' +
+              '<div class="col">'+formattedDate+'</div>' +
           '</div>' +
           '<div class="row mb-3">' +
               '<div class="col"><p>Last edit profile or password</p></div>' +
-              '<div class="col">'+this.user.change.split('T')[0]+" "+this.user.change.split('T')[1].split("Z")[0]+" GMT+0"+'</div>' +
+              '<div class="col">'+formattedDatechange+'</div>' +
           '</div>' +
           
           '<div class="row mb-3">' +
