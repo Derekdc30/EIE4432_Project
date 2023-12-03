@@ -124,7 +124,7 @@ function generateEventTabs(events) {
 
              const tabPane = $(`<div class="tab-pane fade ${index === 0 ? 'show active' : ''}" id="${tabPaneId}" role="tabpanel" aria-labelledby="${tabId}">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="container svg-seatmap col-6" style="text-align: center; max-width: 100%; display: flex; flex-direction: column; align-items: center;">
                                     <!-- Left column - Seat Map -->
                                     <div class="d-flex d-inline p-3">
                                         <p class="px-3 text-black" style="background-color: #ffffff;">Highest Price</p>
@@ -132,11 +132,15 @@ function generateEventTabs(events) {
                                         <p class="px-3 text-black" style="background-color: #279e27;">Lowest Price</p>
                                         <p class="px-3 text-black" style="background-color: #d33157;">Not available</p>
                                     </div>
-                                    <svg id="svg-text" width="200" height="60">
-                                        <rect width="200" height="60" style="fill:rgb(149, 149, 196);stroke-width:3;stroke:rgb(0,0,0)" />
-                                        <text x="60" y="40" class="h3">Stage</text>
-                                    </svg>
-                                    <svg id="svg-${index}" width="500" height="${event.seatnumber * 5}" xmlns="http://www.w3.org/2000/svg"></svg>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <svg id="svg-text" width="250" height="60">
+                                            <rect width="200" height="60" style="fill:rgb(149, 149, 196);stroke-width:3;stroke:rgb(0,0,0)" />
+                                            <text x="60" y="40" class="h3">Stage</text>
+                                        </svg>
+                                    </div>
+                                    <div style="align-items: center; display:inline-flex; max-width: 100%;">
+                                        <svg id="svg-${index}" width="500" height="${event.seatnumber * 5}" xmlns="http://www.w3.org/2000/svg"></svg>
+                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <!-- Right column - Edit Event Form -->
